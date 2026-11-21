@@ -1430,3 +1430,80 @@
   </script>
 </body>
 </html>
+<div id="adminAuthModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:9999; align-items:center; justify-content:center; padding:16px;">
+  <div style="background:#fff; width:100%; max-width:340px; border-radius:16px; padding:20px; box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+    <h3 style="margin:0 0 8px; font-size:18px;">Admin kirish</h3>
+    <p style="margin:0 0 14px; font-size:13px; color:#666;">Admin paneliga kirish kodini kiriting</p>
+    <input id="adminPassInput" type="password" placeholder="Kirish kodi" autocomplete="off"
+      style="width:100%; box-sizing:border-box; padding:10px 12px; border:1px solid #ccc; border-radius:10px; font-size:15px; margin-bottom:8px;">
+    <div id="adminPassError" style="display:none; color:#c62828; font-size:12px; margin-bottom:10px;">Kod noto'g'ri! Qayta urinib ko'ring.</div>
+    <div style="display:flex; gap:8px; justify-content:flex-end;">
+      <button type="button" id="adminCancelBtn" style="padding:8px 14px; border:none; border-radius:10px; background:#eee; cursor:pointer;">Bekor qilish</button>
+      <button type="button" id="adminSubmitBtn" style="padding:8px 14px; border:none; border-radius:10px; background:#111; color:#fff; cursor:pointer;">Kirish</button>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  const ADMIN_PASSCODE = "MASAXA20122015";
+  const modal = document.getElementById("adminAuthModal");
+  const input = document.getElementById("adminPassInput");
+  const errorEl = document.getElementById("adminPassError");
+  const submitBtn = document.getElementById("adminSubmitBtn");
+  const cancelBtn = document.getElementById("adminCancelBtn");
+
+  let pendingOpenCallback = null;
+
+  function openAdminModal(onSuccess) {
+    pendingOpenCallback = onSuccess;
+    input.value = "";
+    errorEl.style.display = "none";
+    modal.style.display = "flex";
+    setTimeout(() => input.focus(), 50);
+  }
+
+  function closeAdminModal() {
+    modal.style.display = "none";
+    pendingOpenCallback = null;
+  }
+
+  function verifyPasscode() {
+    if (input.value === ADMIN_PASSCODE) {
+      const cb = pendingOpenCallback;
+      closeAdminModal();
+      if (typeof cb === "function") cb();
+    } else {
+      errorEl.style.display = "block";
+      input.select();
+    }
+  }
+
+  submitBtn.addEventListener("click", verifyPasscode);
+  cancelBtn.addEventListener("click", closeAdminModal);
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") verifyPasscode();
+    if (e.key === "Escape") closeAdminModal();
+  });
+
+  // Sahifadagi "Admin" tugmasini ushlab olib, parolsiz ochilishining oldini oladi
+  document.addEventListener("click", function (e) {
+    const adminBtn = e.target.closest("button, a, [role='button'], [data-admin-btn]");
+    if (!adminBtn || modal.contains(adminBtn)) return;
+
+    const label = (adminBtn.textContent || "").trim().toLowerCase();
+    if (label === "admin" || adminBtn.hasAttribute("data-admin-btn")) {
+      if (adminBtn.dataset.unlocked === "true") {
+        adminBtn.dataset.unlocked = "";
+        return;
+      }
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      openAdminModal(function () {
+        adminBtn.dataset.unlocked = "true";
+        adminBtn.click();
+      });
+    }
+  }, true);
+})();
+</script>
