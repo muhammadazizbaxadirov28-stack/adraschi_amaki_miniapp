@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Adraschi Amaki — Milliy Matolar va Kiyimlar</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #FAF6F0;
+      --bg-card: #FFFDF9;
+      --bg-soft: #F3ECE0;
+      --text-main: #2A1F18;
+      --text-muted: #6E5C4F;
+      --accent-amber: #B45309;
+      --accent-amber-dark: #92400E;
+      --accent-red: #DC2626;
+      --border-warm: #E5D8C5;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-cream);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    input, textarea, select {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+    }
+
+    .font-display {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    .ikat-pattern {
+      background-color: var(--bg-soft);
+      background-image:
+        radial-gradient(circle at 12px 12px, rgba(180, 83, 9, 0.08) 2px, transparent 0),
+        radial-gradient(circle at 36px 36px, rgba(217, 119, 6, 0.08) 2px, transparent 0);
+      background-size: 48px 48px;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-24">
+  <div id="app" class="max-w-md mx-auto min-h-screen bg-[#FAF6F0] relative shadow-sm">
+    <!-- Top Header -->
+    <header class="sticky top-0 z-30 bg-[#FFFDF9]/95 backdrop-blur border-b border-[#E5D8C5] px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-9 h-9 rounded-xl bg-amber-700 text-[#FFFDF9] flex items-center justify-center font-display font-bold text-base shrink-0 shadow-xs">
+          AA
+        </div>
+        <div class="min-w-0">
+          <div class="font-display font-bold text-base leading-tight text-[#2A1F18] truncate" id="brandTitle">
+            Adraschi Amaki
+          </div>
+          <div class="text-[11px] text-[#6E5C4F] truncate" id="brandSubtitle">
+            Milliy matolar va kiyimlar
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1.5 shrink-0">
+        <select id="langSelect" aria-label="Tilni tanlash" class="bg-[#F3ECE0] border border-[#E5D8C5] text-[#2A1F18] text-xs font-semibold rounded-lg px-2 py-1.5 outline-none">
+          <option value="uz">UZ</option>
+          <option value="kir">ЎЗБ</option>
+          <option value="ru">RU</option>
+          <option value="en">EN</option>
+        </select>
+
+        <button id="openAdminBtn" type="button" class="bg-[#F3ECE0] hover:bg-[#E7DCC9] border border-[#E5D8C5] text-[#2A1F18] text-xs font-semibold rounded-lg px-2.5 py-1.5 transition">
+          Admin
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="mainContent" class="px-4 pt-4 space-y-5"></main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 z-30 bg-[#FFFDF9] border-t border-[#E5D8C5]">
+      <div class="max-w-md mx-auto grid grid-cols-4 py-1.5 px-1">
+        <button data-tab="catalog" class="nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-xs font-semibold transition" type="button">
+          <span class="text-base leading-none mb-1">🧵</span>
+          <span class="nav-label">Katalog</span>
+        </button>
+
+        <button data-tab="news" class="nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-xs font-semibold transition relative" type="button">
+          <span class="text-base leading-none mb-1">📰</span>
+          <span class="nav-label">Yangiliklar</span>
+          <span id="newsBadgeDot" class="hidden absolute top-1 right-6 w-2 h-2 rounded-full bg-red-600"></span>
+        </button>
+
+        <button data-tab="cart" class="nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-xs font-semibold transition relative" type="button">
+          <span class="text-base leading-none mb-1">🛍️</span>
+          <span class="nav-label">Savatcha</span>
+          <span id="cartCountBadge" class="hidden absolute top-0.5 right-4 min-w-[18px] h-[18px] px-1 rounded-full bg-amber-700 text-white text-[10px] font-bold flex items-center justify-center">0</span>
+        </button>
+
+        <button data-tab="about" class="nav-btn flex flex-col items-center justify-center py-1.5 rounded-xl text-xs font-semibold transition" type="button">
+          <span class="text-base leading-none mb-1">🏪</span>
+          <span class="nav-label">Biz haqimizda</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Onboarding Modal -->
+    <div id="onboardingModal" class="hidden fixed inset-0 z-50 bg-[#2A1F18]/50 backdrop-blur-[1px] flex items-end sm:items-center justify-center p-4">
+      <div class="w-full max-w-md bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-5 shadow-xl space-y-4">
+        <div class="text-center space-y-1">
+          <div class="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-amber-100 text-amber-800 text-xl mb-1">✨</div>
+          <h2 id="onboardTitle" class="font-display text-xl font-bold text-[#2A1F18]">Xush Kelibsiz!</h2>
+          <p id="onboardDesc" class="text-xs text-[#6E5C4F]">Adraschi Amaki milliy matolar va kiyimlar do'koni yo'riqnomasi</p>
+        </div>
+
+        <div class="space-y-2.5 text-xs">
+          <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5]">
+            <div id="step1Title" class="font-bold text-[#2A1F18] mb-0.5">1. Metr / Donasini Tanlang</div>
+            <div id="step1Desc" class="text-[#6E5C4F]">Matolar metrda, kiyimlar esa donalab sotiladi. O'zingizga kerakli miqdorni belgilang.</div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-[#FFFDF9] border border-[#E5D8C5]">
+            <div id="step2Title" class="font-bold text-[#2A1F18] mb-0.5">2. Savatchaga Qo'shing</div>
+            <div id="step2Desc" class="text-[#6E5C4F]">Tanlagan mahsulotlaringiz savatcha bo'limiga yig'ilib boradi.</div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200">
+            <div id="step3Title" class="font-bold text-[#2A1F18] mb-0.5">3. Sotuvchiga Yuboring</div>
+            <div id="step3Desc" class="text-[#6E5C4F]">Bitta tugmani bosish orqali buyurtmangiz tayyor holda sotuvchining Telegram chatiga boradi!</div>
+          </div>
+        </div>
+
+        <button id="closeOnboardingBtn" type="button" class="w-full py-3 rounded-xl bg-amber-700 hover:bg-amber-800 text-white font-semibold text-sm transition">
+          Boshlash
+        </button>
+      </div>
+    </div>
+
+    <!-- Admin PIN / Panel Modal -->
+    <div id="adminModal" class="hidden fixed inset-0 z-50 bg-[#2A1F18]/55 backdrop-blur-[1px] flex items-center justify-center p-3 overflow-y-auto">
+      <div id="adminModalCard" class="w-full max-w-md bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-4 shadow-xl my-auto max-h-[90vh] overflow-y-auto space-y-4"></div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastBox" class="hidden fixed top-16 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-xl bg-[#2A1F18] text-[#FFFDF9] text-xs font-semibold shadow-lg"></div>
+  </div>
+
+  <script>
+    const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+    if (tg) {
+      tg.ready();
+      tg.expand();
+      try {
+        tg.setHeaderColor('#FFFDF9');
+        tg.setBackgroundColor('#FAF6F0');
+      } catch (e) {}
+    }
+
+    // Anti-copy protection
+    document.addEventListener('contextmenu', (e) => {
+      if (!e.target.closest('input, textarea, select')) {
+        e.preventDefault();
+      }
+    });
+    document.addEventListener('copy', (e) => {
+      if (!e.target.closest('input, textarea')) {
+        e.preventDefault();
+      }
+    });
+
+    const STORAGE_KEYS = {
+      state: 'adraschi_amaki_state_v2',
+      onboarded: 'adraschi_amaki_onboarded_v2',
+      analytics: 'adraschi_amaki_analytics_v2'
+    };
+
+    const initialCategories = [
+      { id: 'cat-fabrics', name: 'Matolar', icon: '🧵' },
+      { id: 'cat-clothing', name: 'Milliy kiyimlar', icon: '👘' },
+      { id: 'cat-souvenirs', name: 'Eslatma va sovgʻalar', icon: '🎁' }
+    ];
+
+    const initialSubcategories = [
+      { id: 'sub-atlas', categoryId: 'cat-fabrics', name: 'Margʻilon Atlasi' },
+      { id: 'sub-adras', categoryId: 'cat-fabrics', name: 'Tabiiy Adras' },
+      { id: 'sub-beqasam', categoryId: 'cat-fabrics', name: 'Beqasam va Shoyi' },
+      { id: 'sub-chapan', categoryId: 'cat-clothing', name: 'Chopon va Toʻnlar' },
+      { id: 'sub-doppi', categoryId: 'cat-clothing', name: 'Doʻppi va Belbogʻlar' },
+      { id: 'sub-gift', categoryId: 'cat-souvenirs', name: 'Toʻyona va Sovgʻa toʻplamlari' }
+    ];
+
+    const initialProducts = [
+      {
+        id: 'prod-1',
+        categoryId: 'cat-fabrics',
+        subcategoryId: 'sub-adras',
+        name: 'Zumrad Oltin Adras',
+        price: 85000,
+        salePrice: 72000,
+        unit: 'meter',
+        step: 0.5,
+        colorName: 'Zumrad va Oltin',
+        colorHex: '#059669',
+        description: 'Qoʻlda toʻqilgan tabiiy paxta va ipak aralash adras matosi. Koʻylak va kostyum uchun aʼlo tanlov.',
+        active: true
+      },
+      {
+        id: 'prod-2',
+        categoryId: 'cat-fabrics',
+        subcategoryId: 'sub-atlas',
+        name: 'Xon Atlas — Qirmizi Naqsh',
+        price: 110000,
+        salePrice: null,
+        unit: 'meter',
+        step: 0.5,
+        colorName: 'Qirmizi va Tilla',
+        colorHex: '#DC2626',
+        description: 'Yorqin tusli anʼanaviy xon atlas. Bayram va tantanali liboslar uchun.',
+        active: true
+      },
+      {
+        id: 'prod-3',
+        categoryId: 'cat-fabrics',
+        subcategoryId: 'sub-beqasam',
+        name: 'Zarrin Beqasam',
+        price: 95000,
+        salePrice: 82000,
+        unit: 'meter',
+        step: 0.5,
+        colorName: 'Jigar rang va Oltin',
+        colorHex: '#B45309',
+        description: 'Mustahkam va nafis beqasam mato. Milliy chopon va liboslar tikishga mos.',
+        active: true
+      },
+      {
+        id: 'prod-4',
+        categoryId: 'cat-clothing',
+        subcategoryId: 'sub-chapan',
+        name: 'Adras Astarli Milliy Chopon',
+        price: 650000,
+        salePrice: 580000,
+        unit: 'piece',
+        step: 1,
+        colorName: 'Toʻq koʻk va Tilla',
+        colorHex: '#1E3A8A',
+        description: 'Ichki qismi adras bilan ishlangan, qoʻl mehnati bilan bezatilgan milliy chopon.',
+        active: true
+      },
+      {
+        id: 'prod-5',
+        categoryId: 'cat-clothing',
+        subcategoryId: 'sub-doppi',
+        name: 'Chust Kashta Doʻppi',
+        price: 75000,
+        salePrice: null,
+        unit: 'piece',
+        step: 1,
+        colorName: 'Oq-qora kashta',
+        colorHex: '#3F3F46',
+        description: 'Anʼanaviy Chust uslubida tikilgan, yengil va qulay milliy doʻppi.',
+        active: true
+      },
+      {
+        id: 'prod-6',
+        categoryId: 'cat-souvenirs',
+        subcategoryId: 'sub-gift',
+        name: 'Sovgʻalik Mato va Doʻppi Toʻplami',
+        price: 340000,
+        salePrice: 295000,
+        unit: 'piece',
+        step: 1,
+        colorName: 'Firuzarang va Tilla',
+        colorHex: '#0D9488',
+        description: 'Mehmonlar va yaqinlar uchun maxsus qutida tayyorlangan milliy sovgʻa toʻplami.',
+        active: true
+      }
+    ];
+
+    const initialNews = [
+      {
+        id: 'news-1',
+        type: 'new_material',
+        badge: 'Yangi material',
+        title: 'Yangi Zumrad va Tillarang Adras partiyasi keldi!',
+        text: 'Margʻilondan yangi toʻqilgan adras va atlas matolarimiz yetib keldi. Ranglari tiniq, sifati aʼlo darajada.',
+        colorName: 'Zumrad yashil / Tillarang',
+        colorHex: '#059669',
+        date: '2026-11-20'
+      },
+      {
+        id: 'news-2',
+        type: 'holiday',
+        badge: 'Bayram tabrigi',
+        title: 'Aziz yurtdoshlar va qadrli xaridorlar!',
+        text: 'Adraschi Amaki jamoasi sizlarni barcha qutlugʻ ayyomlar bilan samimiy muborakbod etadi. Xonadoningizga fayz-u baraka tilaymiz!',
+        colorName: 'Tilla rang',
+        colorHex: '#D97706',
+        date: '2026-11-15'
+      },
+      {
+        id: 'news-3',
+        type: 'promo',
+        badge: 'Aksiya',
+        title: 'Tanlangan matolar va choponlarga maxsus narxlar',
+        text: 'Katalogdagi qizil narx bilan belgilangan mahsulotlarga chegirmalar amal qilmoqda. Buyurtmani savatcha orqali tez yuboring.',
+        colorName: 'Qirmizi',
+        colorHex: '#DC2626',
+        date: '2026-11-10'
+      }
+    ];
+
+    const defaultState = {
+      lang: 'uz',
+      activeTab: 'catalog',
+      selectedCategoryId: 'all',
+      selectedSubcategoryId: 'all',
+      searchQuery: '',
+      categories: initialCategories,
+      subcategories: initialSubcategories,
+      products: initialProducts,
+      news: initialNews,
+      cart: [],
+      company: {
+        name: 'Adraschi Amaki',
+        tagline: 'Anʼanaviy oʻzbek matolari, adras, atlas va milliy liboslar ustaxonasi',
+        phone: '97-788-88-84',
+        telegram: '@adraschi',
+        address: 'Toshkent shahar, Chorsu bozori',
+        deliveryInfo: 'Toshkent shahri ichida va butun Oʻzbekiston boʻylab tezkor dostavka xizmati mavjud.'
+      }
+    };
+
+    const i18n = {
+      uz: {
+        brandSub: 'Milliy matolar va kiyimlar',
+        catalog: 'Katalog',
+        news: 'Yangiliklar',
+        cart: 'Savatcha',
+        about: 'Biz haqimizda',
+        searchPlaceholder: 'Mato, chopon yoki rang qidiring...',
+        all: 'Barchasi',
+        meterUnit: 'metr',
+        pieceUnit: 'dona',
+        addToCart: 'Savatchaga qoʻshish',
+        addedToast: 'Savatchaga qoʻshildi',
+        emptyCart: 'Savatchangiz hozircha boʻsh',
+        emptyCartDesc: 'Katalogdan mato yoki kiyim tanlab, miqdorini belgilang.',
+        goCatalog: 'Katalogga oʻtish',
+        totalSum: 'Jami summa',
+        sendOrder: 'Sotuvchiga buyurtma yuborish',
+        clearCart: 'Savatchani tozalash',
+        phoneLabel: 'Telefon raqami',
+        telegramLabel: 'Telegram lichka',
+        addressLabel: 'Manzil',
+        deliveryLabel: 'Yetkazib berish (Dostavka)',
+        helpGuide: 'Yoʻriqnomani koʻrish',
+        noProducts: 'Bu boʻlimda hozircha mahsulot topilmadi.',
+        colorLabel: 'Rangi'
+      },
+      kir: {
+        brandSub: 'Миллий матолар ва кийимлар',
+        catalog: 'Каталог',
+        news: 'Янгиликлар',
+        cart: 'Саватча',
+        about: 'Биз ҳақимизда',
+        searchPlaceholder: 'Мато, чопон ёки ранг қидиринг...',
+        all: 'Барчаси',
+        meterUnit: 'метр',
+        pieceUnit: 'дона',
+        addToCart: 'Саватчага қўшиш',
+        addedToast: 'Саватчага қўшилди',
+        emptyCart: 'Саватчангиз ҳозирча бўш',
+        emptyCartDesc: 'Каталогдан мато ёки кийим танлаб, миқдорини белгиланг.',
+        goCatalog: 'Каталогга ўтиш',
+        totalSum: 'Жами сумма',
+        sendOrder: 'Сотувчига буюртма юбориш',
+        clearCart: 'Саватчани тозалаш',
+        phoneLabel: 'Телефон рақами',
+        telegramLabel: 'Телеграм личка',
+        addressLabel: 'Манзил',
+        deliveryLabel: 'Етказиб бериш (Доставка)',
+        helpGuide: 'Йўриқномани кўриш',
+        noProducts: 'Бу бўлимда ҳозирча маҳсулот топилмади.',
+        colorLabel: 'Ранги'
+      },
+      ru: {
+        brandSub: 'Национальные ткани и одежда',
+        catalog: 'Каталог',
+        news: 'Новости',
+        cart: 'Корзина',
+        about: 'О нас',
+        searchPlaceholder: 'Поиск ткани, чапана или цвета...',
+        all: 'Все',
+        meterUnit: 'метр',
+        pieceUnit: 'шт.',
+        addToCart: 'В корзину',
+        addedToast: 'Добавлено в корзину',
+        emptyCart: 'Ваша корзина пока пуста',
+        emptyCartDesc: 'Выберите ткань или одежду в каталоге и укажите количество.',
+        goCatalog: 'Перейти в каталог',
+        totalSum: 'Итоговая сумма',
+        sendOrder: 'Отправить заказ продавцу',
+        clearCart: 'Очистить корзину',
+        phoneLabel: 'Телефон',
+        telegramLabel: 'Telegram',
+        addressLabel: 'Адрес',
+        deliveryLabel: 'Доставка',
+        helpGuide: 'Открыть инструкцию',
+        noProducts: 'В этом разделе пока нет товаров.',
+        colorLabel: 'Цвет'
+      },
+      en: {
+        brandSub: 'National fabrics & apparel',
+        catalog: 'Catalog',
+        news: 'News',
+        cart: 'Cart',
+        about: 'About Us',
+        searchPlaceholder: 'Search fabric, chapan, or color...',
+        all: 'All',
+        meterUnit: 'meter',
+        pieceUnit: 'pcs',
+        addToCart: 'Add to cart',
+        addedToast: 'Added to cart',
+        emptyCart: 'Your cart is currently empty',
+        emptyCartDesc: 'Pick fabrics or clothing from the catalog and set quantity.',
+        goCatalog: 'Browse catalog',
+        totalSum: 'Total amount',
+        sendOrder: 'Send order to seller',
+        clearCart: 'Clear cart',
+        phoneLabel: 'Phone number',
+        telegramLabel: 'Telegram',
+        addressLabel: 'Address',
+        deliveryLabel: 'Delivery',
+        helpGuide: 'Show guide',
+        noProducts: 'No items found in this section.',
+        colorLabel: 'Color'
+      }
+    };
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEYS.state);
+        if (!raw) return structuredClone(defaultState);
+        const parsed = JSON.parse(raw);
+        return {
+          ...structuredClone(defaultState),
+          ...parsed,
+          categories: Array.isArray(parsed.categories) && parsed.categories.length ? parsed.categories : structuredClone(initialCategories),
+          subcategories: Array.isArray(parsed.subcategories) && parsed.subcategories.length ? parsed.subcategories : structuredClone(initialSubcategories),
+          products: Array.isArray(parsed.products) && parsed.products.length ? parsed.products : structuredClone(initialProducts),
+          news: Array.isArray(parsed.news) ? parsed.news : structuredClone(initialNews),
+          cart: Array.isArray(parsed.cart) ? parsed.cart : [],
+          company: {
+            ...structuredClone(defaultState.company),
+            ...(parsed.company || {})
+          }
+        };
+      } catch (e) {
+        return structuredClone(defaultState);
+      }
+    }
+
+    function loadAnalytics() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEYS.analytics);
+        if (!raw) return { visits: 1, ordersSent: 0 };
+        const parsed = JSON.parse(raw);
+        return {
+          visits: Number(parsed.visits) || 1,
+          ordersSent: Number(parsed.ordersSent) || 0
+        };
+      } catch (e) {
+        return { visits: 1, ordersSent: 0 };
+      }
+    }
+
+    let state = loadState();
+    let analytics = loadAnalytics();
+    analytics.visits += 1;
+    localStorage.setItem(STORAGE_KEYS.analytics, JSON.stringify(analytics));
+
+    let adminUnlocked = false;
+    let adminTab = 'products';
+    let itemQuantities = {};
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEYS.state, JSON.stringify(state));
+    }
+
+    function saveAnalytics() {
+      localStorage.setItem(STORAGE_KEYS.analytics, JSON.stringify(analytics));
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toastBox');
+      box.textContent = msg;
+      box.classList.remove('hidden');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        box.classList.add('hidden');
+      }, 2000);
+    }
+
+    function formatPrice(num) {
+      return Number(num || 0).toLocaleString('ru-RU').replace(/,/g, ' ') + ' soʻm';
+    }
+
+    function effectivePrice(prod) {
+      if (prod.salePrice && Number(prod.salePrice) > 0 && Number(prod.salePrice) < Number(prod.price)) {
+        return Number(prod.salePrice);
+      }
+      return Number(prod.price);
+    }
+
+    function getQtyForProduct(prod) {
+      if (itemQuantities[prod.id] !== undefined) return itemQuantities[prod.id];
+      const def = prod.unit === 'meter' ? 1 : 1;
+      itemQuantities[prod.id] = def;
+      return def;
+    }
+
+    function changeQty(prodId, delta) {
+      const prod = state.products.find((p) => p.id === prodId);
+      if (!prod) return;
+      const step = prod.unit === 'meter' ? (Number(prod.step) || 0.5) : 1;
+      const minVal = step;
+      const current = getQtyForProduct(prod);
+      const next = Math.max(minVal, Math.round((current + delta) * 100) / 100);
+      itemQuantities[prodId] = next;
+      render();
+    }
+
+    function setExactQty(prodId, val) {
+      const prod = state.products.find((p) => p.id === prodId);
+      if (!prod) return;
+      const step = prod.unit === 'meter' ? (Number(prod.step) || 0.5) : 1;
+      const num = parseFloat(val);
+      if (isNaN(num) || num <= 0) {
+        itemQuantities[prodId] = step;
+      } else {
+        itemQuantities[prodId] = Math.round(num * 100) / 100;
+      }
+      render();
+    }
+
+    function addToCart(prodId) {
+      const prod = state.products.find((p) => p.id === prodId);
+      if (!prod) return;
+      const qty = getQtyForProduct(prod);
+      const existing = state.cart.find((c) => c.productId === prodId);
+      if (existing) {
+        existing.qty = Math.round((existing.qty + qty) * 100) / 100;
+      } else {
+        state.cart.push({
+          productId: prod.id,
+          name: prod.name,
+          unit: prod.unit,
+          price: effectivePrice(prod),
+          colorName: prod.colorName || '',
+          qty
+        });
+      }
+      saveState();
+      updateBadges();
+      showToast(i18n[state.lang].addedToast);
+    }
+
+    function updateCartItemQty(index, delta) {
+      const item = state.cart[index];
+      if (!item) return;
+      const step = item.unit === 'meter' ? 0.5 : 1;
+      const next = Math.round((item.qty + delta) * 100) / 100;
+      if (next <= 0) {
+        state.cart.splice(index, 1);
+      } else {
+        item.qty = next;
+      }
+      saveState();
+      render();
+    }
+
+    function clearCart() {
+      state.cart = [];
+      saveState();
+      render();
+    }
+
+    function sendOrderToSeller() {
+      if (!state.cart.length) return;
+      const t = i18n[state.lang];
+      let total = 0;
+      const lines = state.cart.map((item, idx) => {
+        const lineSum = item.qty * item.price;
+        total += lineSum;
+        const unitLabel = item.unit === 'meter' ? t.meterUnit : t.pieceUnit;
+        const colorPart = item.colorName ? ` [${item.colorName}]` : '';
+        return `${idx + 1}. ${item.name}${colorPart} — ${item.qty} ${unitLabel} × ${formatPrice(item.price)} = ${formatPrice(lineSum)}`;
+      });
+
+      const cleanHandle = (state.company.telegram || '@adraschi').replace(/^@/, '');
+      const messageText = [
+        `🛍️ *${state.company.name}* — Yangi buyurtma`,
+        '',
+        ...lines,
+        '',
+        `💰 *Jami:* ${formatPrice(total)}`,
+        `📍 *Doʻkon:* ${state.company.address}`,
+        `🚚 *Dostavka:* ${state.company.deliveryInfo}`,
+        `📞 *Aloqa:* ${state.company.phone}`
+      ].join('\n');
+
+      analytics.ordersSent += 1;
+      saveAnalytics();
+
+      const tgUrl = `https://t.me/${encodeURIComponent(cleanHandle)}?text=${encodeURIComponent(messageText)}`;
+      if (tg && typeof tg.openTelegramLink === 'function') {
+        tg.openTelegramLink(tgUrl);
+      } else {
+        window.open(tgUrl, '_blank', 'noopener,noreferrer');
+      }
+    }
+
+    function updateBadges() {
+      const t = i18n[state.lang];
+      document.getElementById('brandTitle').textContent = state.company.name || 'Adraschi Amaki';
+      document.getElementById('brandSubtitle').textContent = t.brandSub;
+
+      const cartBadge = document.getElementById('cartCountBadge');
+      const totalItems = state.cart.length;
+      if (totalItems > 0) {
+        cartBadge.textContent = totalItems;
+        cartBadge.classList.remove('hidden');
+      } else {
+        cartBadge.classList.add('hidden');
+      }
+
+      const newsDot = document.getElementById('newsBadgeDot');
+      if (state.news && state.news.length > 0) {
+        newsDot.classList.remove('hidden');
+      } else {
+        newsDot.classList.add('hidden');
+      }
+
+      document.querySelectorAll('.nav-btn').forEach((btn) => {
+        const tab = btn.dataset.tab;
+        const isActive = tab === state.activeTab;
+        const labelEl = btn.querySelector('.nav-label');
+        const mapLabel = {
+          catalog: t.catalog,
+          news: t.news,
+          cart: t.cart,
+          about: t.about
+        };
+        if (labelEl && mapLabel[tab]) labelEl.textContent = mapLabel[tab];
+
+        btn.classList.toggle('text-amber-800', isActive);
+        btn.classList.toggle('bg-amber-100/70', isActive);
+        btn.classList.toggle('text-[#6E5C4F]', !isActive);
+      });
+    }
+
+    function renderCatalog() {
+      const t = i18n[state.lang];
+      const activeProducts = state.products.filter((p) => p.active !== false);
+
+      const filtered = activeProducts.filter((p) => {
+        const matchCat = state.selectedCategoryId === 'all' || p.categoryId === state.selectedCategoryId;
+        const matchSub = state.selectedSubcategoryId === 'all' || p.subcategoryId === state.selectedSubcategoryId;
+        const q = (state.searchQuery || '').trim().toLowerCase();
+        const matchQuery =
+          !q ||
+          p.name.toLowerCase().includes(q) ||
+          (p.description || '').toLowerCase().includes(q) ||
+          (p.colorName || '').toLowerCase().includes(q);
+        return matchCat && matchSub && matchQuery;
+      });
+
+      const visibleSubcategories =
+        state.selectedCategoryId === 'all'
+          ? state.subcategories
+          : state.subcategories.filter((s) => s.categoryId === state.selectedCategoryId);
+
+      const catChips = [
+        `<button type="button" data-cat="all" class="cat-chip shrink-0 px-3.5 py-2 rounded-xl text-xs font-semibold border transition ${
+          state.selectedCategoryId === 'all'
+            ? 'bg-amber-700 text-white border-amber-700'
+            : 'bg-[#FFFDF9] text-[#2A1F18] border-[#E5D8C5]'
+        }">${t.all}</button>`,
+        ...state.categories.map(
+          (c) => `<button type="button" data-cat="${c.id}" class="cat-chip shrink-0 px-3.5 py-2 rounded-xl text-xs font-semibold border transition flex items-center gap-1.5 ${
+            state.selectedCategoryId === c.id
+              ? 'bg-amber-700 text-white border-amber-700'
+              : 'bg-[#FFFDF9] text-[#2A1F18] border-[#E5D8C5]'
+          }"><span>${c.icon || '🏷️'}</span><span>${c.name}</span></button>`
+        )
+      ].join('');
+
+      const subChips = visibleSubcategories.length
+        ? `<div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+            <button type="button" data-sub="all" class="sub-chip shrink-0 px-3 py-1 rounded-full text-[11px] font-medium border transition ${
+              state.selectedSubcategoryId === 'all'
+                ? 'bg-[#2A1F18] text-[#FFFDF9] border-[#2A1F18]'
+                : 'bg-[#F3ECE0] text-[#6E5C4F] border-[#E5D8C5]'
+            }">${t.all}</button>
+            ${visibleSubcategories
+              .map(
+                (s) => `<button type="button" data-sub="${s.id}" class="sub-chip shrink-0 px-3 py-1 rounded-full text-[11px] font-medium border transition ${
+                  state.selectedSubcategoryId === s.id
+                    ? 'bg-[#2A1F18] text-[#FFFDF9] border-[#2A1F18]'
+                    : 'bg-[#F3ECE0] text-[#6E5C4F] border-[#E5D8C5]'
+                }">${s.name}</button>`
+              )
+              .join('')}
+          </div>`
+        : '';
+
+      const cardsHtml = filtered.length
+        ? filtered
+            .map((p) => {
+              const hasSale = p.salePrice && Number(p.salePrice) > 0 && Number(p.salePrice) < Number(p.price);
+              const unitLabel = p.unit === 'meter' ? t.meterUnit : t.pieceUnit;
+              const step = p.unit === 'meter' ? (Number(p.step) || 0.5) : 1;
+              const qty = getQtyForProduct(p);
+              const lineTotal = Math.round(qty * effectivePrice(p));
+
+              return `
+                <article class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-4 shadow-2xs space-y-3">
+                  <div class="flex items-start justify-between gap-2">
+                    <div>
+                      <h3 class="font-bold text-base text-[#2A1F18] leading-snug">${p.name}</h3>
+                      ${
+                        p.colorName
+                          ? `<div class="inline-flex items-center gap-1.5 mt-1 text-xs text-[#6E5C4F]">
+                               <span class="w-3 h-3 rounded-full border border-black/15 inline-block" style="background:${p.colorHex || '#B45309'}"></span>
+                               <span>${t.colorLabel}: ${p.colorName}</span>
+                             </div>`
+                          : ''
+                      }
+                    </div>
+                    <span class="px-2.5 py-1 rounded-lg bg-[#F3ECE0] text-[#6E5C4F] text-[11px] font-semibold shrink-0">
+                      1 ${unitLabel}
+                    </span>
+                  </div>
+
+                  ${p.description ? `<p class="text-xs text-[#6E5C4F] leading-relaxed">${p.description}</p>` : ''}
+
+                  <div class="flex items-baseline gap-2 pt-0.5">
+                    ${
+                      hasSale
+                        ? `<span class="text-base font-extrabold text-[#DC2626]">${formatPrice(p.salePrice)}</span>
+                           <span class="text-xs line-through text-[#6E5C4F]">${formatPrice(p.price)}</span>`
+                        : `<span class="text-base font-extrabold text-[#2A1F18]">${formatPrice(p.price)}</span>`
+                    }
+                    <span class="text-[11px] text-[#6E5C4F]">/ ${unitLabel}</span>
+                  </div>
+
+                  <div class="flex items-center justify-between gap-2 pt-2 border-t border-[#F3ECE0]">
+                    <div class="flex items-center bg-[#F3ECE0] rounded-xl border border-[#E5D8C5] overflow-hidden">
+                      <button type="button" data-qty-delta="${p.id}" data-delta="${-step}" class="px-3 py-2 text-sm font-bold text-[#2A1F18] active:bg-[#E5D8C5]">−</button>
+                      <input type="number" step="any" min="0.1" value="${qty}" data-qty-input="${p.id}" class="w-14 text-center bg-transparent text-xs font-bold text-[#2A1F18] outline-none" />
+                      <button type="button" data-qty-delta="${p.id}" data-delta="${step}" class="px-3 py-2 text-sm font-bold text-[#2A1F18] active:bg-[#E5D8C5]">+</button>
+                    </div>
+
+                    <div class="text-right">
+                      <div class="text-[10px] text-[#6E5C4F]">${qty} ${unitLabel}</div>
+                      <div class="text-xs font-bold text-[#2A1F18]">${formatPrice(lineTotal)}</div>
+                    </div>
+                  </div>
+
+                  <button type="button" data-add-cart="${p.id}" class="w-full py-2.5 rounded-xl bg-amber-700 hover:bg-amber-800 active:scale-[0.99] text-white text-xs font-bold transition">
+                    ${t.addToCart}
+                  </button>
+                </article>
+              `;
+            })
+            .join('')
+        : `<div class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-6 text-center text-xs text-[#6E5C4F]">${t.noProducts}</div>`;
+
+      return `
+        <div class="ikat-pattern rounded-2xl p-4 border border-[#E5D8C5]">
+          <div class="font-display text-lg font-bold text-[#2A1F18]">${state.company.name}</div>
+          <p class="text-xs text-[#6E5C4F] mt-0.5">${state.company.tagline}</p>
+          <div class="mt-3 relative">
+            <input id="searchInput" type="text" value="${state.searchQuery.replace(/"/g, '&quot;')}" placeholder="${t.searchPlaceholder}" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-xl px-3.5 py-2.5 text-xs text-[#2A1F18] placeholder-[#6E5C4F]/70 outline-none focus:border-amber-700" />
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+            ${catChips}
+          </div>
+          ${subChips}
+        </div>
+
+        <div class="space-y-3">
+          ${cardsHtml}
+        </div>
+      `;
+    }
+
+    function renderNews() {
+      const t = i18n[state.lang];
+      if (!state.news || !state.news.length) {
+        return `<div class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-6 text-center text-xs text-[#6E5C4F]">Hozircha yangiliklar yoʻq.</div>`;
+      }
+
+      return `
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h2 class="font-display text-lg font-bold text-[#2A1F18]">${t.news}</h2>
+            <span class="text-xs text-[#6E5C4F]">${state.news.length} ta eʼlon</span>
+          </div>
+          ${state.news
+            .map((item) => {
+              const badgeColor =
+                item.type === 'holiday'
+                  ? 'bg-amber-100 text-amber-900 border-amber-200'
+                  : item.type === 'promo'
+                  ? 'bg-red-50 text-[#DC2626] border-red-200'
+                  : 'bg-emerald-50 text-emerald-800 border-emerald-200';
+
+              return `
+                <article class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-4 space-y-2.5">
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold border ${badgeColor}">
+                      ${item.badge || 'Yangilik'}
+                    </span>
+                    <span class="text-[11px] text-[#6E5C4F]">${item.date || ''}</span>
+                  </div>
+
+                  <h3 class="font-bold text-sm text-[#2A1F18] leading-snug">${item.title}</h3>
+                  <p class="text-xs text-[#6E5C4F] leading-relaxed">${item.text}</p>
+
+                  ${
+                    item.colorName
+                      ? `<div class="pt-2 border-t border-[#F3ECE0] flex items-center gap-2 text-xs font-medium text-[#2A1F18]">
+                           <span class="w-4 h-4 rounded-full border border-black/20 shrink-0" style="background:${item.colorHex || '#059669'}"></span>
+                           <span>${t.colorLabel}: <strong>${item.colorName}</strong></span>
+                         </div>`
+                      : ''
+                  }
+                </article>
+              `;
+            })
+            .join('')}
+        </div>
+      `;
+    }
+
+    function renderCart() {
+      const t = i18n[state.lang];
+      if (!state.cart.length) {
+        return `
+          <div class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-7 text-center space-y-3 mt-4">
+            <div class="text-3xl">🛍️</div>
+            <h2 class="font-display text-lg font-bold text-[#2A1F18]">${t.emptyCart}</h2>
+            <p class="text-xs text-[#6E5C4F]">${t.emptyCartDesc}</p>
+            <button id="goCatalogFromCartBtn" type="button" class="px-4 py-2.5 rounded-xl bg-amber-700 text-white text-xs font-bold">
+              ${t.goCatalog}
+            </button>
+          </div>
+        `;
+      }
+
+      let grandTotal = 0;
+      const rowsHtml = state.cart
+        .map((item, idx) => {
+          const sum = Math.round(item.qty * item.price);
+          grandTotal += sum;
+          const unitLabel = item.unit === 'meter' ? t.meterUnit : t.pieceUnit;
+          const step = item.unit === 'meter' ? 0.5 : 1;
+
+          return `
+            <div class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-3.5 space-y-2.5">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <div class="font-bold text-sm text-[#2A1F18]">${item.name}</div>
+                  <div class="text-[11px] text-[#6E5C4F]">
+                    ${formatPrice(item.price)} / ${unitLabel}${item.colorName ? ` · ${item.colorName}` : ''}
+                  </div>
+                </div>
+                <div class="text-sm font-extrabold text-[#2A1F18] shrink-0">${formatPrice(sum)}</div>
+              </div>
+
+              <div class="flex items-center justify-between pt-2 border-t border-[#F3ECE0]">
+                <div class="flex items-center bg-[#F3ECE0] rounded-xl border border-[#E5D8C5]">
+                  <button type="button" data-cart-delta="${idx}" data-delta="${-step}" class="px-3 py-1.5 text-sm font-bold text-[#2A1F18]">−</button>
+                  <span class="px-2.5 text-xs font-bold text-[#2A1F18]">${item.qty} ${unitLabel}</span>
+                  <button type="button" data-cart-delta="${idx}" data-delta="${step}" class="px-3 py-1.5 text-sm font-bold text-[#2A1F18]">+</button>
+                </div>
+              </div>
+            </div>
+          `;
+        })
+        .join('');
+
+      return `
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h2 class="font-display text-lg font-bold text-[#2A1F18]">${t.cart}</h2>
+            <button id="clearCartBtn" type="button" class="text-xs font-semibold text-[#DC2626]">${t.clearCart}</button>
+          </div>
+
+          <div class="space-y-2.5">${rowsHtml}</div>
+
+          <div class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-4 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-semibold text-[#6E5C4F]">${t.totalSum}</span>
+              <span class="text-lg font-extrabold text-[#2A1F18]">${formatPrice(grandTotal)}</span>
+            </div>
+
+            <button id="sendOrderBtn" type="button" class="w-full py-3 rounded-xl bg-amber-700 hover:bg-amber-800 text-white text-sm font-bold transition">
+              ${t.sendOrder}
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAbout() {
+      const t = i18n[state.lang];
+      const c = state.company;
+      const cleanPhone = (c.phone || '97-788-88-84').replace(/[^\d+]/g, '');
+      const cleanTg = (c.telegram || '@adraschi').replace(/^@/, '');
+
+      return `
+        <div class="space-y-3">
+          <div class="ikat-pattern border border-[#E5D8C5] rounded-2xl p-4 space-y-1.5">
+            <h2 class="font-display text-xl font-bold text-[#2A1F18]">${c.name}</h2>
+            <p class="text-xs text-[#6E5C4F] leading-relaxed">${c.tagline}</p>
+          </div>
+
+          <div class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-4 space-y-3 text-xs">
+            <div class="pb-2.5 border-b border-[#F3ECE0]">
+              <div class="text-[#6E5C4F] font-medium mb-0.5">${t.addressLabel}</div>
+              <div class="font-bold text-sm text-[#2A1F18]">📍 ${c.address}</div>
+            </div>
+
+            <div class="pb-2.5 border-b border-[#F3ECE0]">
+              <div class="text-[#6E5C4F] font-medium mb-0.5">${t.deliveryLabel}</div>
+              <div class="font-semibold text-[#2A1F18] leading-relaxed">🚚 ${c.deliveryInfo}</div>
+            </div>
+
+            <div class="pb-2.5 border-b border-[#F3ECE0] flex items-center justify-between gap-2">
+              <div>
+                <div class="text-[#6E5C4F] font-medium mb-0.5">${t.phoneLabel}</div>
+                <div class="font-bold text-sm text-[#2A1F18]">📞 ${c.phone}</div>
+              </div>
+              <a href="tel:${cleanPhone}" class="px-3 py-2 rounded-xl bg-[#F3ECE0] text-[#2A1F18] font-bold">Qoʻngʻiroq</a>
+            </div>
+
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <div class="text-[#6E5C4F] font-medium mb-0.5">${t.telegramLabel}</div>
+                <div class="font-bold text-sm text-amber-800">@${cleanTg}</div>
+              </div>
+              <a href="https://t.me/${cleanTg}" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-xl bg-amber-700 text-white font-bold">Yozish</a>
+            </div>
+          </div>
+
+          <button id="reopenOnboardingBtn" type="button" class="w-full py-2.5 rounded-xl bg-[#F3ECE0] border border-[#E5D8C5] text-[#2A1F18] text-xs font-bold">
+            ${t.helpGuide}
+          </button>
+        </div>
+      `;
+    }
+
+    function render() {
+      updateBadges();
+      const main = document.getElementById('mainContent');
+      if (state.activeTab === 'catalog') {
+        main.innerHTML = renderCatalog();
+      } else if (state.activeTab === 'news') {
+        main.innerHTML = renderNews();
+      } else if (state.activeTab === 'cart') {
+        main.innerHTML = renderCart();
+      } else if (state.activeTab === 'about') {
+        main.innerHTML = renderAbout();
+      }
+      bindDynamicEvents();
+    }
+
+    function bindDynamicEvents() {
+      const searchEl = document.getElementById('searchInput');
+      if (searchEl) {
+        searchEl.addEventListener('input', (e) => {
+          state.searchQuery = e.target.value;
+          const cursorPos = searchEl.selectionStart;
+          render();
+          const reInput = document.getElementById('searchInput');
+          if (reInput) {
+            reInput.focus();
+            if (typeof cursorPos === 'number') {
+              reInput.setSelectionRange(cursorPos, cursorPos);
+            }
+          }
+        });
+      }
+
+      document.querySelectorAll('.cat-chip').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.selectedCategoryId = btn.dataset.cat;
+          state.selectedSubcategoryId = 'all';
+          render();
+        });
+      });
+
+      document.querySelectorAll('.sub-chip').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.selectedSubcategoryId = btn.dataset.sub;
+          render();
+        });
+      });
+
+      document.querySelectorAll('[data-qty-delta]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          changeQty(btn.dataset.qtyDelta, parseFloat(btn.dataset.delta));
+        });
+      });
+
+      document.querySelectorAll('[data-qty-input]').forEach((inp) => {
+        inp.addEventListener('change', () => {
+          setExactQty(inp.dataset.qtyInput, inp.value);
+        });
+      });
+
+      document.querySelectorAll('[data-add-cart]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          addToCart(btn.dataset.addCart);
+        });
+      });
+
+      document.querySelectorAll('[data-cart-delta]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          updateCartItemQty(parseInt(btn.dataset.cartDelta, 10), parseFloat(btn.dataset.delta));
+        });
+      });
+
+      const clearCartBtn = document.getElementById('clearCartBtn');
+      if (clearCartBtn) clearCartBtn.addEventListener('click', clearCart);
+
+      const sendOrderBtn = document.getElementById('sendOrderBtn');
+      if (sendOrderBtn) sendOrderBtn.addEventListener('click', sendOrderToSeller);
+
+      const goCatalogBtn = document.getElementById('goCatalogFromCartBtn');
+      if (goCatalogBtn) {
+        goCatalogBtn.addEventListener('click', () => {
+          state.activeTab = 'catalog';
+          render();
+        });
+      }
+
+      const reopenBtn = document.getElementById('reopenOnboardingBtn');
+      if (reopenBtn) {
+        reopenBtn.addEventListener('click', () => {
+          document.getElementById('onboardingModal').classList.remove('hidden');
+        });
+      }
+    }
+
+    // Admin Modal Logic
+    function openAdminModal() {
+      const modal = document.getElementById('adminModal');
+      modal.classList.remove('hidden');
+      renderAdminModal();
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminModal').classList.add('hidden');
+    }
+
+    function renderAdminModal() {
+      const card = document.getElementById('adminModalCard');
+      if (!adminUnlocked) {
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <h3 class="font-display font-bold text-base text-[#2A1F18]">Admin Kirish</h3>
+            <button id="closeAdminX" type="button" class="text-sm font-bold text-[#6E5C4F] px-2">✕</button>
+          </div>
+          <p class="text-xs text-[#6E5C4F]">Boshqaruv paneliga kirish uchun PIN kodni kiriting (standart: 1234).</p>
+          <input id="adminPinInput" type="password" inputmode="numeric" maxlength="10" placeholder="PIN kod" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-xl px-3.5 py-2.5 text-sm text-[#2A1F18] outline-none" />
+          <div id="adminPinError" class="hidden text-xs font-semibold text-[#DC2626]">PIN kod notoʻgʻri!</div>
+          <button id="submitAdminPinBtn" type="button" class="w-full py-2.5 rounded-xl bg-amber-700 text-white text-xs font-bold">Kirish</button>
+        `;
+        document.getElementById('closeAdminX').addEventListener('click', closeAdminModal);
+        document.getElementById('submitAdminPinBtn').addEventListener('click', () => {
+          const pin = document.getElementById('adminPinInput').value.trim();
+          if (pin === '1234') {
+            adminUnlocked = true;
+            renderAdminModal();
+          } else {
+            document.getElementById('adminPinError').classList.remove('hidden');
+          }
+        });
+        return;
+      }
+
+      const convRate = analytics.visits > 0 ? ((analytics.ordersSent / analytics.visits) * 100).toFixed(1) : '0.0';
+
+      card.innerHTML = `
+        <div class="flex items-center justify-between border-b border-[#E5D8C5] pb-2.5">
+          <h3 class="font-display font-bold text-base text-[#2A1F18]">Admin Panel</h3>
+          <div class="flex items-center gap-2">
+            <button id="lockAdminBtn" type="button" class="text-[11px] font-semibold text-[#6E5C4F] bg-[#F3ECE0] px-2 py-1 rounded-lg">Qulflash</button>
+            <button id="closeAdminX" type="button" class="text-sm font-bold text-[#6E5C4F] px-1.5">✕</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2 text-center">
+          <div class="p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5]">
+            <div class="text-[10px] text-[#6E5C4F]">Kirishlar</div>
+            <div class="text-sm font-extrabold text-[#2A1F18]">${analytics.visits}</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5]">
+            <div class="text-[10px] text-[#6E5C4F]">Buyurtma</div>
+            <div class="text-sm font-extrabold text-[#2A1F18]">${analytics.ordersSent}</div>
+          </div>
+          <div class="p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5]">
+            <div class="text-[10px] text-[#6E5C4F]">Konversiya</div>
+            <div class="text-sm font-extrabold text-amber-800">${convRate}%</div>
+          </div>
+        </div>
+
+        <div class="flex gap-1.5 overflow-x-auto no-scrollbar">
+          <button type="button" data-adm-tab="products" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'products' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">Mahsulot</button>
+          <button type="button" data-adm-tab="categories" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'categories' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">Boʻlimlar</button>
+          <button type="button" data-adm-tab="news" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'news' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">Yangilik</button>
+          <button type="button" data-adm-tab="company" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'company' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">Maʼlumot</button>
+        </div>
+
+        <div id="adminBody" class="space-y-3 text-xs"></div>
+      `;
+
+      document.getElementById('closeAdminX').addEventListener('click', closeAdminModal);
+      document.getElementById('lockAdminBtn').addEventListener('click', () => {
+        adminUnlocked = false;
+        renderAdminModal();
+      });
+
+      card.querySelectorAll('.adm-tab').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          adminTab = btn.dataset.admTab;
+          renderAdminModal();
+        });
+      });
+
+      const body = document.getElementById('adminBody');
+
+      if (adminTab === 'products') {
+        body.innerHTML = `
+          <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-2">
+            <div class="font-bold text-[#2A1F18]">Yangi mahsulot qoʻshish</div>
+            <input id="newProdName" type="text" placeholder="Nomi (masalan: Bahor Adras)" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <div class="grid grid-cols-2 gap-2">
+              <select id="newProdCat" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2 py-2">
+                ${state.categories.map((c) => `<option value="${c.id}">${c.name}</option>`).join('')}
+              </select>
+              <select id="newProdSub" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2 py-2">
+                ${state.subcategories.map((s) => `<option value="${s.id}">${s.name}</option>`).join('')}
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <input id="newProdPrice" type="number" placeholder="Asosiy narx (soʻm)" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+              <input id="newProdSale" type="number" placeholder="Aksiya narx (ixtiyoriy)" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <select id="newProdUnit" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2 py-2">
+                <option value="meter">Metrda</option>
+                <option value="piece">Donalab</option>
+              </select>
+              <input id="newProdColor" type="text" placeholder="Rangi (masalan: Zumrad)" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            </div>
+            <button id="addProdBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">Qoʻshish</button>
+          </div>
+
+          <div class="space-y-1.5 max-h-44 overflow-y-auto">
+            ${state.products
+              .map(
+                (p) => `<div class="flex items-center justify-between p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5]">
+                  <div class="min-w-0 pr-2">
+                    <div class="font-bold text-[#2A1F18] truncate">${p.name}</div>
+                    <div class="text-[11px] text-[#6E5C4F]">${formatPrice(effectivePrice(p))} / ${p.unit === 'meter' ? 'metr' : 'dona'}</div>
+                  </div>
+                  <button type="button" data-del-prod="${p.id}" class="text-[#DC2626] font-bold shrink-0">Oʻchirish</button>
+                </div>`
+              )
+              .join('')}
+          </div>
+        `;
+
+        document.getElementById('addProdBtn').addEventListener('click', () => {
+          const name = document.getElementById('newProdName').value.trim();
+          const price = Number(document.getElementById('newProdPrice').value);
+          const saleVal = Number(document.getElementById('newProdSale').value);
+          const categoryId = document.getElementById('newProdCat').value;
+          const subcategoryId = document.getElementById('newProdSub').value;
+          const unit = document.getElementById('newProdUnit').value;
+          const colorName = document.getElementById('newProdColor').value.trim();
+          if (!name || !price) return;
+
+          state.products.unshift({
+            id: 'prod-' + Date.now(),
+            categoryId,
+            subcategoryId,
+            name,
+            price,
+            salePrice: saleVal > 0 && saleVal < price ? saleVal : null,
+            unit,
+            step: unit === 'meter' ? 0.5 : 1,
+            colorName,
+            colorHex: '#B45309',
+            description: '',
+            active: true
+          });
+          saveState();
+          render();
+          renderAdminModal();
+        });
+
+        body.querySelectorAll('[data-del-prod]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            state.products = state.products.filter((p) => p.id !== btn.dataset.delProd);
+            saveState();
+            render();
+            renderAdminModal();
+          });
+        });
+      } else if (adminTab === 'categories') {
+        body.innerHTML = `
+          <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-2">
+            <div class="font-bold text-[#2A1F18]">Yangi asosiy boʻlim qoʻshish</div>
+            <div class="flex gap-2">
+              <input id="newCatIcon" type="text" value="🧶" class="w-12 text-center bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg py-2" />
+              <input id="newCatName" type="text" placeholder="Boʻlim nomi" class="flex-1 bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            </div>
+            <button id="addCatBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">Boʻlim qoʻshish</button>
+          </div>
+
+          <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-2">
+            <div class="font-bold text-[#2A1F18]">Yangi ichki boʻlim (podkatalog)</div>
+            <select id="newSubParent" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2">
+              ${state.categories.map((c) => `<option value="${c.id}">${c.name}</option>`).join('')}
+            </select>
+            <input id="newSubName" type="text" placeholder="Ichki boʻlim nomi" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <button id="addSubBtn" type="button" class="w-full py-2 rounded-lg bg-[#2A1F18] text-white font-bold">Ichki boʻlim qoʻshish</button>
+          </div>
+        `;
+
+        document.getElementById('addCatBtn').addEventListener('click', () => {
+          const name = document.getElementById('newCatName').value.trim();
+          const icon = document.getElementById('newCatIcon').value.trim() || '🏷️';
+          if (!name) return;
+          state.categories.push({ id: 'cat-' + Date.now(), name, icon });
+          saveState();
+          render();
+          renderAdminModal();
+        });
+
+        document.getElementById('addSubBtn').addEventListener('click', () => {
+          const name = document.getElementById('newSubName').value.trim();
+          const categoryId = document.getElementById('newSubParent').value;
+          if (!name || !categoryId) return;
+          state.subcategories.push({ id: 'sub-' + Date.now(), categoryId, name });
+          saveState();
+          render();
+          renderAdminModal();
+        });
+      } else if (adminTab === 'news') {
+        body.innerHTML = `
+          <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-2">
+            <div class="font-bold text-[#2A1F18]">Yangi yangilik / tabrik / material qoʻshish</div>
+            <select id="newsType" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2">
+              <option value="new_material">Yangi material keldi</option>
+              <option value="holiday">Bayram tabrigi</option>
+              <option value="promo">Aksiya / Eʼlon</option>
+            </select>
+            <input id="newsTitle" type="text" placeholder="Sarlavha" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <textarea id="newsText" rows="2" placeholder="Matn..." class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2"></textarea>
+            <div class="flex items-center gap-2">
+              <input id="newsColorName" type="text" placeholder="Rang nomi (ixtiyoriy)" class="flex-1 bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+              <input id="newsColorHex" type="color" value="#059669" class="w-11 h-9 rounded-lg border border-[#E5D8C5] bg-transparent" />
+            </div>
+            <button id="addNewsBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">Eʼlonni joylash</button>
+          </div>
+
+          <div class="space-y-1.5 max-h-36 overflow-y-auto">
+            ${state.news
+              .map(
+                (n) => `<div class="flex items-center justify-between p-2 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5]">
+                  <span class="font-semibold text-[#2A1F18] truncate pr-2">${n.title}</span>
+                  <button type="button" data-del-news="${n.id}" class="text-[#DC2626] font-bold shrink-0">Oʻchirish</button>
+                </div>`
+              )
+              .join('')}
+          </div>
+        `;
+
+        document.getElementById('addNewsBtn').addEventListener('click', () => {
+          const type = document.getElementById('newsType').value;
+          const title = document.getElementById('newsTitle').value.trim();
+          const text = document.getElementById('newsText').value.trim();
+          const colorName = document.getElementById('newsColorName').value.trim();
+          const colorHex = document.getElementById('newsColorHex').value;
+          if (!title || !text) return;
+
+          const badgeMap = {
+            new_material: 'Yangi material',
+            holiday: 'Bayram tabrigi',
+            promo: 'Aksiya'
+          };
+
+          state.news.unshift({
+            id: 'news-' + Date.now(),
+            type,
+            badge: badgeMap[type] || 'Yangilik',
+            title,
+            text,
+            colorName,
+            colorHex,
+            date: new Date().toISOString().slice(0, 10)
+          });
+          saveState();
+          render();
+          renderAdminModal();
+        });
+
+        body.querySelectorAll('[data-del-news]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            state.news = state.news.filter((n) => n.id !== btn.dataset.delNews);
+            saveState();
+            render();
+            renderAdminModal();
+          });
+        });
+      } else if (adminTab === 'company') {
+        body.innerHTML = `
+          <div class="space-y-2">
+            <div>
+              <label class="block text-[11px] text-[#6E5C4F] mb-0.5">Doʻkon nomi</label>
+              <input id="cmpName" type="text" value="${(state.company.name || '').replace(/"/g, '&quot;')}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            </div>
+            <div>
+              <label class="block text-[11px] text-[#6E5C4F] mb-0.5">Telefon raqami</label>
+              <input id="cmpPhone" type="text" value="${(state.company.phone || '').replace(/"/g, '&quot;')}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            </div>
+            <div>
+              <label class="block text-[11px] text-[#6E5C4F] mb-0.5">Telegram lichka (@username)</label>
+              <input id="cmpTg" type="text" value="${(state.company.telegram || '').replace(/"/g, '&quot;')}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            </div>
+            <div>
+              <label class="block text-[11px] text-[#6E5C4F] mb-0.5">Manzil</label>
+              <input id="cmpAddress" type="text" value="${(state.company.address || '').replace(/"/g, '&quot;')}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            </div>
+            <div>
+              <label class="block text-[11px] text-[#6E5C4F] mb-0.5">Yetkazib berish (dostavka) haqida</label>
+              <textarea id="cmpDelivery" rows="2" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2">${state.company.deliveryInfo || ''}</textarea>
+            </div>
+            <button id="saveCmpBtn" type="button" class="w-full py-2.5 rounded-lg bg-amber-700 text-white font-bold">Saqlash</button>
+          </div>
+        `;
+
+        document.getElementById('saveCmpBtn').addEventListener('click', () => {
+          state.company.name = document.getElementById('cmpName').value.trim() || 'Adraschi Amaki';
+          state.company.phone = document.getElementById('cmpPhone').value.trim() || '97-788-88-84';
+          let tgVal = document.getElementById('cmpTg').value.trim() || '@adraschi';
+          if (!tgVal.startsWith('@')) tgVal = '@' + tgVal;
+          state.company.telegram = tgVal;
+          state.company.address = document.getElementById('cmpAddress').value.trim() || 'Toshkent shahar, Chorsu bozori';
+          state.company.deliveryInfo = document.getElementById('cmpDelivery').value.trim();
+          saveState();
+          render();
+          showToast('Saqlandi');
+        });
+      }
+    }
+
+    // Init
+    document.getElementById('langSelect').value = state.lang;
+    document.getElementById('langSelect').addEventListener('change', (e) => {
+      state.lang = e.target.value;
+      saveState();
+      render();
+    });
+
+    document.querySelectorAll('.nav-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.activeTab = btn.dataset.tab;
+        render();
+      });
+    });
+
+    document.getElementById('openAdminBtn').addEventListener('click', openAdminModal);
+
+    if (!localStorage.getItem(STORAGE_KEYS.onboarded)) {
+      document.getElementById('onboardingModal').classList.remove('hidden');
+    }
+
+    document.getElementById('closeOnboardingBtn').addEventListener('click', () => {
+      localStorage.setItem(STORAGE_KEYS.onboarded, '1');
+      document.getElementById('onboardingModal').classList.add('hidden');
+    });
+
+    render();
+  </script>
+</body>
+</html>
