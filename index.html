@@ -130,7 +130,7 @@
       </div>
     </nav>
 
-    <!-- Onboarding Modal -->
+    <!-- Onboarding Modal (1-kirish uchun) -->
     <div id="onboardingModal" class="hidden fixed inset-0 z-50 bg-[#2A1F18]/50 backdrop-blur-[1px] flex items-end sm:items-center justify-center p-4">
       <div class="w-full max-w-md bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-5 shadow-xl space-y-4">
         <div class="text-center space-y-1">
@@ -159,6 +159,38 @@
         <button id="closeOnboardingBtn" type="button" class="w-full py-3 rounded-xl bg-amber-700 hover:bg-amber-800 text-white font-semibold text-sm transition">
           Boshlash
         </button>
+      </div>
+    </div>
+
+    <!-- Latest News Popup Modal (2-kirish va undan keyingi kirishlar uchun) -->
+    <div id="latestNewsModal" class="hidden fixed inset-0 z-50 bg-[#2A1F18]/55 backdrop-blur-[1px] flex items-center justify-center p-4">
+      <div class="w-full max-w-md bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-5 shadow-2xl space-y-3.5">
+        <div class="flex items-center justify-between gap-2">
+          <span id="latestNewsBadge" class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-200">
+            So'nggi yangilik
+          </span>
+          <span id="latestNewsDate" class="text-[11px] text-[#6E5C4F]"></span>
+        </div>
+
+        <div class="space-y-1.5">
+          <div class="text-[11px] font-semibold text-amber-800" id="latestNewsGreet"></div>
+          <h3 id="latestNewsTitle" class="font-display text-lg font-bold text-[#2A1F18] leading-snug"></h3>
+          <p id="latestNewsText" class="text-xs text-[#6E5C4F] leading-relaxed"></p>
+        </div>
+
+        <div id="latestNewsColorRow" class="hidden pt-2 border-t border-[#F3ECE0] flex items-center gap-2 text-xs font-medium text-[#2A1F18]">
+          <span id="latestNewsColorDot" class="w-4 h-4 rounded-full border border-black/20 shrink-0"></span>
+          <span id="latestNewsColorLabel"></span>
+        </div>
+
+        <div class="flex gap-2 pt-1">
+          <button id="goToNewsTabBtn" type="button" class="w-1/2 py-2.5 rounded-xl bg-[#F3ECE0] hover:bg-[#E7DCC9] text-[#2A1F18] text-xs font-bold transition">
+            Barcha yangiliklar
+          </button>
+          <button id="closeLatestNewsBtn" type="button" class="w-1/2 py-2.5 rounded-xl bg-amber-700 hover:bg-amber-800 text-white text-xs font-bold transition">
+            Tushunarli
+          </button>
+        </div>
       </div>
     </div>
 
@@ -201,6 +233,9 @@
       } catch (e) {}
     }
 
+    const tgUser = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user : null;
+    const tgFirstName = tgUser && tgUser.first_name ? String(tgUser.first_name).trim() : '';
+
     document.addEventListener('contextmenu', (e) => {
       if (!e.target.closest('input, textarea, select')) {
         e.preventDefault();
@@ -213,12 +248,15 @@
     });
 
     const STORAGE_KEYS = {
-      state: 'adraschi_amaki_state_v13',
-      onboarded: 'adraschi_amaki_onboarded_v13',
-      analytics: 'adraschi_amaki_analytics_v13'
+      state: 'adraschi_amaki_persistent_state',
+      onboarded: 'adraschi_amaki_persistent_onboarded',
+      analytics: 'adraschi_amaki_persistent_analytics',
+      customer: 'adraschi_amaki_remembered_customer'
     };
 
-    const LEGACY_STATE_KEYS = [
+    const ALL_KNOWN_STATE_KEYS = [
+      'adraschi_amaki_persistent_state',
+      'adraschi_amaki_state_v13',
       'adraschi_amaki_state_v12',
       'adraschi_amaki_state_v11',
       'adraschi_amaki_state_v10',
@@ -234,7 +272,9 @@
       'adraschi_amaki_state'
     ];
 
-    const LEGACY_ANALYTICS_KEYS = [
+    const ALL_KNOWN_ANALYTICS_KEYS = [
+      'adraschi_amaki_persistent_analytics',
+      'adraschi_amaki_analytics_v13',
       'adraschi_amaki_analytics_v12',
       'adraschi_amaki_analytics_v11',
       'adraschi_amaki_analytics_v10',
@@ -265,12 +305,11 @@
       'prod-1': {
         name: { uz: 'Zumrad Oltin Adras', kir: 'Зумрад Олтин Адрас', ru: 'Изумрудно-золотой адрас', en: 'Emerald Gold Adras' },
         colorName: { uz: 'Zumrad va Oltin', kir: 'Зумрад ва Олтин', ru: 'Изумруд и золото', en: 'Emerald & Gold' },
-        description: { uz: "Qo'lda to'qilgan tabiiy paxta va ipak aralash adras matosi.", kir: 'Қўлда тўқилган табиий пахта ва ипак аралаш адрас матоси.', ru: 'Натуральная ткань адрас ручного ткачества из хлопка и шёлка.', en: 'Handwoven natural cotton and silk blend adras fabric.' }
+        description: { uz: "Qo'lda to'qilgan tabiiy paxta va ipak aralash adras matosi. Ko'ylak va kostyum uchun a'lo tanlov.", kir: 'Қўлда тўқилган табиий пахта ва ипак аралаш адрас матоси.', ru: 'Натуральная ткань адрас ручного ткачества из хлопка и шёлка.', en: 'Handwoven natural cotton and silk blend adras fabric.' }
       }
     };
 
     const NEWS_TRANSLATIONS = {};
-    const COMPANY_TRANSLATIONS = {};
 
     const initialCategories = [
       { id: 'cat-fabrics', name: 'Matolar', icon: '🧵', isExclusive: false, passcode: '' },
@@ -301,6 +340,87 @@
         colorName: 'Zumrad va Oltin',
         colorHex: '#059669',
         description: "Qo'lda to'qilgan tabiiy paxta va ipak aralash adras matosi. Ko'ylak va kostyum uchun a'lo tanlov.",
+        variants: ['Eni 60 sm', 'Eni 80 sm'],
+        images: [],
+        active: true
+      },
+      {
+        id: 'prod-2',
+        categoryId: 'cat-fabrics',
+        subcategoryId: 'sub-atlas',
+        name: 'Xon Atlas — Qirmizi Naqsh',
+        price: 110000,
+        salePrice: null,
+        unit: 'meter',
+        step: 0.5,
+        colorName: 'Qirmizi va Tilla',
+        colorHex: '#DC2626',
+        description: "Yorqin tusli an'anaviy xon atlas. Bayram va tantanali liboslar uchun.",
+        variants: ['Eni 60 sm', 'Eni 80 sm'],
+        images: [],
+        active: true
+      },
+      {
+        id: 'prod-3',
+        categoryId: 'cat-fabrics',
+        subcategoryId: 'sub-beqasam',
+        name: 'Zarrin Beqasam',
+        price: 95000,
+        salePrice: 82000,
+        unit: 'meter',
+        step: 0.5,
+        colorName: 'Jigar rang va Oltin',
+        colorHex: '#B45309',
+        description: "Mustahkam va nafis beqasam mato. Milliy chopon va liboslar tikishga mos.",
+        variants: ['Eni 60 sm', 'Eni 80 sm'],
+        images: [],
+        active: true
+      },
+      {
+        id: 'prod-4',
+        categoryId: 'cat-clothing',
+        subcategoryId: 'sub-chopon',
+        name: 'Adras Astarli Milliy Chopon',
+        price: 650000,
+        salePrice: 580000,
+        unit: 'piece',
+        step: 1,
+        colorName: "To'q ko'k va Tilla",
+        colorHex: '#1E3A8A',
+        description: "Ichki qismi adras bilan ishlangan, qo'l mehnati bilan bezatilgan milliy chopon.",
+        variants: ['L', 'XL', 'XXL'],
+        images: [],
+        active: true
+      },
+      {
+        id: 'prod-5',
+        categoryId: 'cat-clothing',
+        subcategoryId: 'sub-doppi',
+        name: "Chust Kashta Do'ppi",
+        price: 75000,
+        salePrice: null,
+        unit: 'piece',
+        step: 1,
+        colorName: 'Oq-qora kashta',
+        colorHex: '#3F3F46',
+        description: "An'anaviy Chust uslubida tikilgan, yengil va qulay milliy do'ppi.",
+        variants: ['56', '57', '58'],
+        images: [],
+        active: true
+      },
+      {
+        id: 'prod-6',
+        categoryId: 'cat-souvenirs',
+        subcategoryId: 'sub-sets',
+        name: "Sovg'alik Mato va Do'ppi To'plami",
+        price: 340000,
+        salePrice: 295000,
+        unit: 'piece',
+        step: 1,
+        colorName: 'Firuzarang va Tilla',
+        colorHex: '#0D9488',
+        description: "Mehmonlar va yaqinlar uchun maxsus qutida tayyorlangan milliy sovg'a to'plami.",
+        variants: ['Standart'],
         images: [],
         active: true
       },
@@ -316,6 +436,7 @@
         colorName: 'Zarrin Oltin',
         colorHex: '#D97706',
         description: "Maxsus eksklyuziv to'plam. Cheklangan miqdordagi ipak xon-atlas.",
+        variants: ['Eni 80 sm'],
         images: [],
         active: true
       }
@@ -327,10 +448,30 @@
         type: 'new_material',
         badge: 'Yangi material',
         title: 'Yangi Zumrad va Tillarang Adras partiyasi keldi!',
-        text: "Marg'ilondan yangi to'qilgan adras va atlas matolarimiz yetib keldi.",
+        text: "Marg'ilondan yangi to'qilgan adras va atlas matolarimiz yetib keldi. Ranglari tiniq, sifati a'lo darajada.",
         colorName: 'Zumrad yashil / Tillarang',
         colorHex: '#059669',
         date: '2026-11-20'
+      },
+      {
+        id: 'news-2',
+        type: 'holiday',
+        badge: 'Bayram tabrigi',
+        title: 'Aziz yurtdoshlar va qadrli xaridorlar!',
+        text: "Adraschi Amaki jamoasi sizlarni barcha qutlug' ayyomlar bilan samimiy muborakbod etadi. Xonadoningizga fayz-u baraka tilaymiz!",
+        colorName: 'Tilla rang',
+        colorHex: '#D97706',
+        date: '2026-11-15'
+      },
+      {
+        id: 'news-3',
+        type: 'promo',
+        badge: 'Aksiya',
+        title: 'Tanlangan matolar va choponlarga maxsus narxlar',
+        text: "Katalogdagi qizil narx bilan belgilangan mahsulotlarga chegirmalar amal qilmoqda. Buyurtmani savatcha orqali tez yuboring.",
+        colorName: 'Qirmizi',
+        colorHex: '#DC2626',
+        date: '2026-11-10'
       }
     ];
 
@@ -376,14 +517,24 @@
         goCatalog: "Katalogga o'tish",
         totalSum: 'Jami summa',
         sendOrder: 'Sotuvchiga buyurtma yuborish',
+        copyOrder: 'Matnni nusxalash',
+        copiedToast: 'Buyurtma matni nusxalandi',
         clearCart: 'Savatchani tozalash',
         phoneLabel: 'Telefon raqami',
+        customerNameLabel: 'Ismingiz',
+        customerNamePlaceholder: 'Ismingizni kiriting',
+        customerPhonePlaceholder: 'Telefon raqamingiz (masalan: 90 123 45 67)',
+        rememberedCustomerHint: 'Maʼlumotlaringiz eslab qolindi',
         telegramLabel: 'Telegram lichka',
         addressLabel: 'Manzil',
         deliveryLabel: 'Yetkazib berish (Dostavka)',
         helpGuide: "Yo'riqnomani ko'rish",
         noProducts: "Bu bo'limda hozircha mahsulot topilmadi.",
         colorLabel: 'Rangi',
+        variantLabel: "O'lcham / Eni",
+        variantsPlaceholder: "Variantlar (vergul bilan, masalan: Eni 60 sm, Eni 80 sm yoki L, XL)",
+        shareItemBtn: 'Ulashish',
+        sharedToast: 'Mahsulot havolasi/matni tayyorlandi',
         sendSectionImg: "Bo'lim rasmini yuborish",
         sendItemImg: 'Rasmni yuborish',
         imgSentToast: 'Rasm yuborishga tayyorlandi',
@@ -399,14 +550,17 @@
         writeBtn: 'Yozish',
         announcementsSuffix: "ta e'lon",
         noNews: "Hozircha yangiliklar yo'q.",
+        latestNewsHeader: "So'nggi yangilik",
+        allNewsBtn: 'Barcha yangiliklar',
+        gotItBtn: 'Tushunarli',
         onboardTitle: 'Xush Kelibsiz!',
         onboardDesc: "Adraschi Amaki milliy matolar va kiyimlar do'koni yo'riqnomasi",
         step1Title: '1. Metr / Donasini Tanlang',
-        step1Desc: "Matolar metrda, kiyimlar esa donalab sotiladi.",
+        step1Desc: "Matolar metrda, kiyimlar esa donalab sotiladi. O'zingizga kerakli miqdorni belgilang.",
         step2Title: "2. Savatchaga Qo'shing",
         step2Desc: "Tanlagan mahsulotlaringiz savatcha bo'limiga yig'ilib boradi.",
         step3Title: '3. Sotuvchiga Yuboring',
-        step3Desc: 'Bitta tugmani bosish orqali buyurtmangiz tayyor holda Telegram chatga boradi!',
+        step3Desc: 'Bitta tugmani bosish orqali buyurtmangiz tayyor holda sotuvchining Telegram chatiga boradi!',
         startBtn: 'Boshlash',
         adminBtn: 'Admin',
         adminTitle: 'Admin Panel',
@@ -459,9 +613,9 @@
         newNumericPinLabel: '2-bosqich: Oddiy raqamli kod',
         newPinPlaceholder: 'Faqat raqamlar (masalan: 5678)'
       },
-      kir: { brandSub: 'Миллий матолар ва кийимлар', catalog: 'Каталог', news: 'Янгиликлар', cart: 'Саватча', about: 'Биз ҳақимизда', all: 'Барчаси', meterUnit: 'метр', pieceUnit: 'дона', addToCart: 'Саватчага қўшиш', addedToast: 'Саватчага қўшилди', emptyCart: 'Саватчангиз ҳозирча бўш', emptyCartDesc: 'Каталогдан танланг.', goCatalog: 'Каталогга ўтиш', totalSum: 'Жами сумма', sendOrder: 'Сотувчига юбориш', clearCart: 'Тозалаш', phoneLabel: 'Тел', telegramLabel: 'Телеграм', addressLabel: 'Манзил', deliveryLabel: 'Доставка', helpGuide: 'Йўриқнома', noProducts: 'Маҳсулот топилмади.', colorLabel: 'Ранги', sendSectionImg: 'Бўлим расми', sendItemImg: 'Расмни юбориш', imgSentToast: 'Тайёрланди', addImagesLabel: 'Расмlar', imagesSelectedCount: 'та танланди', currencySuffix: 'сўм', archiveBtn: 'Архивлаш', unarchiveBtn: 'Тиклаш', archivedBadge: 'Архивда', activeProductsTitle: 'Фаол', archivedProductsTitle: 'Архив', callBtn: 'Қўнғироқ', writeBtn: 'Ёзиш', announcementsSuffix: 'та', noNews: 'Йўқ', onboardTitle: 'Хуш Келибсиз!', onboardDesc: 'Йўриқнома', step1Title: '1. Танланг', step1Desc: 'Метр/Дона', step2Title: '2. Саватча', step2Desc: 'Йиғилади', step3Title: '3. Юборинг', step3Desc: 'Telegram', startBtn: 'Бошлаш', adminBtn: 'Админ', adminTitle: 'Админ Панел', adminLoginTitle: 'Кириш', step1CodeLabel: '1-босқич', step1CodePlaceholder: 'Код', nextStepBtn: 'Кейинги', step2PinLabel: '2-босқич', step2PinPlaceholder: 'PIN', backStepBtn: 'Орқага', adminCodeError: 'Xато!', loginBtn: 'Кириш', lockBtn: 'Қулфлаш', visitsLabel: 'Киришлар', ordersLabel: 'Буюртма', conversionLabel: 'Конверсия', admTabProducts: 'Маҳсулот', admTabCategories: 'Бўлимлар', admTabNews: 'Янгилик', admTabCodes: 'Кодлар', admTabCompany: 'Маълумот', addProdTitle: 'Қўшиш', editProdTitle: 'Таҳрирлаш', editBtn: 'Таҳрирлаш', cancelEditBtn: 'Бекор', prodNamePlaceholder: 'Номи', prodPricePlaceholder: 'Нархи', prodSalePlaceholder: 'Акция', prodColorPlaceholder: 'Ранги', unitMeter: 'Метрда', unitPiece: 'Доналаб', addBtn: 'Қўшиш', deleteBtn: 'Ўчириш', saveBtn: 'Сақлаш', savedToast: 'Сақланди', addNewsTitle: 'Эълон', editNewsTitle: 'Таҳрирлаш', newsTitlePlaceholder: 'Сарлавҳа', newsTextPlaceholder: 'Матн', publishBtn: 'Жойлаш', mainCategoriesTitle: 'Бўлимлар', editCategoryTitle: 'Ўзгартириш', addCategoryPlaceholder: 'Номи', subCategoriesTitle: 'Кичик бўлимлар', addSubCategoryPlaceholder: 'Номи', editSubCategoryTitle: 'Таҳрирлаш', noSubSelect: 'Йўқ', authSettingsTitle: 'Кодлар', newMasterCodeLabel: '1-босқич', newNumericPinLabel: '2-босқич', newPinPlaceholder: '5678' },
-      ru: { brandSub: 'Национальные ткани и одежда', catalog: 'Каталог', news: 'Новости', cart: 'Корзина', about: 'О нас', all: 'Все', meterUnit: 'метр', pieceUnit: 'шт.', addToCart: 'В корзину', addedToast: 'Добавлено', emptyCart: 'Корзина пуста', emptyCartDesc: 'Выберите товар.', goCatalog: 'В каталог', totalSum: 'Итого', sendOrder: 'Отправить заказ', clearCart: 'Очистить', phoneLabel: 'Телефон', telegramLabel: 'Telegram', addressLabel: 'Адрес', deliveryLabel: 'Доставка', helpGuide: 'Инструкция', noProducts: 'Нет товаров.', colorLabel: 'Цвет', sendSectionImg: 'Фото раздела', sendItemImg: 'Отправить фото', imgSentToast: 'Готово', addImagesLabel: 'Фотографии', imagesSelectedCount: 'выбрано', currencySuffix: 'сум', archiveBtn: ' В архив', unarchiveBtn: 'Восстановить', archivedBadge: 'В архиве', activeProductsTitle: 'Активные', archivedProductsTitle: 'В архиве', callBtn: 'Позвонить', writeBtn: 'Написать', announcementsSuffix: 'объявл.', noNews: 'Нет новостей.', onboardTitle: 'Приветствуем!', onboardDesc: 'Инструкция', step1Title: '1. Количество', step1Desc: 'Метры или штуки', step2Title: '2. В корзину', step2Desc: 'Собирается в корзине', step3Title: '3. Отправка', step3Desc: 'В Telegram', startBtn: 'Начать', adminBtn: 'Админ', adminTitle: 'Админ-панель', adminLoginTitle: 'Вход', step1CodeLabel: '1-й этап', step1CodePlaceholder: 'Код', nextStepBtn: 'Далее', step2PinLabel: '2-й этап', step2PinPlaceholder: 'ПИН', backStepBtn: 'Назад', adminCodeError: 'Неверно!', loginBtn: 'Войти', lockBtn: 'Заблокировать', visitsLabel: 'Визиты', ordersLabel: 'Заказы', conversionLabel: 'Конверсия', admTabProducts: 'Товары', admTabCategories: 'Разделы', admTabNews: 'Новости', admTabCodes: 'Коды', admTabCompany: 'Инфо', addProdTitle: 'Добавить', editProdTitle: 'Изменить', editBtn: 'Изменить', cancelEditBtn: 'Отмена', prodNamePlaceholder: 'Название', prodPricePlaceholder: 'Цена', prodSalePlaceholder: 'Скидка', prodColorPlaceholder: 'Цвет', unitMeter: 'В метрах', unitPiece: 'Поштучно', addBtn: 'Добавить', deleteBtn: 'Удалить', saveBtn: 'Сохранить', savedToast: 'Сохранено', addNewsTitle: 'Объявление', editNewsTitle: 'Изменить', newsTitlePlaceholder: 'Заголовок', newsTextPlaceholder: 'Текст', publishBtn: 'Опубликовать', mainCategoriesTitle: 'Разделы', editCategoryTitle: 'Изменить', addCategoryPlaceholder: 'Название', subCategoriesTitle: 'Подразделы', addSubCategoryPlaceholder: 'Название', editSubCategoryTitle: 'Изменить', noSubSelect: 'Без подраздела', authSettingsTitle: 'Смена кодов', newMasterCodeLabel: '1-й этап', newNumericPinLabel: '2-й этап', newPinPlaceholder: '5678' },
-      en: { brandSub: 'National fabrics & apparel', catalog: 'Catalog', news: 'News', cart: 'Cart', about: 'About', all: 'All', meterUnit: 'meter', pieceUnit: 'pcs', addToCart: 'Add to cart', addedToast: 'Added', emptyCart: 'Cart is empty', emptyCartDesc: 'Choose products.', goCatalog: 'Browse catalog', totalSum: 'Total', sendOrder: 'Send order', clearCart: 'Clear', phoneLabel: 'Phone', telegramLabel: 'Telegram', addressLabel: 'Address', deliveryLabel: 'Delivery', helpGuide: 'Guide', noProducts: 'No items.', colorLabel: 'Color', sendSectionImg: 'Section image', sendItemImg: 'Send image', imgSentToast: 'Ready', addImagesLabel: 'Images', imagesSelectedCount: 'selected', currencySuffix: 'UZS', archiveBtn: 'Archive', unarchiveBtn: 'Restore', archivedBadge: 'Archived', activeProductsTitle: 'Active', archivedProductsTitle: 'Archived', callBtn: 'Call', writeBtn: 'Message', announcementsSuffix: 'posts', noNews: 'No news.', onboardTitle: 'Welcome!', onboardDesc: 'Guide', step1Title: '1. Select', step1Desc: 'Meters / pieces', step2Title: '2. Add', step2Desc: 'Cart', step3Title: '3. Send', step3Desc: 'Telegram', startBtn: 'Start', adminBtn: 'Admin', adminTitle: 'Admin Panel', adminLoginTitle: 'Login', step1CodeLabel: 'Step 1', step1CodePlaceholder: 'Code', nextStepBtn: 'Next', step2PinLabel: 'Step 2', step2PinPlaceholder: 'PIN', backStepBtn: 'Back', adminCodeError: 'Invalid!', loginBtn: 'Login', lockBtn: 'Lock', visitsLabel: 'Visits', ordersLabel: 'Orders', conversionLabel: 'Conversion', admTabProducts: 'Products', admTabCategories: 'Categories', admTabNews: 'News', admTabCodes: 'Codes', admTabCompany: 'Info', addProdTitle: 'Add', editProdTitle: 'Edit', editBtn: 'Edit', cancelEditBtn: 'Cancel', prodNamePlaceholder: 'Name', prodPricePlaceholder: 'Price', prodSalePlaceholder: 'Sale', prodColorPlaceholder: 'Color', unitMeter: 'Meter', unitPiece: 'Piece', addBtn: 'Add', deleteBtn: 'Delete', saveBtn: 'Save', savedToast: 'Saved', addNewsTitle: 'News', editNewsTitle: 'Edit', newsTitlePlaceholder: 'Title', newsTextPlaceholder: 'Text', publishBtn: 'Publish', mainCategoriesTitle: 'Categories', editCategoryTitle: 'Edit', addCategoryPlaceholder: 'Name', subCategoriesTitle: 'Subcategories', addSubCategoryPlaceholder: 'Name', editSubCategoryTitle: 'Edit', noSubSelect: 'None', authSettingsTitle: 'Change codes', newMasterCodeLabel: 'Step 1', newNumericPinLabel: 'Step 2', newPinPlaceholder: '5678' }
+      kir: { brandSub: 'Миллий матолар ва кийимлар', catalog: 'Каталог', news: 'Янгиликлар', cart: 'Саватча', about: 'Биз ҳақимизда', all: 'Барчаси', meterUnit: 'метр', pieceUnit: 'дона', addToCart: 'Саватчага қўшиш', addedToast: 'Саватчага қўшилди', emptyCart: 'Саватчангиз ҳозирча бўш', emptyCartDesc: 'Каталогдан танланг.', goCatalog: 'Каталогга ўтиш', totalSum: 'Жами сумма', sendOrder: 'Сотувчига юбориш', copyOrder: 'Нусхалаш', copiedToast: 'Нусхаланди', clearCart: 'Тозалаш', phoneLabel: 'Тел', customerNameLabel: 'Исмингиз', customerNamePlaceholder: 'Исмингиз', customerPhonePlaceholder: 'Телефон рақамингиз', rememberedCustomerHint: 'Маълумотлар эслаб қолинди', telegramLabel: 'Телеграм', addressLabel: 'Манзил', deliveryLabel: 'Доставка', helpGuide: 'Йўриқнома', noProducts: 'Маҳсулот топилмади.', colorLabel: 'Ранги', variantLabel: 'Ўлчам / Эни', variantsPlaceholder: 'Вариантлар (вергул билан)', shareItemBtn: 'Улашиш', sharedToast: 'Тайёрланди', sendSectionImg: 'Бўлим расми', sendItemImg: 'Расмни юбориш', imgSentToast: 'Тайёрланди', addImagesLabel: 'Расмлар', imagesSelectedCount: 'та танланди', currencySuffix: 'сўм', archiveBtn: 'Архивлаш', unarchiveBtn: 'Тиклаш', archivedBadge: 'Архивда', activeProductsTitle: 'Фаол', archivedProductsTitle: 'Архив', callBtn: 'Қўнғироқ', writeBtn: 'Ёзиш', announcementsSuffix: 'та', noNews: 'Йўқ', latestNewsHeader: 'Сўнгги янгилик', allNewsBtn: 'Барча янгиликлар', gotItBtn: 'Тушунарли', onboardTitle: 'Хуш Келибсиз!', onboardDesc: 'Йўриқнома', step1Title: '1. Танланг', step1Desc: 'Метр/Дона', step2Title: '2. Саватча', step2Desc: 'Йиғилади', step3Title: '3. Юборинг', step3Desc: 'Telegram', startBtn: 'Бошлаш', adminBtn: 'Админ', adminTitle: 'Админ Панел', adminLoginTitle: 'Кириш', step1CodeLabel: '1-босқич', step1CodePlaceholder: 'Код', nextStepBtn: 'Кейинги', step2PinLabel: '2-босқич', step2PinPlaceholder: 'PIN', backStepBtn: 'Орқага', adminCodeError: 'Хато!', loginBtn: 'Кириш', lockBtn: 'Қулфлаш', visitsLabel: 'Киришлар', ordersLabel: 'Буюртма', conversionLabel: 'Конверсия', admTabProducts: 'Маҳсулот', admTabCategories: 'Бўлимлар', admTabNews: 'Янгилик', admTabCodes: 'Кодлар', admTabCompany: 'Маълумот', addProdTitle: 'Қўшиш', editProdTitle: 'Таҳрирлаш', editBtn: 'Таҳрирлаш', cancelEditBtn: 'Бекор', prodNamePlaceholder: 'Номи', prodPricePlaceholder: 'Нархи', prodSalePlaceholder: 'Акция', prodColorPlaceholder: 'Ранги', unitMeter: 'Метрда', unitPiece: 'Доналаб', addBtn: 'Қўшиш', deleteBtn: 'Ўчириш', saveBtn: 'Сақлаш', savedToast: 'Сақланди', addNewsTitle: 'Эълон', editNewsTitle: 'Таҳрирлаш', newsTitlePlaceholder: 'Сарлавҳа', newsTextPlaceholder: 'Матн', publishBtn: 'Жойлаш', mainCategoriesTitle: 'Бўлимлар', editCategoryTitle: 'Ўзгартириш', addCategoryPlaceholder: 'Номи', subCategoriesTitle: 'Кичик бўлимлар', addSubCategoryPlaceholder: 'Номи', editSubCategoryTitle: 'Таҳрирлаш', noSubSelect: 'Йўқ', authSettingsTitle: 'Кодлар', newMasterCodeLabel: '1-босқич', newNumericPinLabel: '2-босқич', newPinPlaceholder: '5678' },
+      ru: { brandSub: 'Национальные ткани и одежда', catalog: 'Каталог', news: 'Новости', cart: 'Корзина', about: 'О нас', all: 'Все', meterUnit: 'метр', pieceUnit: 'шт.', addToCart: 'В корзину', addedToast: 'Добавлено', emptyCart: 'Корзина пуста', emptyCartDesc: 'Выберите товар.', goCatalog: 'В каталог', totalSum: 'Итого', sendOrder: 'Отправить заказ', copyOrder: 'Копировать', copiedToast: 'Скопировано', clearCart: 'Очистить', phoneLabel: 'Телефон', customerNameLabel: 'Ваше имя', customerNamePlaceholder: 'Введите имя', customerPhonePlaceholder: 'Ваш телефон', rememberedCustomerHint: 'Данные сохранены', telegramLabel: 'Telegram', addressLabel: 'Адрес', deliveryLabel: 'Доставка', helpGuide: 'Инструкция', noProducts: 'Нет товаров.', colorLabel: 'Цвет', variantLabel: 'Размер / Ширина', variantsPlaceholder: 'Варианты через запятую', shareItemBtn: 'Поделиться', sharedToast: 'Готово', sendSectionImg: 'Фото раздела', sendItemImg: 'Отправить фото', imgSentToast: 'Готово', addImagesLabel: 'Фотографии', imagesSelectedCount: 'выбрано', currencySuffix: 'сум', archiveBtn: 'В архив', unarchiveBtn: 'Восстановить', archivedBadge: 'В архиве', activeProductsTitle: 'Активные', archivedProductsTitle: 'В архиве', callBtn: 'Позвонить', writeBtn: 'Написать', announcementsSuffix: 'объявл.', noNews: 'Нет новостей.', latestNewsHeader: 'Последняя новость', allNewsBtn: 'Все новости', gotItBtn: 'Понятно', onboardTitle: 'Приветствуем!', onboardDesc: 'Инструкция', step1Title: '1. Количество', step1Desc: 'Метры или штуки', step2Title: '2. В корзину', step2Desc: 'Собирается в корзине', step3Title: '3. Отправка', step3Desc: 'В Telegram', startBtn: 'Начать', adminBtn: 'Админ', adminTitle: 'Админ-панель', adminLoginTitle: 'Вход', step1CodeLabel: '1-й этап', step1CodePlaceholder: 'Код', nextStepBtn: 'Далее', step2PinLabel: '2-й этап', step2PinPlaceholder: 'ПИН', backStepBtn: 'Назад', adminCodeError: 'Неверно!', loginBtn: 'Войти', lockBtn: 'Заблокировать', visitsLabel: 'Визиты', ordersLabel: 'Заказы', conversionLabel: 'Конверсия', admTabProducts: 'Товары', admTabCategories: 'Разделы', admTabNews: 'Новости', admTabCodes: 'Коды', admTabCompany: 'Инфо', addProdTitle: 'Добавить', editProdTitle: 'Изменить', editBtn: 'Изменить', cancelEditBtn: 'Отмена', prodNamePlaceholder: 'Название', prodPricePlaceholder: 'Цена', prodSalePlaceholder: 'Скидка', prodColorPlaceholder: 'Цвет', unitMeter: 'В метрах', unitPiece: 'Поштучно', addBtn: 'Добавить', deleteBtn: 'Удалить', saveBtn: 'Сохранить', savedToast: 'Сохранено', addNewsTitle: 'Объявление', editNewsTitle: 'Изменить', newsTitlePlaceholder: 'Заголовок', newsTextPlaceholder: 'Текст', publishBtn: 'Опубликовать', mainCategoriesTitle: 'Разделы', editCategoryTitle: 'Изменить', addCategoryPlaceholder: 'Название', subCategoriesTitle: 'Подразделы', addSubCategoryPlaceholder: 'Название', editSubCategoryTitle: 'Изменить', noSubSelect: 'Без подраздела', authSettingsTitle: 'Смена кодов', newMasterCodeLabel: '1-й этап', newNumericPinLabel: '2-й этап', newPinPlaceholder: '5678' },
+      en: { brandSub: 'National fabrics & apparel', catalog: 'Catalog', news: 'News', cart: 'Cart', about: 'About', all: 'All', meterUnit: 'meter', pieceUnit: 'pcs', addToCart: 'Add to cart', addedToast: 'Added', emptyCart: 'Cart is empty', emptyCartDesc: 'Choose products.', goCatalog: 'Browse catalog', totalSum: 'Total', sendOrder: 'Send order', copyOrder: 'Copy text', copiedToast: 'Order text copied', clearCart: 'Clear', phoneLabel: 'Phone', customerNameLabel: 'Your name', customerNamePlaceholder: 'Enter your name', customerPhonePlaceholder: 'Your phone number', rememberedCustomerHint: 'Customer info remembered', telegramLabel: 'Telegram', addressLabel: 'Address', deliveryLabel: 'Delivery', helpGuide: 'Guide', noProducts: 'No items.', colorLabel: 'Color', variantLabel: 'Size / Width', variantsPlaceholder: 'Variants (comma separated)', shareItemBtn: 'Share', sharedToast: 'Ready to share', sendSectionImg: 'Section image', sendItemImg: 'Send image', imgSentToast: 'Ready', addImagesLabel: 'Images', imagesSelectedCount: 'selected', currencySuffix: 'UZS', archiveBtn: 'Archive', unarchiveBtn: 'Restore', archivedBadge: 'Archived', activeProductsTitle: 'Active', archivedProductsTitle: 'Archived', callBtn: 'Call', writeBtn: 'Message', announcementsSuffix: 'posts', noNews: 'No news.', latestNewsHeader: 'Latest news', allNewsBtn: 'All news', gotItBtn: 'Got it', onboardTitle: 'Welcome!', onboardDesc: 'Guide', step1Title: '1. Select', step1Desc: 'Meters / pieces', step2Title: '2. Add', step2Desc: 'Cart', step3Title: '3. Send', step3Desc: 'Telegram', startBtn: 'Start', adminBtn: 'Admin', adminTitle: 'Admin Panel', adminLoginTitle: 'Login', step1CodeLabel: 'Step 1', step1CodePlaceholder: 'Code', nextStepBtn: 'Next', step2PinLabel: 'Step 2', step2PinPlaceholder: 'PIN', backStepBtn: 'Back', adminCodeError: 'Invalid!', loginBtn: 'Login', lockBtn: 'Lock', visitsLabel: 'Visits', ordersLabel: 'Orders', conversionLabel: 'Conversion', admTabProducts: 'Products', admTabCategories: 'Categories', admTabNews: 'News', admTabCodes: 'Codes', admTabCompany: 'Info', addProdTitle: 'Add', editProdTitle: 'Edit', editBtn: 'Edit', cancelEditBtn: 'Cancel', prodNamePlaceholder: 'Name', prodPricePlaceholder: 'Price', prodSalePlaceholder: 'Sale', prodColorPlaceholder: 'Color', unitMeter: 'Meter', unitPiece: 'Piece', addBtn: 'Add', deleteBtn: 'Delete', saveBtn: 'Save', savedToast: 'Saved', addNewsTitle: 'News', editNewsTitle: 'Edit', newsTitlePlaceholder: 'Title', newsTextPlaceholder: 'Text', publishBtn: 'Publish', mainCategoriesTitle: 'Categories', editCategoryTitle: 'Edit', addCategoryPlaceholder: 'Name', subCategoriesTitle: 'Subcategories', addSubCategoryPlaceholder: 'Name', editSubCategoryTitle: 'Edit', noSubSelect: 'None', authSettingsTitle: 'Change codes', newMasterCodeLabel: 'Step 1', newNumericPinLabel: 'Step 2', newPinPlaceholder: '5678' }
     };
 
     function getLocalizedCategoryName(cat, lang = state.lang) {
@@ -507,8 +661,7 @@
     }
 
     function findSavedStateRaw() {
-      const candidates = [STORAGE_KEYS.state, ...LEGACY_STATE_KEYS];
-      for (const key of candidates) {
+      for (const key of ALL_KNOWN_STATE_KEYS) {
         try {
           const raw = localStorage.getItem(key);
           if (raw) return raw;
@@ -544,6 +697,9 @@
             ? parsed.products.map((p) => ({
                 ...p,
                 subcategoryId: p.subcategoryId !== undefined ? p.subcategoryId : '',
+                variants: Array.isArray(p.variants) && p.variants.length
+                  ? p.variants
+                  : (p.unit === 'meter' ? ['Eni 60 sm', 'Eni 80 sm'] : ['Standart']),
                 images: Array.isArray(p.images) ? p.images : [],
                 active: p.active !== false
               }))
@@ -563,28 +719,56 @@
     }
 
     function loadAnalytics() {
-      const keys = [STORAGE_KEYS.analytics, ...LEGACY_ANALYTICS_KEYS];
-      for (const key of keys) {
+      for (const key of ALL_KNOWN_ANALYTICS_KEYS) {
         try {
           const raw = localStorage.getItem(key);
           if (raw) {
             const parsed = JSON.parse(raw);
-            return { visits: Number(parsed.visits) || 1, ordersSent: Number(parsed.ordersSent) || 0 };
+            return { visits: Number(parsed.visits) || 0, ordersSent: Number(parsed.ordersSent) || 0 };
           }
         } catch (e) {}
       }
-      return { visits: 1, ordersSent: 0 };
+      return { visits: 0, ordersSent: 0 };
+    }
+
+    function loadCustomerInfo() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEYS.customer);
+        const parsed = raw ? JSON.parse(raw) : {};
+        return {
+          name: (parsed.name || tgFirstName || '').trim(),
+          phone: (parsed.phone || '').trim()
+        };
+      } catch (e) {
+        return { name: tgFirstName, phone: '' };
+      }
+    }
+
+    function saveCustomerInfo(name, phone) {
+      const cleanName = (name || tgFirstName || '').trim();
+      const cleanPhone = (phone || '').trim();
+      customerInfo = { name: cleanName, phone: cleanPhone };
+      try {
+        localStorage.setItem(STORAGE_KEYS.customer, JSON.stringify(customerInfo));
+      } catch (e) {}
     }
 
     let state = loadState();
     let analytics = loadAnalytics();
+    let customerInfo = loadCustomerInfo();
+    if (tgFirstName && !customerInfo.name) {
+      saveCustomerInfo(tgFirstName, customerInfo.phone);
+    }
+
     analytics.visits += 1;
+    const isFirstVisit = !localStorage.getItem(STORAGE_KEYS.onboarded);
     localStorage.setItem(STORAGE_KEYS.analytics, JSON.stringify(analytics));
 
     let adminUnlocked = false;
     let adminLoginStep = 1;
     let adminTab = 'products';
     let itemQuantities = {};
+    let selectedVariants = {};
     let draftProductImages = [];
     let editingProductId = null;
     let editingCategoryId = null;
@@ -627,9 +811,19 @@
 
     function getQtyForProduct(prod) {
       if (itemQuantities[prod.id] !== undefined) return itemQuantities[prod.id];
-      const def = prod.unit === 'meter' ? 1 : 1;
+      const def = 1;
       itemQuantities[prod.id] = def;
       return def;
+    }
+
+    function getVariantForProduct(prod) {
+      const variants = Array.isArray(prod.variants) && prod.variants.length ? prod.variants : [];
+      if (!variants.length) return '';
+      if (selectedVariants[prod.id] && variants.includes(selectedVariants[prod.id])) {
+        return selectedVariants[prod.id];
+      }
+      selectedVariants[prod.id] = variants[0];
+      return variants[0];
     }
 
     function changeQty(prodId, delta) {
@@ -660,15 +854,17 @@
       const prod = state.products.find((p) => p.id === prodId);
       if (!prod) return;
       const qty = getQtyForProduct(prod);
+      const variant = getVariantForProduct(prod);
       const pName = getLocalizedProductField(prod, 'name');
       const pColor = getLocalizedProductField(prod, 'colorName');
-      const existing = state.cart.find((c) => c.productId === prodId);
+      const existing = state.cart.find((c) => c.productId === prodId && (c.variant || '') === (variant || ''));
       if (existing) {
         existing.qty = Math.round((existing.qty + qty) * 100) / 100;
       } else {
         state.cart.push({
           productId: prod.id,
           name: pName,
+          variant,
           unit: prod.unit,
           price: effectivePrice(prod),
           colorName: pColor,
@@ -783,21 +979,57 @@
       sendImagePayload(imgSrc, pName, caption);
     }
 
-    function sendOrderToSeller() {
-      if (!state.cart.length) return;
+    async function shareProductCard(prodId) {
+      const prod = state.products.find((p) => p.id === prodId);
+      if (!prod) return;
+      const t = i18n[state.lang];
+      const pName = getLocalizedProductField(prod, 'name');
+      const pColor = getLocalizedProductField(prod, 'colorName');
+      const variant = getVariantForProduct(prod);
+      const unitLabel = prod.unit === 'meter' ? t.meterUnit : t.pieceUnit;
+      const shareText = [
+        `🧵 ${pName}`,
+        pColor ? `${t.colorLabel}: ${pColor}` : '',
+        variant ? `${t.variantLabel}: ${variant}` : '',
+        `💰 ${formatPrice(effectivePrice(prod))} / ${unitLabel}`,
+        `🏪 ${getLocalizedCompanyField('name')} (${state.company.telegram || '@adraschi'})`
+      ].filter(Boolean).join('\n');
+
+      try {
+        if (typeof navigator.share === 'function') {
+          await navigator.share({ title: pName, text: shareText });
+          showToast(t.sharedToast);
+          return;
+        }
+      } catch (e) {}
+
+      try {
+        await navigator.clipboard.writeText(shareText);
+      } catch (e) {}
+      showToast(t.sharedToast);
+    }
+
+    function buildOrderMessageText() {
       const t = i18n[state.lang];
       let total = 0;
       const lines = state.cart.map((item, idx) => {
-        const lineSum = item.qty * item.price;
+        const lineSum = Math.round(item.qty * item.price);
         total += lineSum;
         const unitLabel = item.unit === 'meter' ? t.meterUnit : t.pieceUnit;
         const colorPart = item.colorName ? ` [${item.colorName}]` : '';
-        return `${idx + 1}. ${item.name}${colorPart} — ${item.qty} ${unitLabel} × ${formatPrice(item.price)} = ${formatPrice(lineSum)}`;
+        const varPart = item.variant ? ` (${item.variant})` : '';
+        return `${idx + 1}. ${item.name}${varPart}${colorPart} — ${item.qty} ${unitLabel} × ${formatPrice(item.price)} = ${formatPrice(lineSum)}`;
       });
 
-      const cleanHandle = (state.company.telegram || '@adraschi').replace(/^@/, '');
-      const messageText = [
+      const buyerName = (customerInfo.name || tgFirstName || '').trim();
+      const buyerPhone = (customerInfo.phone || '').trim();
+      const buyerLines = [];
+      if (buyerName) buyerLines.push(`👤 *${t.customerNameLabel}:* ${buyerName}`);
+      if (buyerPhone) buyerLines.push(`📱 *${t.phoneLabel}:* ${buyerPhone}`);
+
+      return [
         `🛍️ *${getLocalizedCompanyField('name')}* — ${t.sendOrder}`,
+        ...buyerLines,
         '',
         ...lines,
         '',
@@ -806,6 +1038,13 @@
         `🚚 *${t.deliveryLabel}:* ${getLocalizedCompanyField('deliveryInfo')}`,
         `📞 *${t.phoneLabel}:* ${state.company.phone}`
       ].join('\n');
+    }
+
+    function sendOrderToSeller() {
+      if (!state.cart.length) return;
+      saveCustomerInfo(customerInfo.name, customerInfo.phone);
+      const cleanHandle = (state.company.telegram || '@adraschi').replace(/^@/, '');
+      const messageText = buildOrderMessageText();
 
       analytics.ordersSent += 1;
       saveAnalytics();
@@ -816,6 +1055,23 @@
       } else {
         window.open(tgUrl, '_blank', 'noopener,noreferrer');
       }
+    }
+
+    async function copyOrderTextToClipboard() {
+      if (!state.cart.length) return;
+      saveCustomerInfo(customerInfo.name, customerInfo.phone);
+      const text = buildOrderMessageText();
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      showToast(i18n[state.lang].copiedToast);
     }
 
     function updateOnboardingTexts() {
@@ -829,6 +1085,34 @@
       document.getElementById('step3Title').textContent = t.step3Title;
       document.getElementById('step3Desc').textContent = t.step3Desc;
       document.getElementById('closeOnboardingBtn').textContent = t.startBtn;
+    }
+
+    function openLatestNewsModalIfNeeded() {
+      if (isFirstVisit) return;
+      if (!Array.isArray(state.news) || !state.news.length) return;
+      const latest = state.news[0];
+      const t = i18n[state.lang];
+      const nameToGreet = (customerInfo.name || tgFirstName || '').trim();
+
+      document.getElementById('latestNewsBadge').textContent = getLocalizedNewsField(latest, 'badge') || t.latestNewsHeader;
+      document.getElementById('latestNewsDate').textContent = latest.date || '';
+      document.getElementById('latestNewsGreet').textContent = nameToGreet ? `👋 ${nameToGreet}, ${t.latestNewsHeader.toLowerCase()}:` : `📰 ${t.latestNewsHeader}:`;
+      document.getElementById('latestNewsTitle').textContent = getLocalizedNewsField(latest, 'title');
+      document.getElementById('latestNewsText').textContent = getLocalizedNewsField(latest, 'text');
+
+      const colorText = getLocalizedNewsField(latest, 'colorName');
+      const colorRow = document.getElementById('latestNewsColorRow');
+      if (colorText) {
+        colorRow.classList.remove('hidden');
+        document.getElementById('latestNewsColorDot').style.background = latest.colorHex || '#059669';
+        document.getElementById('latestNewsColorLabel').textContent = `${t.colorLabel}: ${colorText}`;
+      } else {
+        colorRow.classList.add('hidden');
+      }
+
+      document.getElementById('goToNewsTabBtn').textContent = t.allNewsBtn;
+      document.getElementById('closeLatestNewsBtn').textContent = t.gotItBtn;
+      document.getElementById('latestNewsModal').classList.remove('hidden');
     }
 
     function updateBadges() {
@@ -965,6 +1249,8 @@
               const pColor = getLocalizedProductField(p, 'colorName');
               const pDesc = getLocalizedProductField(p, 'description');
               const imgs = Array.isArray(p.images) ? p.images : [];
+              const variants = Array.isArray(p.variants) && p.variants.length ? p.variants : [];
+              const activeVariant = getVariantForProduct(p);
               const subObj = p.subcategoryId ? state.subcategories.find((s) => s.id === p.subcategoryId) : null;
               const subBadge = subObj
                 ? `<span class="px-2 py-0.5 rounded-md bg-amber-50 border border-amber-200 text-amber-900 text-[10px] font-semibold">${getLocalizedSubcategoryName(subObj)}</span>`
@@ -980,6 +1266,29 @@
                         </div>`
                       )
                       .join('')}
+                  </div>`
+                : '';
+
+              const variantsHtml = variants.length
+                ? `<div class="space-y-1">
+                    <div class="text-[11px] font-semibold text-[#6E5C4F]">${t.variantLabel}:</div>
+                    <div class="flex flex-wrap gap-1.5">
+                      ${variants.map((v) => `<button type="button" data-select-var="${p.id}" data-var-val="${String(v).replace(/"/g, '&quot;')}" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold border transition ${
+                        activeVariant === v
+                          ? 'bg-amber-700 text-white border-amber-700'
+                          : 'bg-[#FAF6F0] text-[#2A1F18] border-[#E5D8C5]'
+                      }">${v}</button>`).join('')}
+                    </div>
+                  </div>`
+                : '';
+
+              const quickMetersHtml = p.unit === 'meter'
+                ? `<div class="flex items-center gap-1.5 pt-1">
+                    ${[1, 2, 3.5, 6].map((mVal) => `<button type="button" data-quick-meter="${p.id}" data-meter-val="${mVal}" class="px-2 py-1 rounded-lg text-[11px] font-bold border transition ${
+                      Number(qty) === mVal
+                        ? 'bg-amber-100 text-amber-900 border-amber-400'
+                        : 'bg-[#FAF6F0] text-[#6E5C4F] border-[#E5D8C5]'
+                    }">${mVal}m</button>`).join('')}
                   </div>`
                 : '';
 
@@ -1000,19 +1309,21 @@
                           : ''
                       }
                     </div>
-                    <div class="flex items-center gap-1.5 shrink-0">
+                    <div class="flex items-center gap-1 shrink-0 flex-wrap justify-end">
+                      <button type="button" data-share-prod="${p.id}" class="px-2 py-1 rounded-lg bg-[#F3ECE0] hover:bg-[#E7DCC9] border border-[#E5D8C5] text-[#2A1F18] text-[11px] font-semibold">
+                        🔗 ${t.shareItemBtn}
+                      </button>
                       <button type="button" data-send-prod-img="${p.id}" data-img-idx="0" class="px-2 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-900 text-[11px] font-semibold">
                         📤 ${t.sendItemImg}
                       </button>
-                      <span class="px-2.5 py-1 rounded-lg bg-[#F3ECE0] text-[#6E5C4F] text-[11px] font-semibold">
-                        1 ${unitLabel}
-                      </span>
                     </div>
                   </div>
 
                   ${galleryHtml}
 
                   ${pDesc ? `<p class="text-xs text-[#6E5C4F] leading-relaxed">${pDesc}</p>` : ''}
+
+                  ${variantsHtml}
 
                   <div class="flex items-baseline gap-2 pt-0.5">
                     ${
@@ -1037,6 +1348,8 @@
                     </div>
                   </div>
 
+                  ${quickMetersHtml}
+
                   <button type="button" data-add-cart="${p.id}" class="w-full py-2.5 rounded-xl bg-amber-700 hover:bg-amber-800 active:scale-[0.99] text-white text-xs font-bold transition">
                     ${t.addToCart}
                   </button>
@@ -1046,10 +1359,13 @@
             .join('')
         : `<div class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-6 text-center text-xs text-[#6E5C4F]">${t.noProducts}</div>`;
 
+      const greetName = (customerInfo.name || tgFirstName || '').trim();
+
       return `
         <div class="ikat-pattern rounded-2xl p-4 border border-[#E5D8C5]">
           <div class="flex items-start justify-between gap-2">
             <div>
+              ${greetName ? `<div class="text-[11px] font-bold text-amber-800 mb-0.5">Assalomu alaykum, ${greetName}!</div>` : ''}
               <div class="font-display text-lg font-bold text-[#2A1F18]">${getLocalizedCompanyField('name')}</div>
               <p class="text-xs text-[#6E5C4F] mt-0.5">${getLocalizedCompanyField('tagline')}</p>
             </div>
@@ -1155,7 +1471,7 @@
                 <div>
                   <div class="font-bold text-sm text-[#2A1F18]">${item.name}</div>
                   <div class="text-[11px] text-[#6E5C4F]">
-                    ${formatPrice(item.price)} / ${unitLabel}${item.colorName ? ` · ${item.colorName}` : ''}
+                    ${formatPrice(item.price)} / ${unitLabel}${item.variant ? ` · ${item.variant}` : ''}${item.colorName ? ` · ${item.colorName}` : ''}
                   </div>
                 </div>
                 <div class="text-sm font-extrabold text-[#2A1F18] shrink-0">${formatPrice(sum)}</div>
@@ -1182,7 +1498,16 @@
 
           <div class="space-y-2.5">${rowsHtml}</div>
 
-          <div class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-4 space-y-3">
+          <div class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-3.5 space-y-2 text-xs">
+            <div class="flex items-center justify-between">
+              <span class="font-bold text-[#2A1F18]">${t.customerNameLabel} & ${t.phoneLabel}</span>
+              <span class="text-[10px] text-emerald-700 font-semibold">${t.rememberedCustomerHint}</span>
+            </div>
+            <input id="custNameInput" type="text" value="${String(customerInfo.name || '').replace(/"/g, '&quot;')}" placeholder="${t.customerNamePlaceholder}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-xl px-3 py-2 text-[#2A1F18] outline-none" />
+            <input id="custPhoneInput" type="tel" value="${String(customerInfo.phone || '').replace(/"/g, '&quot;')}" placeholder="${t.customerPhonePlaceholder}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-xl px-3 py-2 text-[#2A1F18] outline-none" />
+          </div>
+
+          <div class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-4 space-y-2.5">
             <div class="flex items-center justify-between">
               <span class="text-sm font-semibold text-[#6E5C4F]">${t.totalSum}</span>
               <span class="text-lg font-extrabold text-[#2A1F18]">${formatPrice(grandTotal)}</span>
@@ -1190,6 +1515,10 @@
 
             <button id="sendOrderBtn" type="button" class="w-full py-3 rounded-xl bg-amber-700 hover:bg-amber-800 text-white text-sm font-bold transition">
               ${t.sendOrder}
+            </button>
+
+            <button id="copyOrderBtn" type="button" class="w-full py-2.5 rounded-xl bg-[#F3ECE0] hover:bg-[#E7DCC9] border border-[#E5D8C5] text-[#2A1F18] text-xs font-bold transition">
+              📋 ${t.copyOrder}
             </button>
           </div>
         </div>
@@ -1269,6 +1598,26 @@
         });
       });
 
+      document.querySelectorAll('[data-share-prod]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          shareProductCard(btn.dataset.shareProd);
+        });
+      });
+
+      document.querySelectorAll('[data-select-var]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          selectedVariants[btn.dataset.selectVar] = btn.dataset.varVal;
+          render();
+        });
+      });
+
+      document.querySelectorAll('[data-quick-meter]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          itemQuantities[btn.dataset.quickMeter] = parseFloat(btn.dataset.meterVal);
+          render();
+        });
+      });
+
       document.querySelectorAll('.cat-chip').forEach((btn) => {
         btn.addEventListener('click', () => {
           handleCategoryClick(btn.dataset.cat);
@@ -1306,11 +1655,22 @@
         });
       });
 
+      const custNameInp = document.getElementById('custNameInput');
+      const custPhoneInp = document.getElementById('custPhoneInput');
+      if (custNameInp && custPhoneInp) {
+        const persistCust = () => saveCustomerInfo(custNameInp.value, custPhoneInp.value);
+        custNameInp.addEventListener('input', persistCust);
+        custPhoneInp.addEventListener('input', persistCust);
+      }
+
       const clearCartBtn = document.getElementById('clearCartBtn');
       if (clearCartBtn) clearCartBtn.addEventListener('click', clearCart);
 
       const sendOrderBtn = document.getElementById('sendOrderBtn');
       if (sendOrderBtn) sendOrderBtn.addEventListener('click', sendOrderToSeller);
+
+      const copyOrderBtn = document.getElementById('copyOrderBtn');
+      if (copyOrderBtn) copyOrderBtn.addEventListener('click', copyOrderTextToClipboard);
 
       const goCatalogBtn = document.getElementById('goCatalogFromCartBtn');
       if (goCatalogBtn) {
@@ -1345,6 +1705,16 @@
       } else {
         document.getElementById('exclusiveErr').classList.remove('hidden');
       }
+    });
+
+    document.getElementById('closeLatestNewsBtn').addEventListener('click', () => {
+      document.getElementById('latestNewsModal').classList.add('hidden');
+    });
+
+    document.getElementById('goToNewsTabBtn').addEventListener('click', () => {
+      document.getElementById('latestNewsModal').classList.add('hidden');
+      state.activeTab = 'news';
+      render();
     });
 
     // Reorder Helpers
@@ -1523,6 +1893,9 @@
         const initSale = editingProd && editingProd.salePrice ? editingProd.salePrice : '';
         const initUnit = editingProd ? editingProd.unit : 'meter';
         const initColor = editingProd ? editingProd.colorName : '';
+        const initVariants = editingProd && Array.isArray(editingProd.variants)
+          ? editingProd.variants.join(', ')
+          : (initUnit === 'meter' ? 'Eni 60 sm, Eni 80 sm' : 'L, XL, XXL');
 
         const draftThumbs = draftProductImages.length
           ? `<div class="flex flex-wrap gap-1.5 pt-1">
@@ -1563,6 +1936,7 @@
               </select>
               <input id="newProdColor" type="text" value="${String(initColor).replace(/"/g, '&quot;')}" placeholder="${t.prodColorPlaceholder}" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
             </div>
+            <input id="newProdVariants" type="text" value="${String(initVariants).replace(/"/g, '&quot;')}" placeholder="${t.variantsPlaceholder}" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
             <div class="space-y-1">
               <label class="block text-[11px] font-semibold text-[#6E5C4F]">${t.addImagesLabel}</label>
               <input id="newProdImages" type="file" accept="image/*" multiple class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2 py-1.5 text-[11px]" />
@@ -1662,6 +2036,8 @@
           const saleVal = parseFloat(document.getElementById('newProdSale').value);
           const unit = document.getElementById('newProdUnit').value;
           const colorName = document.getElementById('newProdColor').value.trim();
+          const variantsRaw = document.getElementById('newProdVariants').value || '';
+          const parsedVariants = variantsRaw.split(',').map((s) => s.trim()).filter(Boolean);
           if (!name || isNaN(price) || price <= 0) return;
 
           if (editingProductId) {
@@ -1670,7 +2046,9 @@
               target.name = name; target.categoryId = categoryId; target.subcategoryId = subcategoryId;
               target.price = price; target.salePrice = !isNaN(saleVal) && saleVal > 0 ? saleVal : null;
               target.unit = unit; target.step = unit === 'meter' ? 0.5 : 1;
-              target.colorName = colorName || 'Tabiiy'; target.images = [...draftProductImages];
+              target.colorName = colorName || 'Tabiiy';
+              target.variants = parsedVariants.length ? parsedVariants : (unit === 'meter' ? ['Eni 60 sm', 'Eni 80 sm'] : ['Standart']);
+              target.images = [...draftProductImages];
             }
             editingProductId = null;
           } else {
@@ -1678,7 +2056,9 @@
               id: 'prod-' + Date.now(), categoryId, subcategoryId, name, price,
               salePrice: !isNaN(saleVal) && saleVal > 0 ? saleVal : null,
               unit, step: unit === 'meter' ? 0.5 : 1, colorName: colorName || 'Tabiiy',
-              colorHex: '#B45309', description: '', images: [...draftProductImages], active: true
+              colorHex: '#B45309', description: '',
+              variants: parsedVariants.length ? parsedVariants : (unit === 'meter' ? ['Eni 60 sm', 'Eni 80 sm'] : ['Standart']),
+              images: [...draftProductImages], active: true
             });
           }
           adminProdFormCatId = ''; draftProductImages = [];
@@ -1723,7 +2103,6 @@
         const currentSubs = state.subcategories.filter((s) => s.categoryId === parentCatForSub);
 
         body.innerHTML = `
-          <!-- Katta Bo'limlar Formasi -->
           <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-2">
             <div class="flex items-center justify-between">
               <div class="font-bold text-[#2A1F18]">${editingCat ? t.editCategoryTitle : t.mainCategoriesTitle}</div>
@@ -1745,7 +2124,6 @@
             <button id="addCatBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">${editingCat ? t.saveBtn : t.addBtn}</button>
           </div>
 
-          <!-- Katta Bo'limlar Ro'yxati (Tartiblash bilan) -->
           <div class="space-y-1.5 max-h-36 overflow-y-auto">
             ${state.categories
               .map(
@@ -1764,7 +2142,6 @@
               .join('')}
           </div>
 
-          <!-- Kichik Bo'limlar Formasi & Tartiblash -->
           <div class="p-3 rounded-xl bg-amber-50/60 border border-amber-200 space-y-2">
             <div class="flex items-center justify-between">
               <div class="font-bold text-[#2A1F18]">${editingSub ? t.editSubCategoryTitle : t.subCategoriesTitle}</div>
@@ -1797,7 +2174,6 @@
           </div>
         `;
 
-        // Tartiblash hodisalari
         body.querySelectorAll('[data-move-cat]').forEach(btn => {
           btn.addEventListener('click', () => {
             moveCategory(parseInt(btn.dataset.moveCat, 10), parseInt(btn.dataset.dir, 10));
@@ -2057,8 +2433,10 @@
     });
 
     updateOnboardingTexts();
-    if (!localStorage.getItem(STORAGE_KEYS.onboarded)) {
+    if (isFirstVisit) {
       document.getElementById('onboardingModal').classList.remove('hidden');
+    } else {
+      openLatestNewsModalIfNeeded();
     }
 
     render();
