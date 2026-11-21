@@ -195,24 +195,258 @@
     });
 
     const STORAGE_KEYS = {
-      state: 'adraschi_amaki_state_v2',
-      onboarded: 'adraschi_amaki_onboarded_v2',
-      analytics: 'adraschi_amaki_analytics_v2'
+      state: 'adraschi_amaki_state_v3',
+      onboarded: 'adraschi_amaki_onboarded_v3',
+      analytics: 'adraschi_amaki_analytics_v3'
+    };
+
+    const SUBCATEGORY_TRANSLATIONS = {
+      'sub-atlas': {
+        uz: "Marg'ilon atlasi",
+        kir: 'Марғилон атласи',
+        ru: 'Маргиланский атлас',
+        en: 'Margilan Atlas'
+      },
+      'sub-adras': {
+        uz: 'Tabiiy adras',
+        kir: 'Табиий адрас',
+        ru: 'Натуральный адрас',
+        en: 'Natural Adras'
+      },
+      'sub-beqasam': {
+        uz: 'Beqasam va shoyi',
+        kir: 'Беқасам ва шойи',
+        ru: 'Бекасам и шёлк',
+        en: 'Bekasam & Silk'
+      },
+      'sub-chapan': {
+        uz: "Chopon va to'nlar",
+        kir: 'Чопон ва тўнлар',
+        ru: 'Чапаны и халаты',
+        en: 'Chapans & Robes'
+      },
+      'sub-doppi': {
+        uz: "Do'ppi va belbog'lar",
+        kir: 'Дўппи ва белбоғлар',
+        ru: 'Тюбетейки и пояса',
+        en: 'Doppi & Belts'
+      },
+      'sub-gift': {
+        uz: "To'yona va sovg'a to'plamlari",
+        kir: 'Тўёна ва совға тўпламлари',
+        ru: 'Праздничные и подарочные наборы',
+        en: 'Ceremonial & Gift Sets'
+      }
+    };
+
+    const CATEGORY_TRANSLATIONS = {
+      'cat-fabrics': {
+        uz: 'Matolar',
+        kir: 'Матолар',
+        ru: 'Ткани',
+        en: 'Fabrics'
+      },
+      'cat-clothing': {
+        uz: 'Milliy kiyimlar',
+        kir: 'Миллий кийимлар',
+        ru: 'Национальная одежда',
+        en: 'National Clothing'
+      },
+      'cat-souvenirs': {
+        uz: "Eslatma va sovg'alar",
+        kir: 'Эслатма ва совғалар',
+        ru: 'Сувениры и подарки',
+        en: 'Souvenirs & Gifts'
+      }
+    };
+
+    const PRODUCT_TRANSLATIONS = {
+      'prod-1': {
+        name: {
+          uz: 'Zumrad Oltin Adras',
+          kir: 'Зумрад Олтин Адрас',
+          ru: 'Изумрудно-золотой адрас',
+          en: 'Emerald Gold Adras'
+        },
+        colorName: {
+          uz: 'Zumrad va Oltin',
+          kir: 'Зумрад ва Олтин',
+          ru: 'Изумруд и золото',
+          en: 'Emerald & Gold'
+        },
+        description: {
+          uz: "Qo'lda to'qilgan tabiiy paxta va ipak aralash adras matosi. Ko'ylak va kostyum uchun a'lo tanlov.",
+          kir: 'Қўлда тўқилган табиий пахта ва ипак аралаш адрас матоси. Кўйлак ва костюм учун аъло танлов.',
+          ru: 'Натуральная ткань адрас ручного ткачества из хлопка и шёлка. Отличный выбор для платья и костюма.',
+          en: 'Handwoven natural cotton and silk blend adras fabric. Great choice for dresses and suits.'
+        }
+      },
+      'prod-2': {
+        name: {
+          uz: 'Xon Atlas — Qirmizi Naqsh',
+          kir: 'Хон Атлас — Қирмизи Нақш',
+          ru: 'Хан-атлас — Алый узор',
+          en: 'Khan Atlas — Crimson Pattern'
+        },
+        colorName: {
+          uz: 'Qirmizi va Tilla',
+          kir: 'Қирмизи ва Тилла',
+          ru: 'Алый и золото',
+          en: 'Crimson & Gold'
+        },
+        description: {
+          uz: "Yorqin tusli an'anaviy xon atlas. Bayram va tantanali liboslar uchun.",
+          kir: 'Ёрқин тусли анъанавий хон атлас. Байрам ва тантанали либослар учун.',
+          ru: 'Традиционный хан-атлас ярких оттенков. Для праздников и торжественных нарядов.',
+          en: 'Traditional khan atlas with vibrant hues. Ideal for festive and ceremonial attire.'
+        }
+      },
+      'prod-3': {
+        name: {
+          uz: 'Zarrin Beqasam',
+          kir: 'Заррин Беқасам',
+          ru: 'Золотистый бекасам',
+          en: 'Golden Bekasam'
+        },
+        colorName: {
+          uz: 'Jigar rang va Oltin',
+          kir: 'Жигар ранг ва Олтин',
+          ru: 'Коричневый и золото',
+          en: 'Brown & Gold'
+        },
+        description: {
+          uz: 'Mustahkam va nafis beqasam mato. Milliy chopon va liboslar tikishga mos.',
+          kir: 'Мустаҳкам ва нафис беқасам мато. Миллий чопон ва либослар тикишга мос.',
+          ru: 'Прочная и изысканная ткань бекасам. Подходит для пошива национальных чапанов и одежды.',
+          en: 'Durable and refined bekasam fabric. Suitable for stitching national chapans and garments.'
+        }
+      },
+      'prod-4': {
+        name: {
+          uz: 'Adras Astarli Milliy Chopon',
+          kir: 'Адрас Астарли Миллий Чопон',
+          ru: 'Национальный чапан на подкладке из адраса',
+          en: 'National Chapan with Adras Lining'
+        },
+        colorName: {
+          uz: "To'q ko'k va Tilla",
+          kir: 'Тўқ кўк ва Тилла',
+          ru: 'Тёмно-синий и золото',
+          en: 'Deep Blue & Gold'
+        },
+        description: {
+          uz: 'Ichki qismi adras bilan ishlangan, qoʻl mehnati bilan bezatilgan milliy chopon.',
+          kir: 'Ички қисми адрас билан ишланган, қўл меҳнати билан безатилган миллий чопон.',
+          ru: 'Национальный чапан ручной работы с подкладкой из адраса.',
+          en: 'Hand-embellished national chapan featuring an adras inner lining.'
+        }
+      },
+      'prod-5': {
+        name: {
+          uz: "Chust Kashta Do'ppi",
+          kir: 'Чуст Кашта Дўппи',
+          ru: 'Чустская вышитая тюбетейка',
+          en: 'Chust Embroidered Doppi'
+        },
+        colorName: {
+          uz: 'Oq-qora kashta',
+          kir: 'Оқ-қора кашта',
+          ru: 'Чёрно-белая вышивка',
+          en: 'Black & White Embroidery'
+        },
+        description: {
+          uz: "An'anaviy Chust uslubida tikilgan, yengil va qulay milliy do'ppi.",
+          kir: 'Анъанавий Чуст услубида тикилган, енгил ва қулай миллий дўппи.',
+          ru: 'Лёгкая и удобная национальная тюбетейка в традиционном чустском стиле.',
+          en: 'Lightweight and comfortable national skullcap stitched in traditional Chust style.'
+        }
+      },
+      'prod-6': {
+        name: {
+          uz: "Sovg'alik Mato va Do'ppi To'plami",
+          kir: 'Совғалик Мато ва Дўппи Тўплами',
+          ru: 'Подарочный набор ткани и тюбетейки',
+          en: 'Gift Fabric & Doppi Set'
+        },
+        colorName: {
+          uz: 'Firuzarang va Tilla',
+          kir: 'Фирузаранг ва Тилла',
+          ru: 'Бирюзовый и золото',
+          en: 'Turquoise & Gold'
+        },
+        description: {
+          uz: "Mehmonlar va yaqinlar uchun maxsus qutida tayyorlangan milliy sovg'a to'plami.",
+          kir: 'Меҳмонлар ва яқинлар учун махсус қутида тайёрланган миллий совға тўплами.',
+          ru: 'Национальный подарочный набор в специальной коробке для гостей и близких.',
+          en: 'National gift set in a special box prepared for guests and loved ones.'
+        }
+      }
+    };
+
+    const NEWS_TRANSLATIONS = {
+      'news-1': {
+        badge: { uz: 'Yangi material', kir: 'Янги материал', ru: 'Новый материал', en: 'New Material' },
+        title: {
+          uz: 'Yangi Zumrad va Tillarang Adras partiyasi keldi!',
+          kir: 'Янги Зумрад ва Тилларанг Адрас партияси келди!',
+          ru: 'Поступила новая партия изумрудно-золотого адраса!',
+          en: 'New batch of Emerald & Gold Adras has arrived!'
+        },
+        text: {
+          uz: "Marg'ilondan yangi to'qilgan adras va atlas matolarimiz yetib keldi. Ranglari tiniq, sifati a'lo darajada.",
+          kir: 'Марғилондан янги тўқилган адрас ва атлас матоларимиз етиб келди. Ранглари тиниқ, сифати аъло даражада.',
+          ru: 'Прибыли свежесотканные ткани адрас и атлас из Маргилана. Яркие цвета и отличное качество.',
+          en: 'Freshly woven adras and atlas fabrics from Margilan have arrived with vivid colors and top quality.'
+        },
+        colorName: { uz: 'Zumrad yashil / Tillarang', kir: 'Зумрад яшил / Тилларанг', ru: 'Изумрудно-зелёный / Золотой', en: 'Emerald Green / Gold' }
+      },
+      'news-2': {
+        badge: { uz: 'Bayram tabrigi', kir: 'Байрам табриги', ru: 'Праздничное поздравление', en: 'Holiday Greeting' },
+        title: {
+          uz: 'Aziz yurtdoshlar va qadrli xaridorlar!',
+          kir: 'Азиз юртдошлар ва қадрли харидорлар!',
+          ru: 'Дорогие соотечественники и уважаемые покупатели!',
+          en: 'Dear compatriots and valued customers!'
+        },
+        text: {
+          uz: "Adraschi Amaki jamoasi sizlarni barcha qutlug' ayyomlar bilan samimiy muborakbod etadi. Xonadoningizga fayz-u baraka tilaymiz!",
+          kir: 'Adraschi Amaki жамоаси сизларни барча қутлуғ айёмлар билан самимий муборакбод этади. Хонадонингизга файз-у барака тилаймиз!',
+          ru: 'Команда Adraschi Amaki искренне поздравляет вас со всеми светлыми праздниками. Желаем вашему дому мира и благополучия!',
+          en: 'The Adraschi Amaki team warmly congratulates you on all auspicious holidays and wishes blessings to your home.'
+        },
+        colorName: { uz: 'Tilla rang', kir: 'Тилла ранг', ru: 'Золотой', en: 'Gold' }
+      },
+      'news-3': {
+        badge: { uz: 'Aksiya', kir: 'Акция', ru: 'Акция', en: 'Promotion' },
+        title: {
+          uz: 'Tanlangan matolar va choponlarga maxsus narxlar',
+          kir: 'Танланган матолар ва чопонларга махсус нархлар',
+          ru: 'Специальные цены на выбранные ткани и чапаны',
+          en: 'Special prices on selected fabrics and chapans'
+        },
+        text: {
+          uz: 'Katalogdagi qizil narx bilan belgilangan mahsulotlarga chegirmalar amal qilmoqda. Buyurtmani savatcha orqali tez yuboring.',
+          kir: 'Каталогдаги қизил нарх билан белгиланган маҳсулотларга чегирмалар амал қилмоқда. Буюртмани саватча орқали тез юборинг.',
+          ru: 'На товары с красной ценой в каталоге действуют скидки. Отправьте заказ быстро через корзину.',
+          en: 'Discounts apply to items marked with a red price in the catalog. Send your order quickly via the cart.'
+        },
+        colorName: { uz: 'Qirmizi', kir: 'Қирмизи', ru: 'Алый', en: 'Crimson' }
+      }
     };
 
     const initialCategories = [
       { id: 'cat-fabrics', name: 'Matolar', icon: '🧵' },
       { id: 'cat-clothing', name: 'Milliy kiyimlar', icon: '👘' },
-      { id: 'cat-souvenirs', name: 'Eslatma va sovgʻalar', icon: '🎁' }
+      { id: 'cat-souvenirs', name: "Eslatma va sovg'alar", icon: '🎁' }
     ];
 
     const initialSubcategories = [
-      { id: 'sub-atlas', categoryId: 'cat-fabrics', name: 'Margʻilon Atlasi' },
-      { id: 'sub-adras', categoryId: 'cat-fabrics', name: 'Tabiiy Adras' },
-      { id: 'sub-beqasam', categoryId: 'cat-fabrics', name: 'Beqasam va Shoyi' },
-      { id: 'sub-chapan', categoryId: 'cat-clothing', name: 'Chopon va Toʻnlar' },
-      { id: 'sub-doppi', categoryId: 'cat-clothing', name: 'Doʻppi va Belbogʻlar' },
-      { id: 'sub-gift', categoryId: 'cat-souvenirs', name: 'Toʻyona va Sovgʻa toʻplamlari' }
+      { id: 'sub-atlas', categoryId: 'cat-fabrics', name: "Marg'ilon atlasi" },
+      { id: 'sub-adras', categoryId: 'cat-fabrics', name: 'Tabiiy adras' },
+      { id: 'sub-beqasam', categoryId: 'cat-fabrics', name: 'Beqasam va shoyi' },
+      { id: 'sub-chapan', categoryId: 'cat-clothing', name: "Chopon va to'nlar" },
+      { id: 'sub-doppi', categoryId: 'cat-clothing', name: "Do'ppi va belbog'lar" },
+      { id: 'sub-gift', categoryId: 'cat-souvenirs', name: "To'yona va sovg'a to'plamlari" }
     ];
 
     const initialProducts = [
@@ -227,7 +461,8 @@
         step: 0.5,
         colorName: 'Zumrad va Oltin',
         colorHex: '#059669',
-        description: 'Qoʻlda toʻqilgan tabiiy paxta va ipak aralash adras matosi. Koʻylak va kostyum uchun aʼlo tanlov.',
+        description: "Qo'lda to'qilgan tabiiy paxta va ipak aralash adras matosi. Ko'ylak va kostyum uchun a'lo tanlov.",
+        images: [],
         active: true
       },
       {
@@ -241,7 +476,8 @@
         step: 0.5,
         colorName: 'Qirmizi va Tilla',
         colorHex: '#DC2626',
-        description: 'Yorqin tusli anʼanaviy xon atlas. Bayram va tantanali liboslar uchun.',
+        description: "Yorqin tusli an'anaviy xon atlas. Bayram va tantanali liboslar uchun.",
+        images: [],
         active: true
       },
       {
@@ -255,7 +491,8 @@
         step: 0.5,
         colorName: 'Jigar rang va Oltin',
         colorHex: '#B45309',
-        description: 'Mustahkam va nafis beqasam mato. Milliy chopon va liboslar tikishga mos.',
+        description: "Mustahkam va nafis beqasam mato. Milliy chopon va liboslar tikishga mos.",
+        images: [],
         active: true
       },
       {
@@ -267,37 +504,40 @@
         salePrice: 580000,
         unit: 'piece',
         step: 1,
-        colorName: 'Toʻq koʻk va Tilla',
+        colorName: "To'q ko'k va Tilla",
         colorHex: '#1E3A8A',
-        description: 'Ichki qismi adras bilan ishlangan, qoʻl mehnati bilan bezatilgan milliy chopon.',
+        description: "Ichki qismi adras bilan ishlangan, qo'l mehnati bilan bezatilgan milliy chopon.",
+        images: [],
         active: true
       },
       {
         id: 'prod-5',
         categoryId: 'cat-clothing',
         subcategoryId: 'sub-doppi',
-        name: 'Chust Kashta Doʻppi',
+        name: "Chust Kashta Do'ppi",
         price: 75000,
         salePrice: null,
         unit: 'piece',
         step: 1,
         colorName: 'Oq-qora kashta',
         colorHex: '#3F3F46',
-        description: 'Anʼanaviy Chust uslubida tikilgan, yengil va qulay milliy doʻppi.',
+        description: "An'anaviy Chust uslubida tikilgan, yengil va qulay milliy do'ppi.",
+        images: [],
         active: true
       },
       {
         id: 'prod-6',
         categoryId: 'cat-souvenirs',
         subcategoryId: 'sub-gift',
-        name: 'Sovgʻalik Mato va Doʻppi Toʻplami',
+        name: "Sovg'alik Mato va Do'ppi To'plami",
         price: 340000,
         salePrice: 295000,
         unit: 'piece',
         step: 1,
         colorName: 'Firuzarang va Tilla',
         colorHex: '#0D9488',
-        description: 'Mehmonlar va yaqinlar uchun maxsus qutida tayyorlangan milliy sovgʻa toʻplami.',
+        description: "Mehmonlar va yaqinlar uchun maxsus qutida tayyorlangan milliy sovg'a to'plami.",
+        images: [],
         active: true
       }
     ];
@@ -308,7 +548,7 @@
         type: 'new_material',
         badge: 'Yangi material',
         title: 'Yangi Zumrad va Tillarang Adras partiyasi keldi!',
-        text: 'Margʻilondan yangi toʻqilgan adras va atlas matolarimiz yetib keldi. Ranglari tiniq, sifati aʼlo darajada.',
+        text: "Marg'ilondan yangi to'qilgan adras va atlas matolarimiz yetib keldi. Ranglari tiniq, sifati a'lo darajada.",
         colorName: 'Zumrad yashil / Tillarang',
         colorHex: '#059669',
         date: '2026-11-20'
@@ -318,7 +558,7 @@
         type: 'holiday',
         badge: 'Bayram tabrigi',
         title: 'Aziz yurtdoshlar va qadrli xaridorlar!',
-        text: 'Adraschi Amaki jamoasi sizlarni barcha qutlugʻ ayyomlar bilan samimiy muborakbod etadi. Xonadoningizga fayz-u baraka tilaymiz!',
+        text: "Adraschi Amaki jamoasi sizlarni barcha qutlug' ayyomlar bilan samimiy muborakbod etadi. Xonadoningizga fayz-u baraka tilaymiz!",
         colorName: 'Tilla rang',
         colorHex: '#D97706',
         date: '2026-11-15'
@@ -328,7 +568,7 @@
         type: 'promo',
         badge: 'Aksiya',
         title: 'Tanlangan matolar va choponlarga maxsus narxlar',
-        text: 'Katalogdagi qizil narx bilan belgilangan mahsulotlarga chegirmalar amal qilmoqda. Buyurtmani savatcha orqali tez yuboring.',
+        text: "Katalogdagi qizil narx bilan belgilangan mahsulotlarga chegirmalar amal qilmoqda. Buyurtmani savatcha orqali tez yuboring.",
         colorName: 'Qirmizi',
         colorHex: '#DC2626',
         date: '2026-11-10'
@@ -348,11 +588,11 @@
       cart: [],
       company: {
         name: 'Adraschi Amaki',
-        tagline: 'Anʼanaviy oʻzbek matolari, adras, atlas va milliy liboslar ustaxonasi',
+        tagline: "An'anaviy o'zbek matolari, adras, atlas va milliy liboslar ustaxonasi",
         phone: '97-788-88-84',
         telegram: '@adraschi',
         address: 'Toshkent shahar, Chorsu bozori',
-        deliveryInfo: 'Toshkent shahri ichida va butun Oʻzbekiston boʻylab tezkor dostavka xizmati mavjud.'
+        deliveryInfo: "Toshkent shahri ichida va butun O'zbekiston bo'ylab tezkor dostavka xizmati mavjud."
       }
     };
 
@@ -367,11 +607,11 @@
         all: 'Barchasi',
         meterUnit: 'metr',
         pieceUnit: 'dona',
-        addToCart: 'Savatchaga qoʻshish',
-        addedToast: 'Savatchaga qoʻshildi',
-        emptyCart: 'Savatchangiz hozircha boʻsh',
+        addToCart: "Savatchaga qo'shish",
+        addedToast: "Savatchaga qo'shildi",
+        emptyCart: "Savatchangiz hozircha bo'sh",
         emptyCartDesc: 'Katalogdan mato yoki kiyim tanlab, miqdorini belgilang.',
-        goCatalog: 'Katalogga oʻtish',
+        goCatalog: "Katalogga o'tish",
         totalSum: 'Jami summa',
         sendOrder: 'Sotuvchiga buyurtma yuborish',
         clearCart: 'Savatchani tozalash',
@@ -379,9 +619,15 @@
         telegramLabel: 'Telegram lichka',
         addressLabel: 'Manzil',
         deliveryLabel: 'Yetkazib berish (Dostavka)',
-        helpGuide: 'Yoʻriqnomani koʻrish',
-        noProducts: 'Bu boʻlimda hozircha mahsulot topilmadi.',
-        colorLabel: 'Rangi'
+        helpGuide: "Yo'riqnomani ko'rish",
+        noProducts: "Bu bo'limda hozircha mahsulot topilmadi.",
+        colorLabel: 'Rangi',
+        sendSectionImg: "Bo'lim rasmini yuborish",
+        sendItemImg: 'Rasmni yuborish',
+        imgSentToast: 'Rasm yuborishga tayyorlandi',
+        addImagesLabel: "Mahsulot rasmlari (xohlagancha tanlang)",
+        imagesSelectedCount: 'ta rasm tanlandi',
+        currencySuffix: "so'm"
       },
       kir: {
         brandSub: 'Миллий матолар ва кийимлар',
@@ -407,7 +653,13 @@
         deliveryLabel: 'Етказиб бериш (Доставка)',
         helpGuide: 'Йўриқномани кўриш',
         noProducts: 'Бу бўлимда ҳозирча маҳсулот топилмади.',
-        colorLabel: 'Ранги'
+        colorLabel: 'Ранги',
+        sendSectionImg: 'Бўлим расмини юбориш',
+        sendItemImg: 'Расмни юбориш',
+        imgSentToast: 'Расм юборишга тайёрланди',
+        addImagesLabel: 'Маҳсулот расмлари (хоҳлаганча танланг)',
+        imagesSelectedCount: 'та расм танланди',
+        currencySuffix: 'сўм'
       },
       ru: {
         brandSub: 'Национальные ткани и одежда',
@@ -433,7 +685,13 @@
         deliveryLabel: 'Доставка',
         helpGuide: 'Открыть инструкцию',
         noProducts: 'В этом разделе пока нет товаров.',
-        colorLabel: 'Цвет'
+        colorLabel: 'Цвет',
+        sendSectionImg: 'Отправить фото раздела',
+        sendItemImg: 'Отправить фото',
+        imgSentToast: 'Фото готово к отправке',
+        addImagesLabel: 'Фото товара (можно выбрать сколько угодно)',
+        imagesSelectedCount: 'фото выбрано',
+        currencySuffix: 'сум'
       },
       en: {
         brandSub: 'National fabrics & apparel',
@@ -459,9 +717,69 @@
         deliveryLabel: 'Delivery',
         helpGuide: 'Show guide',
         noProducts: 'No items found in this section.',
-        colorLabel: 'Color'
+        colorLabel: 'Color',
+        sendSectionImg: 'Send section image',
+        sendItemImg: 'Send image',
+        imgSentToast: 'Image ready to send',
+        addImagesLabel: 'Product images (select as many as you want)',
+        imagesSelectedCount: 'images selected',
+        currencySuffix: 'UZS'
       }
     };
+
+    function getLocalizedCategoryName(cat, lang = state.lang) {
+      if (!cat) return '';
+      if (CATEGORY_TRANSLATIONS[cat.id] && CATEGORY_TRANSLATIONS[cat.id][lang]) {
+        return CATEGORY_TRANSLATIONS[cat.id][lang];
+      }
+      return cat.name;
+    }
+
+    function getLocalizedSubcategoryName(sub, lang = state.lang) {
+      if (!sub) return '';
+      if (SUBCATEGORY_TRANSLATIONS[sub.id] && SUBCATEGORY_TRANSLATIONS[sub.id][lang]) {
+        return SUBCATEGORY_TRANSLATIONS[sub.id][lang];
+      }
+      const lower = (sub.name || '').toLowerCase();
+      if (lower.includes('atlas')) return SUBCATEGORY_TRANSLATIONS['sub-atlas'][lang] || sub.name;
+      if (lower.includes('adras')) return SUBCATEGORY_TRANSLATIONS['sub-adras'][lang] || sub.name;
+      if (lower.includes('beqasam') || lower.includes('shoyi')) return SUBCATEGORY_TRANSLATIONS['sub-beqasam'][lang] || sub.name;
+      if (lower.includes('chopon') || lower.includes("to'n")) return SUBCATEGORY_TRANSLATIONS['sub-chapan'][lang] || sub.name;
+      if (lower.includes("do'ppi") || lower.includes("belbog'")) return SUBCATEGORY_TRANSLATIONS['sub-doppi'][lang] || sub.name;
+      if (lower.includes("to'yona") || lower.includes("sovg'a")) return SUBCATEGORY_TRANSLATIONS['sub-gift'][lang] || sub.name;
+      return sub.name;
+    }
+
+    function getLocalizedProductField(prod, field, lang = state.lang) {
+      if (!prod) return '';
+      const tr = PRODUCT_TRANSLATIONS[prod.id];
+      if (tr && tr[field] && tr[field][lang]) {
+        return tr[field][lang];
+      }
+      return prod[field] || '';
+    }
+
+    function getLocalizedNewsField(item, field, lang = state.lang) {
+      if (!item) return '';
+      const tr = NEWS_TRANSLATIONS[item.id];
+      if (tr && tr[field] && tr[field][lang]) {
+        return tr[field][lang];
+      }
+      return item[field] || '';
+    }
+
+    function normalizeSubcategories(list) {
+      const base = Array.isArray(list) && list.length ? list : structuredClone(initialSubcategories);
+      return base.map((s) => {
+        if (s.id === 'sub-atlas') return { ...s, name: "Marg'ilon atlasi" };
+        if (s.id === 'sub-adras') return { ...s, name: 'Tabiiy adras' };
+        if (s.id === 'sub-beqasam') return { ...s, name: 'Beqasam va shoyi' };
+        if (s.id === 'sub-chapan') return { ...s, name: "Chopon va to'nlar" };
+        if (s.id === 'sub-doppi') return { ...s, name: "Do'ppi va belbog'lar" };
+        if (s.id === 'sub-gift') return { ...s, name: "To'yona va sovg'a to'plamlari" };
+        return s;
+      });
+    }
 
     function loadState() {
       try {
@@ -472,8 +790,10 @@
           ...structuredClone(defaultState),
           ...parsed,
           categories: Array.isArray(parsed.categories) && parsed.categories.length ? parsed.categories : structuredClone(initialCategories),
-          subcategories: Array.isArray(parsed.subcategories) && parsed.subcategories.length ? parsed.subcategories : structuredClone(initialSubcategories),
-          products: Array.isArray(parsed.products) && parsed.products.length ? parsed.products : structuredClone(initialProducts),
+          subcategories: normalizeSubcategories(parsed.subcategories),
+          products: Array.isArray(parsed.products) && parsed.products.length
+            ? parsed.products.map((p) => ({ ...p, images: Array.isArray(p.images) ? p.images : [] }))
+            : structuredClone(initialProducts),
           news: Array.isArray(parsed.news) ? parsed.news : structuredClone(initialNews),
           cart: Array.isArray(parsed.cart) ? parsed.cart : [],
           company: {
@@ -508,9 +828,14 @@
     let adminUnlocked = false;
     let adminTab = 'products';
     let itemQuantities = {};
+    let draftProductImages = [];
 
     function saveState() {
-      localStorage.setItem(STORAGE_KEYS.state, JSON.stringify(state));
+      try {
+        localStorage.setItem(STORAGE_KEYS.state, JSON.stringify(state));
+      } catch (e) {
+        showToast("Xotira to'ldi, kamroq rasm yuklang");
+      }
     }
 
     function saveAnalytics() {
@@ -528,7 +853,7 @@
     }
 
     function formatPrice(num) {
-      return Number(num || 0).toLocaleString('ru-RU').replace(/,/g, ' ') + ' soʻm';
+      return Number(num || 0).toLocaleString('ru-RU').replace(/,/g, ' ') + ' ' + i18n[state.lang].currencySuffix;
     }
 
     function effectivePrice(prod) {
@@ -573,16 +898,18 @@
       const prod = state.products.find((p) => p.id === prodId);
       if (!prod) return;
       const qty = getQtyForProduct(prod);
+      const pName = getLocalizedProductField(prod, 'name');
+      const pColor = getLocalizedProductField(prod, 'colorName');
       const existing = state.cart.find((c) => c.productId === prodId);
       if (existing) {
         existing.qty = Math.round((existing.qty + qty) * 100) / 100;
       } else {
         state.cart.push({
           productId: prod.id,
-          name: prod.name,
+          name: pName,
           unit: prod.unit,
           price: effectivePrice(prod),
-          colorName: prod.colorName || '',
+          colorName: pColor,
           qty
         });
       }
@@ -611,6 +938,117 @@
       render();
     }
 
+    function buildShareCardDataUrl(title, subtitle, accentHex) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 800;
+      canvas.height = 600;
+      const ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = '#FAF6F0';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.strokeStyle = '#E5D8C5';
+      ctx.lineWidth = 8;
+      ctx.strokeRect(24, 24, canvas.width - 48, canvas.height - 48);
+
+      ctx.fillStyle = accentHex || '#B45309';
+      ctx.fillRect(60, 70, 140, 10);
+
+      ctx.fillStyle = '#6E5C4F';
+      ctx.font = 'bold 26px Inter, sans-serif';
+      ctx.fillText(state.company.name || 'Adraschi Amaki', 60, 125);
+
+      ctx.fillStyle = '#2A1F18';
+      ctx.font = 'bold 44px Georgia, serif';
+      const words = String(title || '').split(' ');
+      let line = '';
+      let y = 220;
+      for (const w of words) {
+        const test = line ? `${line} ${w}` : w;
+        if (ctx.measureText(test).width > 680) {
+          ctx.fillText(line, 60, y);
+          line = w;
+          y += 56;
+        } else {
+          line = test;
+        }
+      }
+      if (line) ctx.fillText(line, 60, y);
+
+      if (subtitle) {
+        ctx.fillStyle = '#6E5C4F';
+        ctx.font = '24px Inter, sans-serif';
+        ctx.fillText(String(subtitle).slice(0, 70), 60, y + 65);
+      }
+
+      return canvas.toDataURL('image/png');
+    }
+
+    async function sendImagePayload(imageSrc, title, captionText) {
+      const finalSrc = imageSrc || buildShareCardDataUrl(title, captionText, '#B45309');
+      try {
+        const res = await fetch(finalSrc);
+        const blob = await res.blob();
+        const file = new File([blob], 'adraschi-amaki.png', { type: blob.type || 'image/png' });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] }) && typeof navigator.share === 'function') {
+          await navigator.share({
+            title: title || state.company.name,
+            text: captionText || title,
+            files: [file]
+          });
+          showToast(i18n[state.lang].imgSentToast);
+          return;
+        }
+      } catch (e) {}
+
+      const link = document.createElement('a');
+      link.href = finalSrc;
+      link.download = `${(title || 'rasm').toLowerCase().replace(/[^a-z0-9]+/gi, '-')}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      const cleanHandle = (state.company.telegram || '@adraschi').replace(/^@/, '');
+      const tgUrl = `https://t.me/${encodeURIComponent(cleanHandle)}?text=${encodeURIComponent(captionText || title || '')}`;
+      if (tg && typeof tg.openTelegramLink === 'function') {
+        tg.openTelegramLink(tgUrl);
+      }
+      showToast(i18n[state.lang].imgSentToast);
+    }
+
+    function sendSectionImage() {
+      const t = i18n[state.lang];
+      const activeSub = state.subcategories.find((s) => s.id === state.selectedSubcategoryId);
+      const activeCat = state.categories.find((c) => c.id === state.selectedCategoryId);
+      const sectionTitle = activeSub
+        ? getLocalizedSubcategoryName(activeSub)
+        : activeCat
+        ? getLocalizedCategoryName(activeCat)
+        : t.all;
+
+      const firstWithImg = state.products.find(
+        (p) =>
+          (state.selectedSubcategoryId === 'all' || p.subcategoryId === state.selectedSubcategoryId) &&
+          (state.selectedCategoryId === 'all' || p.categoryId === state.selectedCategoryId) &&
+          Array.isArray(p.images) &&
+          p.images.length > 0
+      );
+
+      const imgSrc = firstWithImg ? firstWithImg.images[0] : null;
+      sendImagePayload(imgSrc, sectionTitle, `${state.company.name} — ${sectionTitle}`);
+    }
+
+    function sendProductImage(prodId, imgIndex = 0) {
+      const prod = state.products.find((p) => p.id === prodId);
+      if (!prod) return;
+      const pName = getLocalizedProductField(prod, 'name');
+      const pColor = getLocalizedProductField(prod, 'colorName');
+      const imgSrc = Array.isArray(prod.images) && prod.images[imgIndex] ? prod.images[imgIndex] : null;
+      const caption = `${pName}${pColor ? ` (${pColor})` : ''} — ${formatPrice(effectivePrice(prod))}`;
+      sendImagePayload(imgSrc, pName, caption);
+    }
+
     function sendOrderToSeller() {
       if (!state.cart.length) return;
       const t = i18n[state.lang];
@@ -630,7 +1068,7 @@
         ...lines,
         '',
         `💰 *Jami:* ${formatPrice(total)}`,
-        `📍 *Doʻkon:* ${state.company.address}`,
+        `📍 *Do'kon:* ${state.company.address}`,
         `🚚 *Dostavka:* ${state.company.deliveryInfo}`,
         `📞 *Aloqa:* ${state.company.phone}`
       ].join('\n');
@@ -693,11 +1131,14 @@
         const matchCat = state.selectedCategoryId === 'all' || p.categoryId === state.selectedCategoryId;
         const matchSub = state.selectedSubcategoryId === 'all' || p.subcategoryId === state.selectedSubcategoryId;
         const q = (state.searchQuery || '').trim().toLowerCase();
+        const pName = getLocalizedProductField(p, 'name').toLowerCase();
+        const pDesc = getLocalizedProductField(p, 'description').toLowerCase();
+        const pColor = getLocalizedProductField(p, 'colorName').toLowerCase();
         const matchQuery =
           !q ||
-          p.name.toLowerCase().includes(q) ||
-          (p.description || '').toLowerCase().includes(q) ||
-          (p.colorName || '').toLowerCase().includes(q);
+          pName.includes(q) ||
+          pDesc.includes(q) ||
+          pColor.includes(q);
         return matchCat && matchSub && matchQuery;
       });
 
@@ -717,7 +1158,7 @@
             state.selectedCategoryId === c.id
               ? 'bg-amber-700 text-white border-amber-700'
               : 'bg-[#FFFDF9] text-[#2A1F18] border-[#E5D8C5]'
-          }"><span>${c.icon || '🏷️'}</span><span>${c.name}</span></button>`
+          }"><span>${c.icon || '🏷️'}</span><span>${getLocalizedCategoryName(c)}</span></button>`
         )
       ].join('');
 
@@ -734,7 +1175,7 @@
                   state.selectedSubcategoryId === s.id
                     ? 'bg-[#2A1F18] text-[#FFFDF9] border-[#2A1F18]'
                     : 'bg-[#F3ECE0] text-[#6E5C4F] border-[#E5D8C5]'
-                }">${s.name}</button>`
+                }">${getLocalizedSubcategoryName(s)}</button>`
               )
               .join('')}
           </div>`
@@ -748,27 +1189,51 @@
               const step = p.unit === 'meter' ? (Number(p.step) || 0.5) : 1;
               const qty = getQtyForProduct(p);
               const lineTotal = Math.round(qty * effectivePrice(p));
+              const pName = getLocalizedProductField(p, 'name');
+              const pColor = getLocalizedProductField(p, 'colorName');
+              const pDesc = getLocalizedProductField(p, 'description');
+              const imgs = Array.isArray(p.images) ? p.images : [];
+
+              const galleryHtml = imgs.length
+                ? `<div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                    ${imgs
+                      .map(
+                        (src, idx) => `<div class="relative shrink-0 w-24 h-24 rounded-xl overflow-hidden border border-[#E5D8C5] bg-[#F3ECE0]">
+                          <img src="${src}" alt="${pName}" class="w-full h-full object-cover" />
+                          <button type="button" data-send-prod-img="${p.id}" data-img-idx="${idx}" class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded-md bg-[#2A1F18]/80 text-white text-[10px] font-bold">📤</button>
+                        </div>`
+                      )
+                      .join('')}
+                  </div>`
+                : '';
 
               return `
                 <article class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-4 shadow-2xs space-y-3">
                   <div class="flex items-start justify-between gap-2">
                     <div>
-                      <h3 class="font-bold text-base text-[#2A1F18] leading-snug">${p.name}</h3>
+                      <h3 class="font-bold text-base text-[#2A1F18] leading-snug">${pName}</h3>
                       ${
-                        p.colorName
+                        pColor
                           ? `<div class="inline-flex items-center gap-1.5 mt-1 text-xs text-[#6E5C4F]">
                                <span class="w-3 h-3 rounded-full border border-black/15 inline-block" style="background:${p.colorHex || '#B45309'}"></span>
-                               <span>${t.colorLabel}: ${p.colorName}</span>
+                               <span>${t.colorLabel}: ${pColor}</span>
                              </div>`
                           : ''
                       }
                     </div>
-                    <span class="px-2.5 py-1 rounded-lg bg-[#F3ECE0] text-[#6E5C4F] text-[11px] font-semibold shrink-0">
-                      1 ${unitLabel}
-                    </span>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                      <button type="button" data-send-prod-img="${p.id}" data-img-idx="0" class="px-2 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-900 text-[11px] font-semibold">
+                        📤 ${t.sendItemImg}
+                      </button>
+                      <span class="px-2.5 py-1 rounded-lg bg-[#F3ECE0] text-[#6E5C4F] text-[11px] font-semibold">
+                        1 ${unitLabel}
+                      </span>
+                    </div>
                   </div>
 
-                  ${p.description ? `<p class="text-xs text-[#6E5C4F] leading-relaxed">${p.description}</p>` : ''}
+                  ${galleryHtml}
+
+                  ${pDesc ? `<p class="text-xs text-[#6E5C4F] leading-relaxed">${pDesc}</p>` : ''}
 
                   <div class="flex items-baseline gap-2 pt-0.5">
                     ${
@@ -804,8 +1269,15 @@
 
       return `
         <div class="ikat-pattern rounded-2xl p-4 border border-[#E5D8C5]">
-          <div class="font-display text-lg font-bold text-[#2A1F18]">${state.company.name}</div>
-          <p class="text-xs text-[#6E5C4F] mt-0.5">${state.company.tagline}</p>
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <div class="font-display text-lg font-bold text-[#2A1F18]">${state.company.name}</div>
+              <p class="text-xs text-[#6E5C4F] mt-0.5">${state.company.tagline}</p>
+            </div>
+            <button id="sendSectionImgBtn" type="button" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-[#FFFDF9] hover:bg-[#F3ECE0] border border-[#E5D8C5] text-[#2A1F18] text-[11px] font-bold transition">
+              📤 ${t.sendSectionImg}
+            </button>
+          </div>
           <div class="mt-3 relative">
             <input id="searchInput" type="text" value="${state.searchQuery.replace(/"/g, '&quot;')}" placeholder="${t.searchPlaceholder}" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-xl px-3.5 py-2.5 text-xs text-[#2A1F18] placeholder-[#6E5C4F]/70 outline-none focus:border-amber-700" />
           </div>
@@ -827,14 +1299,14 @@
     function renderNews() {
       const t = i18n[state.lang];
       if (!state.news || !state.news.length) {
-        return `<div class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-6 text-center text-xs text-[#6E5C4F]">Hozircha yangiliklar yoʻq.</div>`;
+        return `<div class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-6 text-center text-xs text-[#6E5C4F]">Hozircha yangiliklar yo'q.</div>`;
       }
 
       return `
         <div class="space-y-3">
           <div class="flex items-center justify-between">
             <h2 class="font-display text-lg font-bold text-[#2A1F18]">${t.news}</h2>
-            <span class="text-xs text-[#6E5C4F]">${state.news.length} ta eʼlon</span>
+            <span class="text-xs text-[#6E5C4F]">${state.news.length} ta e'lon</span>
           </div>
           ${state.news
             .map((item) => {
@@ -845,23 +1317,28 @@
                   ? 'bg-red-50 text-[#DC2626] border-red-200'
                   : 'bg-emerald-50 text-emerald-800 border-emerald-200';
 
+              const badgeText = getLocalizedNewsField(item, 'badge') || 'Yangilik';
+              const titleText = getLocalizedNewsField(item, 'title');
+              const bodyText = getLocalizedNewsField(item, 'text');
+              const colorText = getLocalizedNewsField(item, 'colorName');
+
               return `
                 <article class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-4 space-y-2.5">
                   <div class="flex items-center justify-between gap-2">
                     <span class="px-2.5 py-1 rounded-full text-[11px] font-bold border ${badgeColor}">
-                      ${item.badge || 'Yangilik'}
+                      ${badgeText}
                     </span>
                     <span class="text-[11px] text-[#6E5C4F]">${item.date || ''}</span>
                   </div>
 
-                  <h3 class="font-bold text-sm text-[#2A1F18] leading-snug">${item.title}</h3>
-                  <p class="text-xs text-[#6E5C4F] leading-relaxed">${item.text}</p>
+                  <h3 class="font-bold text-sm text-[#2A1F18] leading-snug">${titleText}</h3>
+                  <p class="text-xs text-[#6E5C4F] leading-relaxed">${bodyText}</p>
 
                   ${
-                    item.colorName
+                    colorText
                       ? `<div class="pt-2 border-t border-[#F3ECE0] flex items-center gap-2 text-xs font-medium text-[#2A1F18]">
                            <span class="w-4 h-4 rounded-full border border-black/20 shrink-0" style="background:${item.colorHex || '#059669'}"></span>
-                           <span>${t.colorLabel}: <strong>${item.colorName}</strong></span>
+                           <span>${t.colorLabel}: <strong>${colorText}</strong></span>
                          </div>`
                       : ''
                   }
@@ -972,7 +1449,7 @@
                 <div class="text-[#6E5C4F] font-medium mb-0.5">${t.phoneLabel}</div>
                 <div class="font-bold text-sm text-[#2A1F18]">📞 ${c.phone}</div>
               </div>
-              <a href="tel:${cleanPhone}" class="px-3 py-2 rounded-xl bg-[#F3ECE0] text-[#2A1F18] font-bold">Qoʻngʻiroq</a>
+              <a href="tel:${cleanPhone}" class="px-3 py-2 rounded-xl bg-[#F3ECE0] text-[#2A1F18] font-bold">Qo'ng'iroq</a>
             </div>
 
             <div class="flex items-center justify-between gap-2">
@@ -1022,6 +1499,17 @@
           }
         });
       }
+
+      const sendSectionBtn = document.getElementById('sendSectionImgBtn');
+      if (sendSectionBtn) {
+        sendSectionBtn.addEventListener('click', sendSectionImage);
+      }
+
+      document.querySelectorAll('[data-send-prod-img]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          sendProductImage(btn.dataset.sendProdImg, parseInt(btn.dataset.imgIdx || '0', 10));
+        });
+      });
 
       document.querySelectorAll('.cat-chip').forEach((btn) => {
         btn.addEventListener('click', () => {
@@ -1105,7 +1593,7 @@
           </div>
           <p class="text-xs text-[#6E5C4F]">Boshqaruv paneliga kirish uchun PIN kodni kiriting (standart: 1234).</p>
           <input id="adminPinInput" type="password" inputmode="numeric" maxlength="10" placeholder="PIN kod" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-xl px-3.5 py-2.5 text-sm text-[#2A1F18] outline-none" />
-          <div id="adminPinError" class="hidden text-xs font-semibold text-[#DC2626]">PIN kod notoʻgʻri!</div>
+          <div id="adminPinError" class="hidden text-xs font-semibold text-[#DC2626]">PIN kod noto'g'ri!</div>
           <button id="submitAdminPinBtn" type="button" class="w-full py-2.5 rounded-xl bg-amber-700 text-white text-xs font-bold">Kirish</button>
         `;
         document.getElementById('closeAdminX').addEventListener('click', closeAdminModal);
@@ -1149,9 +1637,9 @@
 
         <div class="flex gap-1.5 overflow-x-auto no-scrollbar">
           <button type="button" data-adm-tab="products" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'products' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">Mahsulot</button>
-          <button type="button" data-adm-tab="categories" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'categories' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">Boʻlimlar</button>
+          <button type="button" data-adm-tab="categories" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'categories' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">Bo'limlar</button>
           <button type="button" data-adm-tab="news" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'news' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">Yangilik</button>
-          <button type="button" data-adm-tab="company" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'company' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">Maʼlumot</button>
+          <button type="button" data-adm-tab="company" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'company' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">Ma'lumot</button>
         </div>
 
         <div id="adminBody" class="space-y-3 text-xs"></div>
@@ -1173,20 +1661,34 @@
       const body = document.getElementById('adminBody');
 
       if (adminTab === 'products') {
+        const t = i18n[state.lang];
+        const draftThumbs = draftProductImages.length
+          ? `<div class="flex flex-wrap gap-1.5 pt-1">
+              ${draftProductImages
+                .map(
+                  (src, idx) => `<div class="relative w-14 h-14 rounded-lg overflow-hidden border border-[#E5D8C5]">
+                    <img src="${src}" class="w-full h-full object-cover" />
+                    <button type="button" data-rm-draft-img="${idx}" class="absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-red-600 text-white text-[10px] font-bold leading-none">✕</button>
+                  </div>`
+                )
+                .join('')}
+            </div>`
+          : '';
+
         body.innerHTML = `
           <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-2">
-            <div class="font-bold text-[#2A1F18]">Yangi mahsulot qoʻshish</div>
+            <div class="font-bold text-[#2A1F18]">Yangi mahsulot qo'shish</div>
             <input id="newProdName" type="text" placeholder="Nomi (masalan: Bahor Adras)" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
             <div class="grid grid-cols-2 gap-2">
               <select id="newProdCat" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2 py-2">
-                ${state.categories.map((c) => `<option value="${c.id}">${c.name}</option>`).join('')}
+                ${state.categories.map((c) => `<option value="${c.id}">${getLocalizedCategoryName(c)}</option>`).join('')}
               </select>
               <select id="newProdSub" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2 py-2">
-                ${state.subcategories.map((s) => `<option value="${s.id}">${s.name}</option>`).join('')}
+                ${state.subcategories.map((s) => `<option value="${s.id}">${getLocalizedSubcategoryName(s)}</option>`).join('')}
               </select>
             </div>
             <div class="grid grid-cols-2 gap-2">
-              <input id="newProdPrice" type="number" placeholder="Asosiy narx (soʻm)" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+              <input id="newProdPrice" type="number" placeholder="Asosiy narx (so'm)" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
               <input id="newProdSale" type="number" placeholder="Aksiya narx (ixtiyoriy)" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
             </div>
             <div class="grid grid-cols-2 gap-2">
@@ -1196,7 +1698,13 @@
               </select>
               <input id="newProdColor" type="text" placeholder="Rangi (masalan: Zumrad)" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
             </div>
-            <button id="addProdBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">Qoʻshish</button>
+            <div class="space-y-1">
+              <label class="block text-[11px] font-semibold text-[#6E5C4F]">${t.addImagesLabel}</label>
+              <input id="newProdImages" type="file" accept="image/*" multiple class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2 py-1.5 text-[11px]" />
+              <div id="draftImgCount" class="text-[11px] text-amber-800 font-semibold">${draftProductImages.length} ${t.imagesSelectedCount}</div>
+              ${draftThumbs}
+            </div>
+            <button id="addProdBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">Qo'shish</button>
           </div>
 
           <div class="space-y-1.5 max-h-44 overflow-y-auto">
@@ -1204,25 +1712,50 @@
               .map(
                 (p) => `<div class="flex items-center justify-between p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5]">
                   <div class="min-w-0 pr-2">
-                    <div class="font-bold text-[#2A1F18] truncate">${p.name}</div>
+                    <div class="font-bold text-[#2A1F18] truncate">${p.name} (${(p.images || []).length} rasm)</div>
                     <div class="text-[11px] text-[#6E5C4F]">${formatPrice(effectivePrice(p))} / ${p.unit === 'meter' ? 'metr' : 'dona'}</div>
                   </div>
-                  <button type="button" data-del-prod="${p.id}" class="text-[#DC2626] font-bold shrink-0">Oʻchirish</button>
+                  <button type="button" data-del-prod="${p.id}" class="text-[#DC2626] font-bold shrink-0">O'chirish</button>
                 </div>`
               )
               .join('')}
           </div>
         `;
 
+        const fileInp = document.getElementById('newProdImages');
+        if (fileInp) {
+          fileInp.addEventListener('change', async (e) => {
+            const files = Array.from(e.target.files || []);
+            for (const file of files) {
+              const dataUrl = await new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = () => resolve(null);
+                reader.readAsDataURL(file);
+              });
+              if (dataUrl) draftProductImages.push(dataUrl);
+            }
+            renderAdminModal();
+          });
+        }
+
+        body.querySelectorAll('[data-rm-draft-img]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const idx = parseInt(btn.dataset.rmDraftImg, 10);
+            draftProductImages.splice(idx, 1);
+            renderAdminModal();
+          });
+        });
+
         document.getElementById('addProdBtn').addEventListener('click', () => {
           const name = document.getElementById('newProdName').value.trim();
-          const price = Number(document.getElementById('newProdPrice').value);
-          const saleVal = Number(document.getElementById('newProdSale').value);
           const categoryId = document.getElementById('newProdCat').value;
           const subcategoryId = document.getElementById('newProdSub').value;
+          const price = parseFloat(document.getElementById('newProdPrice').value);
+          const saleVal = parseFloat(document.getElementById('newProdSale').value);
           const unit = document.getElementById('newProdUnit').value;
           const colorName = document.getElementById('newProdColor').value.trim();
-          if (!name || !price) return;
+          if (!name || isNaN(price) || price <= 0) return;
 
           state.products.unshift({
             id: 'prod-' + Date.now(),
@@ -1230,14 +1763,16 @@
             subcategoryId,
             name,
             price,
-            salePrice: saleVal > 0 && saleVal < price ? saleVal : null,
+            salePrice: !isNaN(saleVal) && saleVal > 0 ? saleVal : null,
             unit,
             step: unit === 'meter' ? 0.5 : 1,
-            colorName,
+            colorName: colorName || 'Tabiiy',
             colorHex: '#B45309',
             description: '',
+            images: [...draftProductImages],
             active: true
           });
+          draftProductImages = [];
           saveState();
           render();
           renderAdminModal();
@@ -1253,103 +1788,54 @@
         });
       } else if (adminTab === 'categories') {
         body.innerHTML = `
-          <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-2">
-            <div class="font-bold text-[#2A1F18]">Yangi asosiy boʻlim qoʻshish</div>
-            <div class="flex gap-2">
-              <input id="newCatIcon" type="text" value="🧶" class="w-12 text-center bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg py-2" />
-              <input id="newCatName" type="text" placeholder="Boʻlim nomi" class="flex-1 bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
-            </div>
-            <button id="addCatBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">Boʻlim qoʻshish</button>
-          </div>
-
-          <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-2">
-            <div class="font-bold text-[#2A1F18]">Yangi ichki boʻlim (podkatalog)</div>
-            <select id="newSubParent" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2">
-              ${state.categories.map((c) => `<option value="${c.id}">${c.name}</option>`).join('')}
-            </select>
-            <input id="newSubName" type="text" placeholder="Ichki boʻlim nomi" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
-            <button id="addSubBtn" type="button" class="w-full py-2 rounded-lg bg-[#2A1F18] text-white font-bold">Ichki boʻlim qoʻshish</button>
-          </div>
-        `;
-
-        document.getElementById('addCatBtn').addEventListener('click', () => {
-          const name = document.getElementById('newCatName').value.trim();
-          const icon = document.getElementById('newCatIcon').value.trim() || '🏷️';
-          if (!name) return;
-          state.categories.push({ id: 'cat-' + Date.now(), name, icon });
-          saveState();
-          render();
-          renderAdminModal();
-        });
-
-        document.getElementById('addSubBtn').addEventListener('click', () => {
-          const name = document.getElementById('newSubName').value.trim();
-          const categoryId = document.getElementById('newSubParent').value;
-          if (!name || !categoryId) return;
-          state.subcategories.push({ id: 'sub-' + Date.now(), categoryId, name });
-          saveState();
-          render();
-          renderAdminModal();
-        });
-      } else if (adminTab === 'news') {
-        body.innerHTML = `
-          <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-2">
-            <div class="font-bold text-[#2A1F18]">Yangi yangilik / tabrik / material qoʻshish</div>
-            <select id="newsType" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2">
-              <option value="new_material">Yangi material keldi</option>
-              <option value="holiday">Bayram tabrigi</option>
-              <option value="promo">Aksiya / Eʼlon</option>
-            </select>
-            <input id="newsTitle" type="text" placeholder="Sarlavha" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
-            <textarea id="newsText" rows="2" placeholder="Matn..." class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2"></textarea>
-            <div class="flex items-center gap-2">
-              <input id="newsColorName" type="text" placeholder="Rang nomi (ixtiyoriy)" class="flex-1 bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
-              <input id="newsColorHex" type="color" value="#059669" class="w-11 h-9 rounded-lg border border-[#E5D8C5] bg-transparent" />
-            </div>
-            <button id="addNewsBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">Eʼlonni joylash</button>
-          </div>
-
-          <div class="space-y-1.5 max-h-36 overflow-y-auto">
-            ${state.news
+          <div class="space-y-2">
+            <div class="font-bold text-[#2A1F18]">6 ta asosiy bo'lim</div>
+            ${state.subcategories
               .map(
-                (n) => `<div class="flex items-center justify-between p-2 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5]">
-                  <span class="font-semibold text-[#2A1F18] truncate pr-2">${n.title}</span>
-                  <button type="button" data-del-news="${n.id}" class="text-[#DC2626] font-bold shrink-0">Oʻchirish</button>
+                (s) => `<div class="p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] font-semibold text-[#2A1F18]">
+                  ${getLocalizedSubcategoryName(s)}
                 </div>`
               )
               .join('')}
           </div>
         `;
-
+      } else if (adminTab === 'news') {
+        body.innerHTML = `
+          <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-2">
+            <div class="font-bold text-[#2A1F18]">Yangi e'lon qo'shish</div>
+            <input id="newNewsTitle" type="text" placeholder="Sarlavha" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <textarea id="newNewsText" rows="2" placeholder="Matn..." class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2"></textarea>
+            <button id="addNewsBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">Joylashtirish</button>
+          </div>
+          <div class="space-y-1.5 max-h-40 overflow-y-auto">
+            ${state.news
+              .map(
+                (n) => `<div class="flex items-center justify-between p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5]">
+                  <span class="font-semibold truncate pr-2">${getLocalizedNewsField(n, 'title')}</span>
+                  <button type="button" data-del-news="${n.id}" class="text-[#DC2626] font-bold shrink-0">O'chirish</button>
+                </div>`
+              )
+              .join('')}
+          </div>
+        `;
         document.getElementById('addNewsBtn').addEventListener('click', () => {
-          const type = document.getElementById('newsType').value;
-          const title = document.getElementById('newsTitle').value.trim();
-          const text = document.getElementById('newsText').value.trim();
-          const colorName = document.getElementById('newsColorName').value.trim();
-          const colorHex = document.getElementById('newsColorHex').value;
+          const title = document.getElementById('newNewsTitle').value.trim();
+          const text = document.getElementById('newNewsText').value.trim();
           if (!title || !text) return;
-
-          const badgeMap = {
-            new_material: 'Yangi material',
-            holiday: 'Bayram tabrigi',
-            promo: 'Aksiya'
-          };
-
           state.news.unshift({
             id: 'news-' + Date.now(),
-            type,
-            badge: badgeMap[type] || 'Yangilik',
+            type: 'new_material',
+            badge: 'Yangilik',
             title,
             text,
-            colorName,
-            colorHex,
+            colorName: '',
+            colorHex: '#059669',
             date: new Date().toISOString().slice(0, 10)
           });
           saveState();
           render();
           renderAdminModal();
         });
-
         body.querySelectorAll('[data-del-news]').forEach((btn) => {
           btn.addEventListener('click', () => {
             state.news = state.news.filter((n) => n.id !== btn.dataset.delNews);
@@ -1359,40 +1845,23 @@
           });
         });
       } else if (adminTab === 'company') {
+        const c = state.company;
         body.innerHTML = `
           <div class="space-y-2">
-            <div>
-              <label class="block text-[11px] text-[#6E5C4F] mb-0.5">Doʻkon nomi</label>
-              <input id="cmpName" type="text" value="${(state.company.name || '').replace(/"/g, '&quot;')}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
-            </div>
-            <div>
-              <label class="block text-[11px] text-[#6E5C4F] mb-0.5">Telefon raqami</label>
-              <input id="cmpPhone" type="text" value="${(state.company.phone || '').replace(/"/g, '&quot;')}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
-            </div>
-            <div>
-              <label class="block text-[11px] text-[#6E5C4F] mb-0.5">Telegram lichka (@username)</label>
-              <input id="cmpTg" type="text" value="${(state.company.telegram || '').replace(/"/g, '&quot;')}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
-            </div>
-            <div>
-              <label class="block text-[11px] text-[#6E5C4F] mb-0.5">Manzil</label>
-              <input id="cmpAddress" type="text" value="${(state.company.address || '').replace(/"/g, '&quot;')}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
-            </div>
-            <div>
-              <label class="block text-[11px] text-[#6E5C4F] mb-0.5">Yetkazib berish (dostavka) haqida</label>
-              <textarea id="cmpDelivery" rows="2" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2">${state.company.deliveryInfo || ''}</textarea>
-            </div>
-            <button id="saveCmpBtn" type="button" class="w-full py-2.5 rounded-lg bg-amber-700 text-white font-bold">Saqlash</button>
+            <input id="cmpName" type="text" value="${c.name}" placeholder="Do'kon nomi" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <input id="cmpPhone" type="text" value="${c.phone}" placeholder="Telefon" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <input id="cmpTg" type="text" value="${c.telegram}" placeholder="Telegram (@username)" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <input id="cmpAddr" type="text" value="${c.address}" placeholder="Manzil" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <textarea id="cmpDeliv" rows="2" placeholder="Dostavka" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2">${c.deliveryInfo}</textarea>
+            <button id="saveCmpBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">Saqlash</button>
           </div>
         `;
-
         document.getElementById('saveCmpBtn').addEventListener('click', () => {
           state.company.name = document.getElementById('cmpName').value.trim() || 'Adraschi Amaki';
-          state.company.phone = document.getElementById('cmpPhone').value.trim() || '97-788-88-84';
-          let tgVal = document.getElementById('cmpTg').value.trim() || '@adraschi';
-          if (!tgVal.startsWith('@')) tgVal = '@' + tgVal;
-          state.company.telegram = tgVal;
-          state.company.address = document.getElementById('cmpAddress').value.trim() || 'Toshkent shahar, Chorsu bozori';
-          state.company.deliveryInfo = document.getElementById('cmpDelivery').value.trim();
+          state.company.phone = document.getElementById('cmpPhone').value.trim();
+          state.company.telegram = document.getElementById('cmpTg').value.trim();
+          state.company.address = document.getElementById('cmpAddr').value.trim();
+          state.company.deliveryInfo = document.getElementById('cmpDeliv').value.trim();
           saveState();
           render();
           showToast('Saqlandi');
@@ -1400,7 +1869,7 @@
       }
     }
 
-    // Init
+    // Global Listeners
     document.getElementById('langSelect').value = state.lang;
     document.getElementById('langSelect').addEventListener('change', (e) => {
       state.lang = e.target.value;
@@ -1417,93 +1886,16 @@
 
     document.getElementById('openAdminBtn').addEventListener('click', openAdminModal);
 
-    if (!localStorage.getItem(STORAGE_KEYS.onboarded)) {
-      document.getElementById('onboardingModal').classList.remove('hidden');
-    }
-
     document.getElementById('closeOnboardingBtn').addEventListener('click', () => {
       localStorage.setItem(STORAGE_KEYS.onboarded, '1');
       document.getElementById('onboardingModal').classList.add('hidden');
     });
 
+    if (!localStorage.getItem(STORAGE_KEYS.onboarded)) {
+      document.getElementById('onboardingModal').classList.remove('hidden');
+    }
+
     render();
   </script>
 </body>
 </html>
-<div id="adminAuthModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:9999; align-items:center; justify-content:center; padding:16px;">
-  <div style="background:#fff; width:100%; max-width:340px; border-radius:16px; padding:20px; box-shadow:0 10px 30px rgba(0,0,0,0.2);">
-    <h3 style="margin:0 0 8px; font-size:18px;">Admin kirish</h3>
-    <p style="margin:0 0 14px; font-size:13px; color:#666;">Admin paneliga kirish kodini kiriting</p>
-    <input id="adminPassInput" type="password" placeholder="Kirish kodi" autocomplete="off"
-      style="width:100%; box-sizing:border-box; padding:10px 12px; border:1px solid #ccc; border-radius:10px; font-size:15px; margin-bottom:8px;">
-    <div id="adminPassError" style="display:none; color:#c62828; font-size:12px; margin-bottom:10px;">Kod noto'g'ri! Qayta urinib ko'ring.</div>
-    <div style="display:flex; gap:8px; justify-content:flex-end;">
-      <button type="button" id="adminCancelBtn" style="padding:8px 14px; border:none; border-radius:10px; background:#eee; cursor:pointer;">Bekor qilish</button>
-      <button type="button" id="adminSubmitBtn" style="padding:8px 14px; border:none; border-radius:10px; background:#111; color:#fff; cursor:pointer;">Kirish</button>
-    </div>
-  </div>
-</div>
-<script>
-(function () {
-  const ADMIN_PASSCODE = "MASAXA20122015";
-  const modal = document.getElementById("adminAuthModal");
-  const input = document.getElementById("adminPassInput");
-  const errorEl = document.getElementById("adminPassError");
-  const submitBtn = document.getElementById("adminSubmitBtn");
-  const cancelBtn = document.getElementById("adminCancelBtn");
-
-  let pendingOpenCallback = null;
-
-  function openAdminModal(onSuccess) {
-    pendingOpenCallback = onSuccess;
-    input.value = "";
-    errorEl.style.display = "none";
-    modal.style.display = "flex";
-    setTimeout(() => input.focus(), 50);
-  }
-
-  function closeAdminModal() {
-    modal.style.display = "none";
-    pendingOpenCallback = null;
-  }
-
-  function verifyPasscode() {
-    if (input.value === ADMIN_PASSCODE) {
-      const cb = pendingOpenCallback;
-      closeAdminModal();
-      if (typeof cb === "function") cb();
-    } else {
-      errorEl.style.display = "block";
-      input.select();
-    }
-  }
-
-  submitBtn.addEventListener("click", verifyPasscode);
-  cancelBtn.addEventListener("click", closeAdminModal);
-  input.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") verifyPasscode();
-    if (e.key === "Escape") closeAdminModal();
-  });
-
-  // Sahifadagi "Admin" tugmasini ushlab olib, parolsiz ochilishining oldini oladi
-  document.addEventListener("click", function (e) {
-    const adminBtn = e.target.closest("button, a, [role='button'], [data-admin-btn]");
-    if (!adminBtn || modal.contains(adminBtn)) return;
-
-    const label = (adminBtn.textContent || "").trim().toLowerCase();
-    if (label === "admin" || adminBtn.hasAttribute("data-admin-btn")) {
-      if (adminBtn.dataset.unlocked === "true") {
-        adminBtn.dataset.unlocked = "";
-        return;
-      }
-      e.preventDefault();
-      e.stopImmediatePropagation();
-
-      openAdminModal(function () {
-        adminBtn.dataset.unlocked = "true";
-        adminBtn.click();
-      });
-    }
-  }, true);
-})();
-</script>
