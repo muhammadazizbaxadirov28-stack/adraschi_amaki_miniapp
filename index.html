@@ -195,49 +195,12 @@
     });
 
     const STORAGE_KEYS = {
-      state: 'adraschi_amaki_state_v3',
-      onboarded: 'adraschi_amaki_onboarded_v3',
-      analytics: 'adraschi_amaki_analytics_v3'
+      state: 'adraschi_amaki_state_v5',
+      onboarded: 'adraschi_amaki_onboarded_v5',
+      analytics: 'adraschi_amaki_analytics_v5'
     };
 
-    const SUBCATEGORY_TRANSLATIONS = {
-      'sub-atlas': {
-        uz: "Marg'ilon atlasi",
-        kir: 'Марғилон атласи',
-        ru: 'Маргиланский атлас',
-        en: 'Margilan Atlas'
-      },
-      'sub-adras': {
-        uz: 'Tabiiy adras',
-        kir: 'Табиий адрас',
-        ru: 'Натуральный адрас',
-        en: 'Natural Adras'
-      },
-      'sub-beqasam': {
-        uz: 'Beqasam va shoyi',
-        kir: 'Беқасам ва шойи',
-        ru: 'Бекасам и шёлк',
-        en: 'Bekasam & Silk'
-      },
-      'sub-chapan': {
-        uz: "Chopon va to'nlar",
-        kir: 'Чопон ва тўнлар',
-        ru: 'Чапаны и халаты',
-        en: 'Chapans & Robes'
-      },
-      'sub-doppi': {
-        uz: "Do'ppi va belbog'lar",
-        kir: 'Дўппи ва белбоғлар',
-        ru: 'Тюбетейки и пояса',
-        en: 'Doppi & Belts'
-      },
-      'sub-gift': {
-        uz: "To'yona va sovg'a to'plamlari",
-        kir: 'Тўёна ва совға тўпламлари',
-        ru: 'Праздничные и подарочные наборы',
-        en: 'Ceremonial & Gift Sets'
-      }
-    };
+    const SUBCATEGORY_TRANSLATIONS = {};
 
     const CATEGORY_TRANSLATIONS = {
       'cat-fabrics': {
@@ -434,26 +397,40 @@
       }
     };
 
+    const COMPANY_TRANSLATIONS = {
+      tagline: {
+        uz: "An'anaviy o'zbek matolari, adras, atlas va milliy liboslar ustaxonasi",
+        kir: 'Анъанавий ўзбек матолари, адрас, атлас ва миллий либослар устахонаси',
+        ru: 'Мастерская традиционных узбекских тканей, адраса, атласа и национальной одежды',
+        en: 'Workshop of traditional Uzbek fabrics, adras, atlas, and national garments'
+      },
+      address: {
+        uz: 'Toshkent shahar, Chorsu bozori',
+        kir: 'Тошкент шаҳар, Чорсу бозори',
+        ru: 'г. Ташкент, базар Чорсу',
+        en: 'Tashkent city, Chorsu bazaar'
+      },
+      deliveryInfo: {
+        uz: "Toshkent shahri ichida va butun O'zbekiston bo'ylab tezkor dostavka xizmati mavjud.",
+        kir: 'Тошкент шаҳри ичида ва бутун Ўзбекистон бўйлаб тезкор доставка хизмати мавжуд.',
+        ru: 'Доступна быстрая доставка по Ташкенту и по всему Узбекистану.',
+        en: 'Fast delivery is available within Tashkent and across all of Uzbekistan.'
+      }
+    };
+
     const initialCategories = [
       { id: 'cat-fabrics', name: 'Matolar', icon: '🧵' },
       { id: 'cat-clothing', name: 'Milliy kiyimlar', icon: '👘' },
       { id: 'cat-souvenirs', name: "Eslatma va sovg'alar", icon: '🎁' }
     ];
 
-    const initialSubcategories = [
-      { id: 'sub-atlas', categoryId: 'cat-fabrics', name: "Marg'ilon atlasi" },
-      { id: 'sub-adras', categoryId: 'cat-fabrics', name: 'Tabiiy adras' },
-      { id: 'sub-beqasam', categoryId: 'cat-fabrics', name: 'Beqasam va shoyi' },
-      { id: 'sub-chapan', categoryId: 'cat-clothing', name: "Chopon va to'nlar" },
-      { id: 'sub-doppi', categoryId: 'cat-clothing', name: "Do'ppi va belbog'lar" },
-      { id: 'sub-gift', categoryId: 'cat-souvenirs', name: "To'yona va sovg'a to'plamlari" }
-    ];
+    const initialSubcategories = [];
 
     const initialProducts = [
       {
         id: 'prod-1',
         categoryId: 'cat-fabrics',
-        subcategoryId: 'sub-adras',
+        subcategoryId: '',
         name: 'Zumrad Oltin Adras',
         price: 85000,
         salePrice: 72000,
@@ -468,7 +445,7 @@
       {
         id: 'prod-2',
         categoryId: 'cat-fabrics',
-        subcategoryId: 'sub-atlas',
+        subcategoryId: '',
         name: 'Xon Atlas — Qirmizi Naqsh',
         price: 110000,
         salePrice: null,
@@ -483,7 +460,7 @@
       {
         id: 'prod-3',
         categoryId: 'cat-fabrics',
-        subcategoryId: 'sub-beqasam',
+        subcategoryId: '',
         name: 'Zarrin Beqasam',
         price: 95000,
         salePrice: 82000,
@@ -498,7 +475,7 @@
       {
         id: 'prod-4',
         categoryId: 'cat-clothing',
-        subcategoryId: 'sub-chapan',
+        subcategoryId: '',
         name: 'Adras Astarli Milliy Chopon',
         price: 650000,
         salePrice: 580000,
@@ -513,7 +490,7 @@
       {
         id: 'prod-5',
         categoryId: 'cat-clothing',
-        subcategoryId: 'sub-doppi',
+        subcategoryId: '',
         name: "Chust Kashta Do'ppi",
         price: 75000,
         salePrice: null,
@@ -528,7 +505,7 @@
       {
         id: 'prod-6',
         categoryId: 'cat-souvenirs',
-        subcategoryId: 'sub-gift',
+        subcategoryId: '',
         name: "Sovg'alik Mato va Do'ppi To'plami",
         price: 340000,
         salePrice: 295000,
@@ -627,7 +604,56 @@
         imgSentToast: 'Rasm yuborishga tayyorlandi',
         addImagesLabel: "Mahsulot rasmlari (xohlagancha tanlang)",
         imagesSelectedCount: 'ta rasm tanlandi',
-        currencySuffix: "so'm"
+        currencySuffix: "so'm",
+        archiveBtn: 'Arxivlash',
+        unarchiveBtn: 'Tiklash',
+        archivedBadge: 'Arxivda',
+        activeProductsTitle: 'Faol mahsulotlar',
+        archivedProductsTitle: 'Arxivlangan mahsulotlar',
+        callBtn: "Qo'ng'iroq",
+        writeBtn: 'Yozish',
+        announcementsSuffix: "ta e'lon",
+        noNews: "Hozircha yangiliklar yo'q.",
+        onboardTitle: 'Xush Kelibsiz!',
+        onboardDesc: "Adraschi Amaki milliy matolar va kiyimlar do'koni yo'riqnomasi",
+        step1Title: '1. Metr / Donasini Tanlang',
+        step1Desc: "Matolar metrda, kiyimlar esa donalab sotiladi. O'zingizga kerakli miqdorni belgilang.",
+        step2Title: "2. Savatchaga Qo'shing",
+        step2Desc: "Tanlagan mahsulotlaringiz savatcha bo'limiga yig'ilib boradi.",
+        step3Title: '3. Sotuvchiga Yuboring',
+        step3Desc: 'Bitta tugmani bosish orqali buyurtmangiz tayyor holda sotuvchining Telegram chatiga boradi!',
+        startBtn: 'Boshlash',
+        adminBtn: 'Admin',
+        adminTitle: 'Admin Panel',
+        adminLoginTitle: 'Admin Kirish',
+        adminPinDesc: 'Boshqaruv paneliga kirish uchun PIN kodni kiriting (standart: 1234).',
+        adminPinPlaceholder: 'PIN kod',
+        adminPinError: "PIN kod noto'g'ri!",
+        loginBtn: 'Kirish',
+        lockBtn: 'Qulflash',
+        visitsLabel: 'Kirishlar',
+        ordersLabel: 'Buyurtma',
+        conversionLabel: 'Konversiya',
+        admTabProducts: 'Mahsulot',
+        admTabCategories: "Bo'limlar",
+        admTabNews: 'Yangilik',
+        admTabCompany: "Ma'lumot",
+        addProdTitle: "Yangi mahsulot qo'shish",
+        prodNamePlaceholder: 'Nomi (masalan: Bahor Adras)',
+        prodPricePlaceholder: "Asosiy narx (so'm)",
+        prodSalePlaceholder: 'Aksiya narx (ixtiyoriy)',
+        prodColorPlaceholder: 'Rangi (masalan: Zumrad)',
+        unitMeter: 'Metrda',
+        unitPiece: 'Donalab',
+        addBtn: "Qo'shish",
+        deleteBtn: "O'chirish",
+        saveBtn: 'Saqlash',
+        savedToast: 'Saqlandi',
+        addNewsTitle: "Yangi e'lon qo'shish",
+        newsTitlePlaceholder: 'Sarlavha',
+        newsTextPlaceholder: 'Matn...',
+        publishBtn: 'Joylashtirish',
+        mainCategoriesTitle: "Asosiy bo'limlar"
       },
       kir: {
         brandSub: 'Миллий матолар ва кийимлар',
@@ -659,7 +685,56 @@
         imgSentToast: 'Расм юборишга тайёрланди',
         addImagesLabel: 'Маҳсулот расмлари (хоҳлаганча танланг)',
         imagesSelectedCount: 'та расм танланди',
-        currencySuffix: 'сўм'
+        currencySuffix: 'сўм',
+        archiveBtn: 'Архивлаш',
+        unarchiveBtn: 'Тиклаш',
+        archivedBadge: 'Архивда',
+        activeProductsTitle: 'Фаол маҳсулотлар',
+        archivedProductsTitle: 'Архивланган маҳсулотлар',
+        callBtn: 'Қўнғироқ',
+        writeBtn: 'Ёзиш',
+        announcementsSuffix: 'та эълон',
+        noNews: 'Ҳозирча янгиликлар йўқ.',
+        onboardTitle: 'Хуш Келибсиз!',
+        onboardDesc: 'Adraschi Amaki миллий матолар ва кийимлар дўкони йўриқномаси',
+        step1Title: '1. Метр / Донасини Танланг',
+        step1Desc: 'Матолар метрда, кийимлар эса доналаб сотилади. Ўзингизга керакли миқдорни белгиланг.',
+        step2Title: '2. Саватчага Қўшинг',
+        step2Desc: 'Танлаган маҳсулотларингиз саватча бўлимига йиғилиб боради.',
+        step3Title: '3. Сотувчига Юборинг',
+        step3Desc: 'Битта тугмани босиш орқали буюртмангиз тайёр ҳолда сотувчининг Телеграм чатига боради!',
+        startBtn: 'Бошлаш',
+        adminBtn: 'Админ',
+        adminTitle: 'Админ Панел',
+        adminLoginTitle: 'Админ Кириш',
+        adminPinDesc: 'Бошқарув панелига кириш учун PIN кодни киритинг (стандарт: 1234).',
+        adminPinPlaceholder: 'PIN код',
+        adminPinError: 'PIN код нотўғри!',
+        loginBtn: 'Кириш',
+        lockBtn: 'Қулфлаш',
+        visitsLabel: 'Киришлар',
+        ordersLabel: 'Буюртма',
+        conversionLabel: 'Конверсия',
+        admTabProducts: 'Маҳсулот',
+        admTabCategories: 'Бўлимлар',
+        admTabNews: 'Янгилик',
+        admTabCompany: 'Маълумот',
+        addProdTitle: 'Янги маҳсулот қўшиш',
+        prodNamePlaceholder: 'Номи (масалан: Баҳор Адрас)',
+        prodPricePlaceholder: 'Асосий нарх (сўм)',
+        prodSalePlaceholder: 'Акция нарх (ихтиёрий)',
+        prodColorPlaceholder: 'Ранги (масалан: Зумрад)',
+        unitMeter: 'Метрда',
+        unitPiece: 'Доналаб',
+        addBtn: 'Қўшиш',
+        deleteBtn: 'Ўчириш',
+        saveBtn: 'Сақлаш',
+        savedToast: 'Сақланди',
+        addNewsTitle: 'Янги эълон қўшиш',
+        newsTitlePlaceholder: 'Сарлавҳа',
+        newsTextPlaceholder: 'Матн...',
+        publishBtn: 'Жойлаштириш',
+        mainCategoriesTitle: 'Асосий бўлимлар'
       },
       ru: {
         brandSub: 'Национальные ткани и одежда',
@@ -691,7 +766,56 @@
         imgSentToast: 'Фото готово к отправке',
         addImagesLabel: 'Фото товара (можно выбрать сколько угодно)',
         imagesSelectedCount: 'фото выбрано',
-        currencySuffix: 'сум'
+        currencySuffix: 'сум',
+        archiveBtn: 'В архив',
+        unarchiveBtn: 'Восстановить',
+        archivedBadge: 'В архиве',
+        activeProductsTitle: 'Активные товары',
+        archivedProductsTitle: 'Архивированные товары',
+        callBtn: 'Позвонить',
+        writeBtn: 'Написать',
+        announcementsSuffix: 'объявл.',
+        noNews: 'Новостей пока нет.',
+        onboardTitle: 'Добро пожаловать!',
+        onboardDesc: 'Инструкция по магазину национальных тканей и одежды Adraschi Amaki',
+        step1Title: '1. Выберите метры / штуки',
+        step1Desc: 'Ткани продаются в метрах, одежда — поштучно. Укажите нужное количество.',
+        step2Title: '2. Добавьте в корзину',
+        step2Desc: 'Выбранные товары собираются в разделе корзины.',
+        step3Title: '3. Отправьте продавцу',
+        step3Desc: 'Одним нажатием готовый заказ отправляется в Telegram-чат продавца!',
+        startBtn: 'Начать',
+        adminBtn: 'Админ',
+        adminTitle: 'Админ-панель',
+        adminLoginTitle: 'Вход для админа',
+        adminPinDesc: 'Введите PIN-код для доступа к панели управления (по умолчанию: 1234).',
+        adminPinPlaceholder: 'PIN-код',
+        adminPinError: 'Неверный PIN-код!',
+        loginBtn: 'Войти',
+        lockBtn: 'Заблокировать',
+        visitsLabel: 'Посещения',
+        ordersLabel: 'Заказы',
+        conversionLabel: 'Конверсия',
+        admTabProducts: 'Товары',
+        admTabCategories: 'Разделы',
+        admTabNews: 'Новости',
+        admTabCompany: 'Данные',
+        addProdTitle: 'Добавить новый товар',
+        prodNamePlaceholder: 'Название (например: Весенний адрас)',
+        prodPricePlaceholder: 'Основная цена (сум)',
+        prodSalePlaceholder: 'Цена по акции (необязательно)',
+        prodColorPlaceholder: 'Цвет (например: Изумруд)',
+        unitMeter: 'В метрах',
+        unitPiece: 'Поштучно',
+        addBtn: 'Добавить',
+        deleteBtn: 'Удалить',
+        saveBtn: 'Сохранить',
+        savedToast: 'Сохранено',
+        addNewsTitle: 'Добавить объявление',
+        newsTitlePlaceholder: 'Заголовок',
+        newsTextPlaceholder: 'Текст...',
+        publishBtn: 'Опубликовать',
+        mainCategoriesTitle: 'Основные разделы'
       },
       en: {
         brandSub: 'National fabrics & apparel',
@@ -723,7 +847,56 @@
         imgSentToast: 'Image ready to send',
         addImagesLabel: 'Product images (select as many as you want)',
         imagesSelectedCount: 'images selected',
-        currencySuffix: 'UZS'
+        currencySuffix: 'UZS',
+        archiveBtn: 'Archive',
+        unarchiveBtn: 'Restore',
+        archivedBadge: 'Archived',
+        activeProductsTitle: 'Active items',
+        archivedProductsTitle: 'Archived items',
+        callBtn: 'Call',
+        writeBtn: 'Message',
+        announcementsSuffix: 'posts',
+        noNews: 'No news yet.',
+        onboardTitle: 'Welcome!',
+        onboardDesc: 'Guide to the Adraschi Amaki national fabrics and apparel store',
+        step1Title: '1. Choose Meters / Pieces',
+        step1Desc: 'Fabrics are sold by meter, clothing by piece. Set your desired quantity.',
+        step2Title: '2. Add to Cart',
+        step2Desc: 'Selected items are collected in the cart tab.',
+        step3Title: '3. Send to Seller',
+        step3Desc: 'With one tap, your order is sent ready-made to the seller’s Telegram chat!',
+        startBtn: 'Get Started',
+        adminBtn: 'Admin',
+        adminTitle: 'Admin Panel',
+        adminLoginTitle: 'Admin Login',
+        adminPinDesc: 'Enter PIN code to access the admin panel (default: 1234).',
+        adminPinPlaceholder: 'PIN code',
+        adminPinError: 'Incorrect PIN code!',
+        loginBtn: 'Login',
+        lockBtn: 'Lock',
+        visitsLabel: 'Visits',
+        ordersLabel: 'Orders',
+        conversionLabel: 'Conversion',
+        admTabProducts: 'Products',
+        admTabCategories: 'Sections',
+        admTabNews: 'News',
+        admTabCompany: 'Info',
+        addProdTitle: 'Add new product',
+        prodNamePlaceholder: 'Name (e.g. Spring Adras)',
+        prodPricePlaceholder: 'Base price (UZS)',
+        prodSalePlaceholder: 'Sale price (optional)',
+        prodColorPlaceholder: 'Color (e.g. Emerald)',
+        unitMeter: 'By meter',
+        unitPiece: 'By piece',
+        addBtn: 'Add',
+        deleteBtn: 'Delete',
+        saveBtn: 'Save',
+        savedToast: 'Saved',
+        addNewsTitle: 'Add announcement',
+        newsTitlePlaceholder: 'Title',
+        newsTextPlaceholder: 'Text...',
+        publishBtn: 'Publish',
+        mainCategoriesTitle: 'Main sections'
       }
     };
 
@@ -740,13 +913,6 @@
       if (SUBCATEGORY_TRANSLATIONS[sub.id] && SUBCATEGORY_TRANSLATIONS[sub.id][lang]) {
         return SUBCATEGORY_TRANSLATIONS[sub.id][lang];
       }
-      const lower = (sub.name || '').toLowerCase();
-      if (lower.includes('atlas')) return SUBCATEGORY_TRANSLATIONS['sub-atlas'][lang] || sub.name;
-      if (lower.includes('adras')) return SUBCATEGORY_TRANSLATIONS['sub-adras'][lang] || sub.name;
-      if (lower.includes('beqasam') || lower.includes('shoyi')) return SUBCATEGORY_TRANSLATIONS['sub-beqasam'][lang] || sub.name;
-      if (lower.includes('chopon') || lower.includes("to'n")) return SUBCATEGORY_TRANSLATIONS['sub-chapan'][lang] || sub.name;
-      if (lower.includes("do'ppi") || lower.includes("belbog'")) return SUBCATEGORY_TRANSLATIONS['sub-doppi'][lang] || sub.name;
-      if (lower.includes("to'yona") || lower.includes("sovg'a")) return SUBCATEGORY_TRANSLATIONS['sub-gift'][lang] || sub.name;
       return sub.name;
     }
 
@@ -768,17 +934,22 @@
       return item[field] || '';
     }
 
-    function normalizeSubcategories(list) {
-      const base = Array.isArray(list) && list.length ? list : structuredClone(initialSubcategories);
-      return base.map((s) => {
-        if (s.id === 'sub-atlas') return { ...s, name: "Marg'ilon atlasi" };
-        if (s.id === 'sub-adras') return { ...s, name: 'Tabiiy adras' };
-        if (s.id === 'sub-beqasam') return { ...s, name: 'Beqasam va shoyi' };
-        if (s.id === 'sub-chapan') return { ...s, name: "Chopon va to'nlar" };
-        if (s.id === 'sub-doppi') return { ...s, name: "Do'ppi va belbog'lar" };
-        if (s.id === 'sub-gift') return { ...s, name: "To'yona va sovg'a to'plamlari" };
-        return s;
-      });
+    function getLocalizedCompanyField(field, lang = state.lang) {
+      const c = state.company || {};
+      if (field === 'name') return c.name || 'Adraschi Amaki';
+      if (field === 'phone') return c.phone || '97-788-88-84';
+      if (field === 'telegram') return c.telegram || '@adraschi';
+      if (COMPANY_TRANSLATIONS[field] && COMPANY_TRANSLATIONS[field][lang]) {
+        const defaultVal = defaultState.company[field];
+        if (!c[field] || c[field] === defaultVal) {
+          return COMPANY_TRANSLATIONS[field][lang];
+        }
+      }
+      return c[field] || '';
+    }
+
+    function normalizeSubcategories() {
+      return [];
     }
 
     function loadState() {
@@ -790,9 +961,9 @@
           ...structuredClone(defaultState),
           ...parsed,
           categories: Array.isArray(parsed.categories) && parsed.categories.length ? parsed.categories : structuredClone(initialCategories),
-          subcategories: normalizeSubcategories(parsed.subcategories),
+          subcategories: [],
           products: Array.isArray(parsed.products) && parsed.products.length
-            ? parsed.products.map((p) => ({ ...p, images: Array.isArray(p.images) ? p.images : [] }))
+            ? parsed.products.map((p) => ({ ...p, images: Array.isArray(p.images) ? p.images : [], active: p.active !== false }))
             : structuredClone(initialProducts),
           news: Array.isArray(parsed.news) ? parsed.news : structuredClone(initialNews),
           cart: Array.isArray(parsed.cart) ? parsed.cart : [],
@@ -956,7 +1127,7 @@
 
       ctx.fillStyle = '#6E5C4F';
       ctx.font = 'bold 26px Inter, sans-serif';
-      ctx.fillText(state.company.name || 'Adraschi Amaki', 60, 125);
+      ctx.fillText(getLocalizedCompanyField('name') || 'Adraschi Amaki', 60, 125);
 
       ctx.fillStyle = '#2A1F18';
       ctx.font = 'bold 44px Georgia, serif';
@@ -993,7 +1164,7 @@
 
         if (navigator.canShare && navigator.canShare({ files: [file] }) && typeof navigator.share === 'function') {
           await navigator.share({
-            title: title || state.company.name,
+            title: title || getLocalizedCompanyField('name'),
             text: captionText || title,
             files: [file]
           });
@@ -1019,24 +1190,19 @@
 
     function sendSectionImage() {
       const t = i18n[state.lang];
-      const activeSub = state.subcategories.find((s) => s.id === state.selectedSubcategoryId);
       const activeCat = state.categories.find((c) => c.id === state.selectedCategoryId);
-      const sectionTitle = activeSub
-        ? getLocalizedSubcategoryName(activeSub)
-        : activeCat
-        ? getLocalizedCategoryName(activeCat)
-        : t.all;
+      const sectionTitle = activeCat ? getLocalizedCategoryName(activeCat) : t.all;
 
       const firstWithImg = state.products.find(
         (p) =>
-          (state.selectedSubcategoryId === 'all' || p.subcategoryId === state.selectedSubcategoryId) &&
+          p.active !== false &&
           (state.selectedCategoryId === 'all' || p.categoryId === state.selectedCategoryId) &&
           Array.isArray(p.images) &&
           p.images.length > 0
       );
 
       const imgSrc = firstWithImg ? firstWithImg.images[0] : null;
-      sendImagePayload(imgSrc, sectionTitle, `${state.company.name} — ${sectionTitle}`);
+      sendImagePayload(imgSrc, sectionTitle, `${getLocalizedCompanyField('name')} — ${sectionTitle}`);
     }
 
     function sendProductImage(prodId, imgIndex = 0) {
@@ -1063,14 +1229,14 @@
 
       const cleanHandle = (state.company.telegram || '@adraschi').replace(/^@/, '');
       const messageText = [
-        `🛍️ *${state.company.name}* — Yangi buyurtma`,
+        `🛍️ *${getLocalizedCompanyField('name')}* — ${t.sendOrder}`,
         '',
         ...lines,
         '',
-        `💰 *Jami:* ${formatPrice(total)}`,
-        `📍 *Do'kon:* ${state.company.address}`,
-        `🚚 *Dostavka:* ${state.company.deliveryInfo}`,
-        `📞 *Aloqa:* ${state.company.phone}`
+        `💰 *${t.totalSum}:* ${formatPrice(total)}`,
+        `📍 *${t.addressLabel}:* ${getLocalizedCompanyField('address')}`,
+        `🚚 *${t.deliveryLabel}:* ${getLocalizedCompanyField('deliveryInfo')}`,
+        `📞 *${t.phoneLabel}:* ${state.company.phone}`
       ].join('\n');
 
       analytics.ordersSent += 1;
@@ -1084,10 +1250,25 @@
       }
     }
 
+    function updateOnboardingTexts() {
+      const t = i18n[state.lang];
+      document.getElementById('onboardTitle').textContent = t.onboardTitle;
+      document.getElementById('onboardDesc').textContent = t.onboardDesc;
+      document.getElementById('step1Title').textContent = t.step1Title;
+      document.getElementById('step1Desc').textContent = t.step1Desc;
+      document.getElementById('step2Title').textContent = t.step2Title;
+      document.getElementById('step2Desc').textContent = t.step2Desc;
+      document.getElementById('step3Title').textContent = t.step3Title;
+      document.getElementById('step3Desc').textContent = t.step3Desc;
+      document.getElementById('closeOnboardingBtn').textContent = t.startBtn;
+    }
+
     function updateBadges() {
       const t = i18n[state.lang];
-      document.getElementById('brandTitle').textContent = state.company.name || 'Adraschi Amaki';
+      document.getElementById('brandTitle').textContent = getLocalizedCompanyField('name');
       document.getElementById('brandSubtitle').textContent = t.brandSub;
+      document.getElementById('openAdminBtn').textContent = t.adminBtn;
+      updateOnboardingTexts();
 
       const cartBadge = document.getElementById('cartCountBadge');
       const totalItems = state.cart.length;
@@ -1129,7 +1310,6 @@
 
       const filtered = activeProducts.filter((p) => {
         const matchCat = state.selectedCategoryId === 'all' || p.categoryId === state.selectedCategoryId;
-        const matchSub = state.selectedSubcategoryId === 'all' || p.subcategoryId === state.selectedSubcategoryId;
         const q = (state.searchQuery || '').trim().toLowerCase();
         const pName = getLocalizedProductField(p, 'name').toLowerCase();
         const pDesc = getLocalizedProductField(p, 'description').toLowerCase();
@@ -1139,13 +1319,8 @@
           pName.includes(q) ||
           pDesc.includes(q) ||
           pColor.includes(q);
-        return matchCat && matchSub && matchQuery;
+        return matchCat && matchQuery;
       });
-
-      const visibleSubcategories =
-        state.selectedCategoryId === 'all'
-          ? state.subcategories
-          : state.subcategories.filter((s) => s.categoryId === state.selectedCategoryId);
 
       const catChips = [
         `<button type="button" data-cat="all" class="cat-chip shrink-0 px-3.5 py-2 rounded-xl text-xs font-semibold border transition ${
@@ -1161,25 +1336,6 @@
           }"><span>${c.icon || '🏷️'}</span><span>${getLocalizedCategoryName(c)}</span></button>`
         )
       ].join('');
-
-      const subChips = visibleSubcategories.length
-        ? `<div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
-            <button type="button" data-sub="all" class="sub-chip shrink-0 px-3 py-1 rounded-full text-[11px] font-medium border transition ${
-              state.selectedSubcategoryId === 'all'
-                ? 'bg-[#2A1F18] text-[#FFFDF9] border-[#2A1F18]'
-                : 'bg-[#F3ECE0] text-[#6E5C4F] border-[#E5D8C5]'
-            }">${t.all}</button>
-            ${visibleSubcategories
-              .map(
-                (s) => `<button type="button" data-sub="${s.id}" class="sub-chip shrink-0 px-3 py-1 rounded-full text-[11px] font-medium border transition ${
-                  state.selectedSubcategoryId === s.id
-                    ? 'bg-[#2A1F18] text-[#FFFDF9] border-[#2A1F18]'
-                    : 'bg-[#F3ECE0] text-[#6E5C4F] border-[#E5D8C5]'
-                }">${getLocalizedSubcategoryName(s)}</button>`
-              )
-              .join('')}
-          </div>`
-        : '';
 
       const cardsHtml = filtered.length
         ? filtered
@@ -1271,8 +1427,8 @@
         <div class="ikat-pattern rounded-2xl p-4 border border-[#E5D8C5]">
           <div class="flex items-start justify-between gap-2">
             <div>
-              <div class="font-display text-lg font-bold text-[#2A1F18]">${state.company.name}</div>
-              <p class="text-xs text-[#6E5C4F] mt-0.5">${state.company.tagline}</p>
+              <div class="font-display text-lg font-bold text-[#2A1F18]">${getLocalizedCompanyField('name')}</div>
+              <p class="text-xs text-[#6E5C4F] mt-0.5">${getLocalizedCompanyField('tagline')}</p>
             </div>
             <button id="sendSectionImgBtn" type="button" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-[#FFFDF9] hover:bg-[#F3ECE0] border border-[#E5D8C5] text-[#2A1F18] text-[11px] font-bold transition">
               📤 ${t.sendSectionImg}
@@ -1287,7 +1443,6 @@
           <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
             ${catChips}
           </div>
-          ${subChips}
         </div>
 
         <div class="space-y-3">
@@ -1299,14 +1454,14 @@
     function renderNews() {
       const t = i18n[state.lang];
       if (!state.news || !state.news.length) {
-        return `<div class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-6 text-center text-xs text-[#6E5C4F]">Hozircha yangiliklar yo'q.</div>`;
+        return `<div class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-6 text-center text-xs text-[#6E5C4F]">${t.noNews}</div>`;
       }
 
       return `
         <div class="space-y-3">
           <div class="flex items-center justify-between">
             <h2 class="font-display text-lg font-bold text-[#2A1F18]">${t.news}</h2>
-            <span class="text-xs text-[#6E5C4F]">${state.news.length} ta e'lon</span>
+            <span class="text-xs text-[#6E5C4F]">${state.news.length} ${t.announcementsSuffix}</span>
           </div>
           ${state.news
             .map((item) => {
@@ -1317,7 +1472,7 @@
                   ? 'bg-red-50 text-[#DC2626] border-red-200'
                   : 'bg-emerald-50 text-emerald-800 border-emerald-200';
 
-              const badgeText = getLocalizedNewsField(item, 'badge') || 'Yangilik';
+              const badgeText = getLocalizedNewsField(item, 'badge') || t.news;
               const titleText = getLocalizedNewsField(item, 'title');
               const bodyText = getLocalizedNewsField(item, 'text');
               const colorText = getLocalizedNewsField(item, 'colorName');
@@ -1429,19 +1584,19 @@
       return `
         <div class="space-y-3">
           <div class="ikat-pattern border border-[#E5D8C5] rounded-2xl p-4 space-y-1.5">
-            <h2 class="font-display text-xl font-bold text-[#2A1F18]">${c.name}</h2>
-            <p class="text-xs text-[#6E5C4F] leading-relaxed">${c.tagline}</p>
+            <h2 class="font-display text-xl font-bold text-[#2A1F18]">${getLocalizedCompanyField('name')}</h2>
+            <p class="text-xs text-[#6E5C4F] leading-relaxed">${getLocalizedCompanyField('tagline')}</p>
           </div>
 
           <div class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-4 space-y-3 text-xs">
             <div class="pb-2.5 border-b border-[#F3ECE0]">
               <div class="text-[#6E5C4F] font-medium mb-0.5">${t.addressLabel}</div>
-              <div class="font-bold text-sm text-[#2A1F18]">📍 ${c.address}</div>
+              <div class="font-bold text-sm text-[#2A1F18]">📍 ${getLocalizedCompanyField('address')}</div>
             </div>
 
             <div class="pb-2.5 border-b border-[#F3ECE0]">
               <div class="text-[#6E5C4F] font-medium mb-0.5">${t.deliveryLabel}</div>
-              <div class="font-semibold text-[#2A1F18] leading-relaxed">🚚 ${c.deliveryInfo}</div>
+              <div class="font-semibold text-[#2A1F18] leading-relaxed">🚚 ${getLocalizedCompanyField('deliveryInfo')}</div>
             </div>
 
             <div class="pb-2.5 border-b border-[#F3ECE0] flex items-center justify-between gap-2">
@@ -1449,7 +1604,7 @@
                 <div class="text-[#6E5C4F] font-medium mb-0.5">${t.phoneLabel}</div>
                 <div class="font-bold text-sm text-[#2A1F18]">📞 ${c.phone}</div>
               </div>
-              <a href="tel:${cleanPhone}" class="px-3 py-2 rounded-xl bg-[#F3ECE0] text-[#2A1F18] font-bold">Qo'ng'iroq</a>
+              <a href="tel:${cleanPhone}" class="px-3 py-2 rounded-xl bg-[#F3ECE0] text-[#2A1F18] font-bold">${t.callBtn}</a>
             </div>
 
             <div class="flex items-center justify-between gap-2">
@@ -1457,7 +1612,7 @@
                 <div class="text-[#6E5C4F] font-medium mb-0.5">${t.telegramLabel}</div>
                 <div class="font-bold text-sm text-amber-800">@${cleanTg}</div>
               </div>
-              <a href="https://t.me/${cleanTg}" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-xl bg-amber-700 text-white font-bold">Yozish</a>
+              <a href="https://t.me/${cleanTg}" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-xl bg-amber-700 text-white font-bold">${t.writeBtn}</a>
             </div>
           </div>
 
@@ -1519,13 +1674,6 @@
         });
       });
 
-      document.querySelectorAll('.sub-chip').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          state.selectedSubcategoryId = btn.dataset.sub;
-          render();
-        });
-      });
-
       document.querySelectorAll('[data-qty-delta]').forEach((btn) => {
         btn.addEventListener('click', () => {
           changeQty(btn.dataset.qtyDelta, parseFloat(btn.dataset.delta));
@@ -1567,6 +1715,7 @@
       const reopenBtn = document.getElementById('reopenOnboardingBtn');
       if (reopenBtn) {
         reopenBtn.addEventListener('click', () => {
+          updateOnboardingTexts();
           document.getElementById('onboardingModal').classList.remove('hidden');
         });
       }
@@ -1585,16 +1734,18 @@
 
     function renderAdminModal() {
       const card = document.getElementById('adminModalCard');
+      const t = i18n[state.lang];
+
       if (!adminUnlocked) {
         card.innerHTML = `
           <div class="flex items-center justify-between">
-            <h3 class="font-display font-bold text-base text-[#2A1F18]">Admin Kirish</h3>
+            <h3 class="font-display font-bold text-base text-[#2A1F18]">${t.adminLoginTitle}</h3>
             <button id="closeAdminX" type="button" class="text-sm font-bold text-[#6E5C4F] px-2">✕</button>
           </div>
-          <p class="text-xs text-[#6E5C4F]">Boshqaruv paneliga kirish uchun PIN kodni kiriting (standart: 1234).</p>
-          <input id="adminPinInput" type="password" inputmode="numeric" maxlength="10" placeholder="PIN kod" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-xl px-3.5 py-2.5 text-sm text-[#2A1F18] outline-none" />
-          <div id="adminPinError" class="hidden text-xs font-semibold text-[#DC2626]">PIN kod noto'g'ri!</div>
-          <button id="submitAdminPinBtn" type="button" class="w-full py-2.5 rounded-xl bg-amber-700 text-white text-xs font-bold">Kirish</button>
+          <p class="text-xs text-[#6E5C4F]">${t.adminPinDesc}</p>
+          <input id="adminPinInput" type="password" inputmode="numeric" maxlength="10" placeholder="${t.adminPinPlaceholder}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-xl px-3.5 py-2.5 text-sm text-[#2A1F18] outline-none" />
+          <div id="adminPinError" class="hidden text-xs font-semibold text-[#DC2626]">${t.adminPinError}</div>
+          <button id="submitAdminPinBtn" type="button" class="w-full py-2.5 rounded-xl bg-amber-700 text-white text-xs font-bold">${t.loginBtn}</button>
         `;
         document.getElementById('closeAdminX').addEventListener('click', closeAdminModal);
         document.getElementById('submitAdminPinBtn').addEventListener('click', () => {
@@ -1613,33 +1764,33 @@
 
       card.innerHTML = `
         <div class="flex items-center justify-between border-b border-[#E5D8C5] pb-2.5">
-          <h3 class="font-display font-bold text-base text-[#2A1F18]">Admin Panel</h3>
+          <h3 class="font-display font-bold text-base text-[#2A1F18]">${t.adminTitle}</h3>
           <div class="flex items-center gap-2">
-            <button id="lockAdminBtn" type="button" class="text-[11px] font-semibold text-[#6E5C4F] bg-[#F3ECE0] px-2 py-1 rounded-lg">Qulflash</button>
+            <button id="lockAdminBtn" type="button" class="text-[11px] font-semibold text-[#6E5C4F] bg-[#F3ECE0] px-2 py-1 rounded-lg">${t.lockBtn}</button>
             <button id="closeAdminX" type="button" class="text-sm font-bold text-[#6E5C4F] px-1.5">✕</button>
           </div>
         </div>
 
         <div class="grid grid-cols-3 gap-2 text-center">
           <div class="p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5]">
-            <div class="text-[10px] text-[#6E5C4F]">Kirishlar</div>
+            <div class="text-[10px] text-[#6E5C4F]">${t.visitsLabel}</div>
             <div class="text-sm font-extrabold text-[#2A1F18]">${analytics.visits}</div>
           </div>
           <div class="p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5]">
-            <div class="text-[10px] text-[#6E5C4F]">Buyurtma</div>
+            <div class="text-[10px] text-[#6E5C4F]">${t.ordersLabel}</div>
             <div class="text-sm font-extrabold text-[#2A1F18]">${analytics.ordersSent}</div>
           </div>
           <div class="p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5]">
-            <div class="text-[10px] text-[#6E5C4F]">Konversiya</div>
+            <div class="text-[10px] text-[#6E5C4F]">${t.conversionLabel}</div>
             <div class="text-sm font-extrabold text-amber-800">${convRate}%</div>
           </div>
         </div>
 
         <div class="flex gap-1.5 overflow-x-auto no-scrollbar">
-          <button type="button" data-adm-tab="products" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'products' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">Mahsulot</button>
-          <button type="button" data-adm-tab="categories" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'categories' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">Bo'limlar</button>
-          <button type="button" data-adm-tab="news" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'news' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">Yangilik</button>
-          <button type="button" data-adm-tab="company" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'company' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">Ma'lumot</button>
+          <button type="button" data-adm-tab="products" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'products' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">${t.admTabProducts}</button>
+          <button type="button" data-adm-tab="categories" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'categories' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">${t.admTabCategories}</button>
+          <button type="button" data-adm-tab="news" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'news' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">${t.admTabNews}</button>
+          <button type="button" data-adm-tab="company" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'company' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">${t.admTabCompany}</button>
         </div>
 
         <div id="adminBody" class="space-y-3 text-xs"></div>
@@ -1661,7 +1812,6 @@
       const body = document.getElementById('adminBody');
 
       if (adminTab === 'products') {
-        const t = i18n[state.lang];
         const draftThumbs = draftProductImages.length
           ? `<div class="flex flex-wrap gap-1.5 pt-1">
               ${draftProductImages
@@ -1675,28 +1825,28 @@
             </div>`
           : '';
 
+        const activeList = state.products.filter((p) => p.active !== false);
+        const archivedList = state.products.filter((p) => p.active === false);
+
         body.innerHTML = `
           <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-2">
-            <div class="font-bold text-[#2A1F18]">Yangi mahsulot qo'shish</div>
-            <input id="newProdName" type="text" placeholder="Nomi (masalan: Bahor Adras)" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
-            <div class="grid grid-cols-2 gap-2">
+            <div class="font-bold text-[#2A1F18]">${t.addProdTitle}</div>
+            <input id="newProdName" type="text" placeholder="${t.prodNamePlaceholder}" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <div class="grid grid-cols-1 gap-2">
               <select id="newProdCat" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2 py-2">
                 ${state.categories.map((c) => `<option value="${c.id}">${getLocalizedCategoryName(c)}</option>`).join('')}
               </select>
-              <select id="newProdSub" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2 py-2">
-                ${state.subcategories.map((s) => `<option value="${s.id}">${getLocalizedSubcategoryName(s)}</option>`).join('')}
-              </select>
             </div>
             <div class="grid grid-cols-2 gap-2">
-              <input id="newProdPrice" type="number" placeholder="Asosiy narx (so'm)" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
-              <input id="newProdSale" type="number" placeholder="Aksiya narx (ixtiyoriy)" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+              <input id="newProdPrice" type="number" placeholder="${t.prodPricePlaceholder}" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+              <input id="newProdSale" type="number" placeholder="${t.prodSalePlaceholder}" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
             </div>
             <div class="grid grid-cols-2 gap-2">
               <select id="newProdUnit" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2 py-2">
-                <option value="meter">Metrda</option>
-                <option value="piece">Donalab</option>
+                <option value="meter">${t.unitMeter}</option>
+                <option value="piece">${t.unitPiece}</option>
               </select>
-              <input id="newProdColor" type="text" placeholder="Rangi (masalan: Zumrad)" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+              <input id="newProdColor" type="text" placeholder="${t.prodColorPlaceholder}" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
             </div>
             <div class="space-y-1">
               <label class="block text-[11px] font-semibold text-[#6E5C4F]">${t.addImagesLabel}</label>
@@ -1704,21 +1854,45 @@
               <div id="draftImgCount" class="text-[11px] text-amber-800 font-semibold">${draftProductImages.length} ${t.imagesSelectedCount}</div>
               ${draftThumbs}
             </div>
-            <button id="addProdBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">Qo'shish</button>
+            <button id="addProdBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">${t.addBtn}</button>
           </div>
 
-          <div class="space-y-1.5 max-h-44 overflow-y-auto">
-            ${state.products
+          <div class="space-y-1.5 max-h-48 overflow-y-auto">
+            <div class="font-bold text-[#2A1F18] text-[11px]">${t.activeProductsTitle} (${activeList.length})</div>
+            ${activeList
               .map(
-                (p) => `<div class="flex items-center justify-between p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5]">
-                  <div class="min-w-0 pr-2">
-                    <div class="font-bold text-[#2A1F18] truncate">${p.name} (${(p.images || []).length} rasm)</div>
-                    <div class="text-[11px] text-[#6E5C4F]">${formatPrice(effectivePrice(p))} / ${p.unit === 'meter' ? 'metr' : 'dona'}</div>
+                (p) => `<div class="flex items-center justify-between p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] gap-2">
+                  <div class="min-w-0">
+                    <div class="font-bold text-[#2A1F18] truncate">${getLocalizedProductField(p, 'name')} (${(p.images || []).length})</div>
+                    <div class="text-[11px] text-[#6E5C4F]">${formatPrice(effectivePrice(p))} / ${p.unit === 'meter' ? t.meterUnit : t.pieceUnit}</div>
                   </div>
-                  <button type="button" data-del-prod="${p.id}" class="text-[#DC2626] font-bold shrink-0">O'chirish</button>
+                  <div class="flex items-center gap-2 shrink-0">
+                    <button type="button" data-archive-prod="${p.id}" class="text-amber-800 font-bold">${t.archiveBtn}</button>
+                    <button type="button" data-del-prod="${p.id}" class="text-[#DC2626] font-bold">${t.deleteBtn}</button>
+                  </div>
                 </div>`
               )
               .join('')}
+
+            ${
+              archivedList.length
+                ? `<div class="font-bold text-[#6E5C4F] text-[11px] pt-2">${t.archivedProductsTitle} (${archivedList.length})</div>
+                   ${archivedList
+                     .map(
+                       (p) => `<div class="flex items-center justify-between p-2.5 rounded-xl bg-[#F3ECE0]/70 border border-[#E5D8C5] gap-2 opacity-85">
+                         <div class="min-w-0">
+                           <div class="font-bold text-[#2A1F18] truncate">${getLocalizedProductField(p, 'name')} <span class="text-[10px] text-[#6E5C4F]">(${t.archivedBadge})</span></div>
+                           <div class="text-[11px] text-[#6E5C4F]">${formatPrice(effectivePrice(p))} / ${p.unit === 'meter' ? t.meterUnit : t.pieceUnit}</div>
+                         </div>
+                         <div class="flex items-center gap-2 shrink-0">
+                           <button type="button" data-unarchive-prod="${p.id}" class="text-emerald-700 font-bold">${t.unarchiveBtn}</button>
+                           <button type="button" data-del-prod="${p.id}" class="text-[#DC2626] font-bold">${t.deleteBtn}</button>
+                         </div>
+                       </div>`
+                     )
+                     .join('')}`
+                : ''
+            }
           </div>
         `;
 
@@ -1750,7 +1924,6 @@
         document.getElementById('addProdBtn').addEventListener('click', () => {
           const name = document.getElementById('newProdName').value.trim();
           const categoryId = document.getElementById('newProdCat').value;
-          const subcategoryId = document.getElementById('newProdSub').value;
           const price = parseFloat(document.getElementById('newProdPrice').value);
           const saleVal = parseFloat(document.getElementById('newProdSale').value);
           const unit = document.getElementById('newProdUnit').value;
@@ -1760,7 +1933,7 @@
           state.products.unshift({
             id: 'prod-' + Date.now(),
             categoryId,
-            subcategoryId,
+            subcategoryId: '',
             name,
             price,
             salePrice: !isNaN(saleVal) && saleVal > 0 ? saleVal : null,
@@ -1778,6 +1951,30 @@
           renderAdminModal();
         });
 
+        body.querySelectorAll('[data-archive-prod]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const target = state.products.find((p) => p.id === btn.dataset.archiveProd);
+            if (target) {
+              target.active = false;
+              saveState();
+              render();
+              renderAdminModal();
+            }
+          });
+        });
+
+        body.querySelectorAll('[data-unarchive-prod]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const target = state.products.find((p) => p.id === btn.dataset.unarchiveProd);
+            if (target) {
+              target.active = true;
+              saveState();
+              render();
+              renderAdminModal();
+            }
+          });
+        });
+
         body.querySelectorAll('[data-del-prod]').forEach((btn) => {
           btn.addEventListener('click', () => {
             state.products = state.products.filter((p) => p.id !== btn.dataset.delProd);
@@ -1789,11 +1986,11 @@
       } else if (adminTab === 'categories') {
         body.innerHTML = `
           <div class="space-y-2">
-            <div class="font-bold text-[#2A1F18]">6 ta asosiy bo'lim</div>
-            ${state.subcategories
+            <div class="font-bold text-[#2A1F18]">${t.mainCategoriesTitle}</div>
+            ${state.categories
               .map(
-                (s) => `<div class="p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] font-semibold text-[#2A1F18]">
-                  ${getLocalizedSubcategoryName(s)}
+                (c) => `<div class="p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] font-semibold text-[#2A1F18]">
+                  ${c.icon || '🏷️'} ${getLocalizedCategoryName(c)}
                 </div>`
               )
               .join('')}
@@ -1802,17 +1999,17 @@
       } else if (adminTab === 'news') {
         body.innerHTML = `
           <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-2">
-            <div class="font-bold text-[#2A1F18]">Yangi e'lon qo'shish</div>
-            <input id="newNewsTitle" type="text" placeholder="Sarlavha" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
-            <textarea id="newNewsText" rows="2" placeholder="Matn..." class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2"></textarea>
-            <button id="addNewsBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">Joylashtirish</button>
+            <div class="font-bold text-[#2A1F18]">${t.addNewsTitle}</div>
+            <input id="newNewsTitle" type="text" placeholder="${t.newsTitlePlaceholder}" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <textarea id="newNewsText" rows="2" placeholder="${t.newsTextPlaceholder}" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2"></textarea>
+            <button id="addNewsBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">${t.publishBtn}</button>
           </div>
           <div class="space-y-1.5 max-h-40 overflow-y-auto">
             ${state.news
               .map(
                 (n) => `<div class="flex items-center justify-between p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5]">
                   <span class="font-semibold truncate pr-2">${getLocalizedNewsField(n, 'title')}</span>
-                  <button type="button" data-del-news="${n.id}" class="text-[#DC2626] font-bold shrink-0">O'chirish</button>
+                  <button type="button" data-del-news="${n.id}" class="text-[#DC2626] font-bold shrink-0">${t.deleteBtn}</button>
                 </div>`
               )
               .join('')}
@@ -1825,7 +2022,7 @@
           state.news.unshift({
             id: 'news-' + Date.now(),
             type: 'new_material',
-            badge: 'Yangilik',
+            badge: t.news,
             title,
             text,
             colorName: '',
@@ -1848,12 +2045,12 @@
         const c = state.company;
         body.innerHTML = `
           <div class="space-y-2">
-            <input id="cmpName" type="text" value="${c.name}" placeholder="Do'kon nomi" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
-            <input id="cmpPhone" type="text" value="${c.phone}" placeholder="Telefon" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
-            <input id="cmpTg" type="text" value="${c.telegram}" placeholder="Telegram (@username)" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
-            <input id="cmpAddr" type="text" value="${c.address}" placeholder="Manzil" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
-            <textarea id="cmpDeliv" rows="2" placeholder="Dostavka" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2">${c.deliveryInfo}</textarea>
-            <button id="saveCmpBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">Saqlash</button>
+            <input id="cmpName" type="text" value="${c.name}" placeholder="${getLocalizedCompanyField('name')}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <input id="cmpPhone" type="text" value="${c.phone}" placeholder="${t.phoneLabel}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <input id="cmpTg" type="text" value="${c.telegram}" placeholder="${t.telegramLabel}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <input id="cmpAddr" type="text" value="${c.address}" placeholder="${t.addressLabel}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <textarea id="cmpDeliv" rows="2" placeholder="${t.deliveryLabel}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2">${c.deliveryInfo}</textarea>
+            <button id="saveCmpBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">${t.saveBtn}</button>
           </div>
         `;
         document.getElementById('saveCmpBtn').addEventListener('click', () => {
@@ -1864,7 +2061,7 @@
           state.company.deliveryInfo = document.getElementById('cmpDeliv').value.trim();
           saveState();
           render();
-          showToast('Saqlandi');
+          showToast(t.savedToast);
         });
       }
     }
@@ -1875,6 +2072,9 @@
       state.lang = e.target.value;
       saveState();
       render();
+      if (!document.getElementById('adminModal').classList.contains('hidden')) {
+        renderAdminModal();
+      }
     });
 
     document.querySelectorAll('.nav-btn').forEach((btn) => {
@@ -1891,6 +2091,7 @@
       document.getElementById('onboardingModal').classList.add('hidden');
     });
 
+    updateOnboardingTexts();
     if (!localStorage.getItem(STORAGE_KEYS.onboarded)) {
       document.getElementById('onboardingModal').classList.remove('hidden');
     }
