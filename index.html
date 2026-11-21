@@ -195,12 +195,44 @@
     });
 
     const STORAGE_KEYS = {
-      state: 'adraschi_amaki_state_v11',
-      onboarded: 'adraschi_amaki_onboarded_v11',
-      analytics: 'adraschi_amaki_analytics_v11'
+      state: 'adraschi_amaki_state_v12',
+      onboarded: 'adraschi_amaki_onboarded_v12',
+      analytics: 'adraschi_amaki_analytics_v12'
     };
 
-    const SUBCATEGORY_TRANSLATIONS = {};
+    const LEGACY_STATE_KEYS = [
+      'adraschi_amaki_state_v11',
+      'adraschi_amaki_state_v10',
+      'adraschi_amaki_state_v9',
+      'adraschi_amaki_state_v8',
+      'adraschi_amaki_state_v7',
+      'adraschi_amaki_state_v6',
+      'adraschi_amaki_state_v5',
+      'adraschi_amaki_state_v4',
+      'adraschi_amaki_state_v3',
+      'adraschi_amaki_state_v2',
+      'adraschi_amaki_state_v1',
+      'adraschi_amaki_state'
+    ];
+
+    const LEGACY_ANALYTICS_KEYS = [
+      'adraschi_amaki_analytics_v11',
+      'adraschi_amaki_analytics_v10',
+      'adraschi_amaki_analytics_v9',
+      'adraschi_amaki_analytics_v8',
+      'adraschi_amaki_analytics_v7',
+      'adraschi_amaki_analytics_v6',
+      'adraschi_amaki_analytics'
+    ];
+
+    const SUBCATEGORY_TRANSLATIONS = {
+      'sub-adras': { uz: 'Adras', kir: 'Адрас', ru: 'Адрас', en: 'Adras' },
+      'sub-atlas': { uz: 'Atlas', kir: 'Атлас', ru: 'Атлас', en: 'Atlas' },
+      'sub-beqasam': { uz: 'Beqasam', kir: 'Беқасам', ru: 'Бекасам', en: 'Bekasam' },
+      'sub-chopon': { uz: 'Choponlar', kir: 'Чопонлар', ru: 'Чапаны', en: 'Chapans' },
+      'sub-doppi': { uz: "Do'ppilar", kir: 'Дўппилар', ru: 'Тюбетейки', en: 'Doppis' },
+      'sub-sets': { uz: "Sovg'a to'plamlari", kir: 'Совға тўпламлари', ru: 'Подарочные наборы', en: 'Gift Sets' }
+    };
 
     const CATEGORY_TRANSLATIONS = {
       'cat-fabrics': {
@@ -424,13 +456,20 @@
       { id: 'cat-souvenirs', name: "Eslatma va sovg'alar", icon: '🎁' }
     ];
 
-    const initialSubcategories = [];
+    const initialSubcategories = [
+      { id: 'sub-adras', categoryId: 'cat-fabrics', name: 'Adras' },
+      { id: 'sub-atlas', categoryId: 'cat-fabrics', name: 'Atlas' },
+      { id: 'sub-beqasam', categoryId: 'cat-fabrics', name: 'Beqasam' },
+      { id: 'sub-chopon', categoryId: 'cat-clothing', name: 'Choponlar' },
+      { id: 'sub-doppi', categoryId: 'cat-clothing', name: "Do'ppilar" },
+      { id: 'sub-sets', categoryId: 'cat-souvenirs', name: "Sovg'a to'plamlari" }
+    ];
 
     const initialProducts = [
       {
         id: 'prod-1',
         categoryId: 'cat-fabrics',
-        subcategoryId: '',
+        subcategoryId: 'sub-adras',
         name: 'Zumrad Oltin Adras',
         price: 85000,
         salePrice: 72000,
@@ -445,7 +484,7 @@
       {
         id: 'prod-2',
         categoryId: 'cat-fabrics',
-        subcategoryId: '',
+        subcategoryId: 'sub-atlas',
         name: 'Xon Atlas — Qirmizi Naqsh',
         price: 110000,
         salePrice: null,
@@ -460,7 +499,7 @@
       {
         id: 'prod-3',
         categoryId: 'cat-fabrics',
-        subcategoryId: '',
+        subcategoryId: 'sub-beqasam',
         name: 'Zarrin Beqasam',
         price: 95000,
         salePrice: 82000,
@@ -475,7 +514,7 @@
       {
         id: 'prod-4',
         categoryId: 'cat-clothing',
-        subcategoryId: '',
+        subcategoryId: 'sub-chopon',
         name: 'Adras Astarli Milliy Chopon',
         price: 650000,
         salePrice: 580000,
@@ -490,7 +529,7 @@
       {
         id: 'prod-5',
         categoryId: 'cat-clothing',
-        subcategoryId: '',
+        subcategoryId: 'sub-doppi',
         name: "Chust Kashta Do'ppi",
         price: 75000,
         salePrice: null,
@@ -505,7 +544,7 @@
       {
         id: 'prod-6',
         categoryId: 'cat-souvenirs',
-        subcategoryId: '',
+        subcategoryId: 'sub-sets',
         name: "Sovg'alik Mato va Do'ppi To'plami",
         price: 340000,
         salePrice: 295000,
@@ -666,9 +705,13 @@
         newsTitlePlaceholder: 'Sarlavha',
         newsTextPlaceholder: 'Matn...',
         publishBtn: 'Joylashtirish',
-        mainCategoriesTitle: "Asosiy bo'limlar",
+        mainCategoriesTitle: "Asosiy (katta) bo'limlar",
         editCategoryTitle: "Bo'limni o'zgartirish",
         addCategoryPlaceholder: "Yangi bo'lim nomi",
+        subCategoriesTitle: "Kichik bo'limlar (katta bo'lim ichida)",
+        addSubCategoryPlaceholder: "Yangi kichik bo'lim nomi",
+        editSubCategoryTitle: "Kichik bo'limni tahrirlash",
+        noSubSelect: "Kichik bo'limsiz",
         authSettingsTitle: "Kod o'zgartirish bo'limi",
         newMasterCodeLabel: '1-bosqich: Harfli kod',
         newNumericPinLabel: '2-bosqich: Oddiy raqamli kod',
@@ -762,9 +805,13 @@
         newsTitlePlaceholder: 'Сарлавҳа',
         newsTextPlaceholder: 'Матн...',
         publishBtn: 'Жойлаштириш',
-        mainCategoriesTitle: 'Асосий бўлимлар',
+        mainCategoriesTitle: 'Асосий (катта) бўлимлар',
         editCategoryTitle: 'Бўлимни ўзгартириш',
         addCategoryPlaceholder: 'Янги бўлим номи',
+        subCategoriesTitle: 'Кичик бўлимлар (катта бўлим ичида)',
+        addSubCategoryPlaceholder: 'Янги кичик бўлим номи',
+        editSubCategoryTitle: 'Кичик бўлимни таҳрирлаш',
+        noSubSelect: 'Кичик бўлимсиз',
         authSettingsTitle: 'Код ўзгартириш бўлими',
         newMasterCodeLabel: '1-босқич: Ҳарфли код',
         newNumericPinLabel: '2-босқич: Оддий рақамли код',
@@ -861,6 +908,10 @@
         mainCategoriesTitle: 'Основные разделы',
         editCategoryTitle: 'Изменить раздел',
         addCategoryPlaceholder: 'Название нового раздела',
+        subCategoriesTitle: 'Подразделы (внутри раздела)',
+        addSubCategoryPlaceholder: 'Название подраздела',
+        editSubCategoryTitle: 'Редактировать подраздел',
+        noSubSelect: 'Без подраздела',
         authSettingsTitle: 'Раздел смены кодов',
         newMasterCodeLabel: '1-й этап: Буквенный код',
         newNumericPinLabel: '2-й этап: Обычный цифровой код',
@@ -957,6 +1008,10 @@
         mainCategoriesTitle: 'Main sections',
         editCategoryTitle: 'Edit section',
         addCategoryPlaceholder: 'New section name',
+        subCategoriesTitle: 'Sub-sections (inside section)',
+        addSubCategoryPlaceholder: 'New sub-section name',
+        editSubCategoryTitle: 'Edit sub-section',
+        noSubSelect: 'No sub-section',
         authSettingsTitle: 'Change codes section',
         newMasterCodeLabel: 'Step 1: Letter code',
         newNumericPinLabel: 'Step 2: Numeric code',
@@ -1012,22 +1067,40 @@
       return c[field] || '';
     }
 
-    function normalizeSubcategories() {
-      return [];
+    function findSavedStateRaw() {
+      const candidates = [STORAGE_KEYS.state, ...LEGACY_STATE_KEYS];
+      for (const key of candidates) {
+        try {
+          const raw = localStorage.getItem(key);
+          if (raw) return raw;
+        } catch (e) {}
+      }
+      return null;
     }
 
     function loadState() {
       try {
-        const raw = localStorage.getItem(STORAGE_KEYS.state);
+        const raw = findSavedStateRaw();
         if (!raw) return structuredClone(defaultState);
         const parsed = JSON.parse(raw);
-        return {
+
+        const hasCustomSubs = Array.isArray(parsed.subcategories) && parsed.subcategories.length > 0;
+        const subs = hasCustomSubs ? parsed.subcategories : structuredClone(initialSubcategories);
+
+        const mergedState = {
           ...structuredClone(defaultState),
           ...parsed,
-          categories: Array.isArray(parsed.categories) && parsed.categories.length ? parsed.categories : structuredClone(initialCategories),
-          subcategories: [],
+          categories: Array.isArray(parsed.categories) && parsed.categories.length
+            ? parsed.categories
+            : structuredClone(initialCategories),
+          subcategories: subs,
           products: Array.isArray(parsed.products) && parsed.products.length
-            ? parsed.products.map((p) => ({ ...p, images: Array.isArray(p.images) ? p.images : [], active: p.active !== false }))
+            ? parsed.products.map((p) => ({
+                ...p,
+                subcategoryId: p.subcategoryId !== undefined ? p.subcategoryId : '',
+                images: Array.isArray(p.images) ? p.images : [],
+                active: p.active !== false
+              }))
             : structuredClone(initialProducts),
           news: Array.isArray(parsed.news) ? parsed.news : structuredClone(initialNews),
           cart: Array.isArray(parsed.cart) ? parsed.cart : [],
@@ -1040,23 +1113,32 @@
             ...(parsed.company || {})
           }
         };
+
+        try {
+          localStorage.setItem(STORAGE_KEYS.state, JSON.stringify(mergedState));
+        } catch (e) {}
+
+        return mergedState;
       } catch (e) {
         return structuredClone(defaultState);
       }
     }
 
     function loadAnalytics() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEYS.analytics);
-        if (!raw) return { visits: 1, ordersSent: 0 };
-        const parsed = JSON.parse(raw);
-        return {
-          visits: Number(parsed.visits) || 1,
-          ordersSent: Number(parsed.ordersSent) || 0
-        };
-      } catch (e) {
-        return { visits: 1, ordersSent: 0 };
+      const keys = [STORAGE_KEYS.analytics, ...LEGACY_ANALYTICS_KEYS];
+      for (const key of keys) {
+        try {
+          const raw = localStorage.getItem(key);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            return {
+              visits: Number(parsed.visits) || 1,
+              ordersSent: Number(parsed.ordersSent) || 0
+            };
+          }
+        } catch (e) {}
       }
+      return { visits: 1, ordersSent: 0 };
     }
 
     let state = loadState();
@@ -1071,7 +1153,10 @@
     let draftProductImages = [];
     let editingProductId = null;
     let editingCategoryId = null;
+    let editingSubcategoryId = null;
     let editingNewsId = null;
+    let adminSubParentCatId = state.categories[0] ? state.categories[0].id : 'cat-fabrics';
+    let adminProdFormCatId = '';
 
     function saveState() {
       try {
@@ -1263,12 +1348,15 @@
     function sendSectionImage() {
       const t = i18n[state.lang];
       const activeCat = state.categories.find((c) => c.id === state.selectedCategoryId);
-      const sectionTitle = activeCat ? getLocalizedCategoryName(activeCat) : t.all;
+      const activeSub = state.subcategories.find((s) => s.id === state.selectedSubcategoryId);
+      let sectionTitle = activeCat ? getLocalizedCategoryName(activeCat) : t.all;
+      if (activeSub) sectionTitle += ` — ${getLocalizedSubcategoryName(activeSub)}`;
 
       const firstWithImg = state.products.find(
         (p) =>
           p.active !== false &&
           (state.selectedCategoryId === 'all' || p.categoryId === state.selectedCategoryId) &&
+          (state.selectedSubcategoryId === 'all' || p.subcategoryId === state.selectedSubcategoryId) &&
           Array.isArray(p.images) &&
           p.images.length > 0
       );
@@ -1380,8 +1468,14 @@
       const t = i18n[state.lang];
       const activeProducts = state.products.filter((p) => p.active !== false);
 
+      const availableSubs =
+        state.selectedCategoryId === 'all'
+          ? state.subcategories
+          : state.subcategories.filter((s) => s.categoryId === state.selectedCategoryId);
+
       const filtered = activeProducts.filter((p) => {
         const matchCat = state.selectedCategoryId === 'all' || p.categoryId === state.selectedCategoryId;
+        const matchSub = state.selectedSubcategoryId === 'all' || p.subcategoryId === state.selectedSubcategoryId;
         const q = (state.searchQuery || '').trim().toLowerCase();
         const pName = getLocalizedProductField(p, 'name').toLowerCase();
         const pDesc = getLocalizedProductField(p, 'description').toLowerCase();
@@ -1391,7 +1485,7 @@
           pName.includes(q) ||
           pDesc.includes(q) ||
           pColor.includes(q);
-        return matchCat && matchQuery;
+        return matchCat && matchSub && matchQuery;
       });
 
       const catChips = [
@@ -1409,6 +1503,26 @@
         )
       ].join('');
 
+      const subChips =
+        state.selectedCategoryId !== 'all' && availableSubs.length
+          ? `<div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5 pl-1">
+              <button type="button" data-sub="all" class="sub-chip shrink-0 px-3 py-1.5 rounded-lg text-[11px] font-semibold border transition ${
+                state.selectedSubcategoryId === 'all'
+                  ? 'bg-amber-100 text-amber-900 border-amber-400'
+                  : 'bg-[#FAF6F0] text-[#6E5C4F] border-[#E5D8C5]'
+              }">${t.all}</button>
+              ${availableSubs
+                .map(
+                  (s) => `<button type="button" data-sub="${s.id}" class="sub-chip shrink-0 px-3 py-1.5 rounded-lg text-[11px] font-semibold border transition ${
+                    state.selectedSubcategoryId === s.id
+                      ? 'bg-amber-100 text-amber-900 border-amber-400'
+                      : 'bg-[#FAF6F0] text-[#6E5C4F] border-[#E5D8C5]'
+                  }">${getLocalizedSubcategoryName(s)}</button>`
+                )
+                .join('')}
+            </div>`
+          : '';
+
       const cardsHtml = filtered.length
         ? filtered
             .map((p) => {
@@ -1421,6 +1535,10 @@
               const pColor = getLocalizedProductField(p, 'colorName');
               const pDesc = getLocalizedProductField(p, 'description');
               const imgs = Array.isArray(p.images) ? p.images : [];
+              const subObj = p.subcategoryId ? state.subcategories.find((s) => s.id === p.subcategoryId) : null;
+              const subBadge = subObj
+                ? `<span class="px-2 py-0.5 rounded-md bg-amber-50 border border-amber-200 text-amber-900 text-[10px] font-semibold">${getLocalizedSubcategoryName(subObj)}</span>`
+                : '';
 
               const galleryHtml = imgs.length
                 ? `<div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
@@ -1439,7 +1557,10 @@
                 <article class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-2xl p-4 shadow-2xs space-y-3">
                   <div class="flex items-start justify-between gap-2">
                     <div>
-                      <h3 class="font-bold text-base text-[#2A1F18] leading-snug">${pName}</h3>
+                      <div class="flex items-center gap-1.5 flex-wrap">
+                        <h3 class="font-bold text-base text-[#2A1F18] leading-snug">${pName}</h3>
+                        ${subBadge}
+                      </div>
                       ${
                         pColor
                           ? `<div class="inline-flex items-center gap-1.5 mt-1 text-xs text-[#6E5C4F]">
@@ -1515,6 +1636,7 @@
           <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
             ${catChips}
           </div>
+          ${subChips}
         </div>
 
         <div class="space-y-3">
@@ -1746,6 +1868,13 @@
         });
       });
 
+      document.querySelectorAll('.sub-chip').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.selectedSubcategoryId = btn.dataset.sub;
+          render();
+        });
+      });
+
       document.querySelectorAll('[data-qty-delta]').forEach((btn) => {
         btn.addEventListener('click', () => {
           changeQty(btn.dataset.qtyDelta, parseFloat(btn.dataset.delta));
@@ -1793,11 +1922,14 @@
       }
     }
 
-    // Admin Modal Logic (2-step login + codes tab + category edit + archive)
+    // Admin Modal Logic
     function openAdminModal() {
       const modal = document.getElementById('adminModal');
       modal.classList.remove('hidden');
       if (!adminUnlocked) adminLoginStep = 1;
+      if (!adminSubParentCatId && state.categories[0]) {
+        adminSubParentCatId = state.categories[0].id;
+      }
       renderAdminModal();
     }
 
@@ -1910,6 +2042,7 @@
         adminLoginStep = 1;
         editingProductId = null;
         editingCategoryId = null;
+        editingSubcategoryId = null;
         editingNewsId = null;
         draftProductImages = [];
         renderAdminModal();
@@ -1928,7 +2061,13 @@
         const editingProd = editingProductId ? state.products.find((p) => p.id === editingProductId) : null;
         const formTitle = editingProd ? t.editProdTitle : t.addProdTitle;
         const initName = editingProd ? editingProd.name : '';
-        const initCat = editingProd ? editingProd.categoryId : (state.categories[0] ? state.categories[0].id : '');
+        const initCat = editingProd
+          ? editingProd.categoryId
+          : (adminProdFormCatId || (state.categories[0] ? state.categories[0].id : ''));
+        const subsForCat = state.subcategories.filter((s) => s.categoryId === initCat);
+        const initSub = editingProd
+          ? (editingProd.subcategoryId || '')
+          : (subsForCat.some((s) => s.id === (state.products[0] && state.products[0].subcategoryId)) ? '' : '');
         const initPrice = editingProd ? editingProd.price : '';
         const initSale = editingProd && editingProd.salePrice ? editingProd.salePrice : '';
         const initUnit = editingProd ? editingProd.unit : 'meter';
@@ -1957,9 +2096,13 @@
               ${editingProd ? `<button id="cancelEditProdBtn" type="button" class="text-[11px] font-semibold text-[#6E5C4F]">${t.cancelEditBtn}</button>` : ''}
             </div>
             <input id="newProdName" type="text" value="${String(initName).replace(/"/g, '&quot;')}" placeholder="${t.prodNamePlaceholder}" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
-            <div class="grid grid-cols-1 gap-2">
+            <div class="grid grid-cols-2 gap-2">
               <select id="newProdCat" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2 py-2">
                 ${state.categories.map((c) => `<option value="${c.id}" ${c.id === initCat ? 'selected' : ''}>${getLocalizedCategoryName(c)}</option>`).join('')}
+              </select>
+              <select id="newProdSub" class="bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2 py-2">
+                <option value="">${t.noSubSelect}</option>
+                ${subsForCat.map((s) => `<option value="${s.id}" ${s.id === initSub ? 'selected' : ''}>${getLocalizedSubcategoryName(s)}</option>`).join('')}
               </select>
             </div>
             <div class="grid grid-cols-2 gap-2">
@@ -1985,19 +2128,20 @@
           <div class="space-y-1.5 max-h-48 overflow-y-auto">
             <div class="font-bold text-[#2A1F18] text-[11px]">${t.activeProductsTitle} (${activeList.length})</div>
             ${activeList
-              .map(
-                (p) => `<div class="flex items-center justify-between p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] gap-2">
+              .map((p) => {
+                const sub = p.subcategoryId ? state.subcategories.find((s) => s.id === p.subcategoryId) : null;
+                return `<div class="flex items-center justify-between p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] gap-2">
                   <div class="min-w-0">
                     <div class="font-bold text-[#2A1F18] truncate">${getLocalizedProductField(p, 'name')} (${(p.images || []).length})</div>
-                    <div class="text-[11px] text-[#6E5C4F]">${formatPrice(effectivePrice(p))} / ${p.unit === 'meter' ? t.meterUnit : t.pieceUnit}</div>
+                    <div class="text-[11px] text-[#6E5C4F]">${formatPrice(effectivePrice(p))} / ${p.unit === 'meter' ? t.meterUnit : t.pieceUnit}${sub ? ` · ${getLocalizedSubcategoryName(sub)}` : ''}</div>
                   </div>
                   <div class="flex items-center gap-2 shrink-0">
                     <button type="button" data-edit-prod="${p.id}" class="text-blue-700 font-bold">${t.editBtn}</button>
                     <button type="button" data-archive-prod="${p.id}" class="text-amber-800 font-bold">${t.archiveBtn}</button>
                     <button type="button" data-del-prod="${p.id}" class="text-[#DC2626] font-bold">${t.deleteBtn}</button>
                   </div>
-                </div>`
-              )
+                </div>`;
+              })
               .join('')}
 
             ${
@@ -2023,10 +2167,26 @@
           </div>
         `;
 
+        const prodCatSel = document.getElementById('newProdCat');
+        if (prodCatSel) {
+          prodCatSel.addEventListener('change', (e) => {
+            adminProdFormCatId = e.target.value;
+            if (editingProductId) {
+              const target = state.products.find((p) => p.id === editingProductId);
+              if (target) {
+                target.categoryId = e.target.value;
+                target.subcategoryId = '';
+              }
+            }
+            renderAdminModal();
+          });
+        }
+
         const cancelEditBtn = document.getElementById('cancelEditProdBtn');
         if (cancelEditBtn) {
           cancelEditBtn.addEventListener('click', () => {
             editingProductId = null;
+            adminProdFormCatId = '';
             draftProductImages = [];
             renderAdminModal();
           });
@@ -2062,6 +2222,7 @@
             const target = state.products.find((p) => p.id === btn.dataset.editProd);
             if (!target) return;
             editingProductId = target.id;
+            adminProdFormCatId = target.categoryId;
             draftProductImages = Array.isArray(target.images) ? [...target.images] : [];
             renderAdminModal();
           });
@@ -2070,6 +2231,7 @@
         document.getElementById('addProdBtn').addEventListener('click', () => {
           const name = document.getElementById('newProdName').value.trim();
           const categoryId = document.getElementById('newProdCat').value;
+          const subcategoryId = document.getElementById('newProdSub').value;
           const price = parseFloat(document.getElementById('newProdPrice').value);
           const saleVal = parseFloat(document.getElementById('newProdSale').value);
           const unit = document.getElementById('newProdUnit').value;
@@ -2081,6 +2243,7 @@
             if (target) {
               target.name = name;
               target.categoryId = categoryId;
+              target.subcategoryId = subcategoryId;
               target.price = price;
               target.salePrice = !isNaN(saleVal) && saleVal > 0 ? saleVal : null;
               target.unit = unit;
@@ -2093,7 +2256,7 @@
             state.products.unshift({
               id: 'prod-' + Date.now(),
               categoryId,
-              subcategoryId: '',
+              subcategoryId,
               name,
               price,
               salePrice: !isNaN(saleVal) && saleVal > 0 ? saleVal : null,
@@ -2107,6 +2270,7 @@
             });
           }
 
+          adminProdFormCatId = '';
           draftProductImages = [];
           saveState();
           render();
@@ -2155,6 +2319,15 @@
         const initCatName = editingCat ? editingCat.name : '';
         const initCatIcon = editingCat ? (editingCat.icon || '🏷️') : '🏷️';
 
+        if (!adminSubParentCatId && state.categories[0]) {
+          adminSubParentCatId = state.categories[0].id;
+        }
+
+        const editingSub = editingSubcategoryId ? state.subcategories.find((s) => s.id === editingSubcategoryId) : null;
+        const initSubName = editingSub ? editingSub.name : '';
+        const parentCatForSub = editingSub ? editingSub.categoryId : adminSubParentCatId;
+        const currentSubs = state.subcategories.filter((s) => s.categoryId === parentCatForSub);
+
         body.innerHTML = `
           <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-2">
             <div class="flex items-center justify-between">
@@ -2168,7 +2341,7 @@
             </div>
           </div>
 
-          <div class="space-y-1.5 max-h-48 overflow-y-auto">
+          <div class="space-y-1.5 max-h-36 overflow-y-auto">
             ${state.categories
               .map(
                 (c) => `<div class="flex items-center justify-between p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] font-semibold text-[#2A1F18] gap-2">
@@ -2180,6 +2353,33 @@
                 </div>`
               )
               .join('')}
+          </div>
+
+          <div class="p-3 rounded-xl bg-amber-50/60 border border-amber-200 space-y-2">
+            <div class="flex items-center justify-between">
+              <div class="font-bold text-[#2A1F18]">${editingSub ? t.editSubCategoryTitle : t.subCategoriesTitle}</div>
+              ${editingSub ? `<button id="cancelEditSubBtn" type="button" class="text-[11px] font-semibold text-[#6E5C4F]">${t.cancelEditBtn}</button>` : ''}
+            </div>
+            <select id="subParentCatSelect" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2 font-semibold">
+              ${state.categories.map((c) => `<option value="${c.id}" ${c.id === parentCatForSub ? 'selected' : ''}>${c.icon || '🏷️'} ${getLocalizedCategoryName(c)}</option>`).join('')}
+            </select>
+            <div class="flex gap-2">
+              <input id="newSubNameInput" type="text" value="${String(initSubName).replace(/"/g, '&quot;')}" placeholder="${t.addSubCategoryPlaceholder}" class="flex-1 bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+              <button id="addSubBtn" type="button" class="px-3 py-2 rounded-lg bg-amber-700 text-white font-bold shrink-0">${editingSub ? t.saveBtn : t.addBtn}</button>
+            </div>
+            <div class="space-y-1.5 max-h-32 overflow-y-auto pt-1">
+              ${currentSubs
+                .map(
+                  (s) => `<div class="flex items-center justify-between p-2 rounded-lg bg-[#FFFDF9] border border-[#E5D8C5] font-semibold text-[#2A1F18] gap-2">
+                    <span class="truncate">↳ ${getLocalizedSubcategoryName(s)}</span>
+                    <div class="flex items-center gap-2 shrink-0">
+                      <button type="button" data-edit-sub="${s.id}" class="text-blue-700 font-bold">${t.editBtn}</button>
+                      <button type="button" data-del-sub="${s.id}" class="text-[#DC2626] font-bold">${t.deleteBtn}</button>
+                    </div>
+                  </div>`
+                )
+                .join('')}
+            </div>
           </div>
         `;
 
@@ -2218,11 +2418,9 @@
             }
             editingCategoryId = null;
           } else {
-            state.categories.push({
-              id: 'cat-' + Date.now(),
-              name,
-              icon
-            });
+            const newId = 'cat-' + Date.now();
+            state.categories.push({ id: newId, name, icon });
+            adminSubParentCatId = newId;
           }
 
           saveState();
@@ -2236,8 +2434,87 @@
             const catId = btn.dataset.delCat;
             if (editingCategoryId === catId) editingCategoryId = null;
             state.categories = state.categories.filter((c) => c.id !== catId);
+            state.subcategories = state.subcategories.filter((s) => s.categoryId !== catId);
             if (state.selectedCategoryId === catId) {
               state.selectedCategoryId = 'all';
+              state.selectedSubcategoryId = 'all';
+            }
+            if (adminSubParentCatId === catId) {
+              adminSubParentCatId = state.categories[0] ? state.categories[0].id : '';
+            }
+            saveState();
+            render();
+            renderAdminModal();
+          });
+        });
+
+        const subParentSel = document.getElementById('subParentCatSelect');
+        if (subParentSel) {
+          subParentSel.addEventListener('change', (e) => {
+            adminSubParentCatId = e.target.value;
+            editingSubcategoryId = null;
+            renderAdminModal();
+          });
+        }
+
+        const cancelEditSubBtn = document.getElementById('cancelEditSubBtn');
+        if (cancelEditSubBtn) {
+          cancelEditSubBtn.addEventListener('click', () => {
+            editingSubcategoryId = null;
+            renderAdminModal();
+          });
+        }
+
+        body.querySelectorAll('[data-edit-sub]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const target = state.subcategories.find((s) => s.id === btn.dataset.editSub);
+            if (!target) return;
+            editingSubcategoryId = target.id;
+            adminSubParentCatId = target.categoryId;
+            renderAdminModal();
+          });
+        });
+
+        document.getElementById('addSubBtn').addEventListener('click', () => {
+          const parentId = document.getElementById('subParentCatSelect').value;
+          const name = (document.getElementById('newSubNameInput').value || '').trim();
+          if (!parentId || !name) return;
+
+          if (editingSubcategoryId) {
+            const target = state.subcategories.find((s) => s.id === editingSubcategoryId);
+            if (target) {
+              target.categoryId = parentId;
+              target.name = name;
+              if (SUBCATEGORY_TRANSLATIONS[target.id]) {
+                SUBCATEGORY_TRANSLATIONS[target.id].uz = name;
+              }
+            }
+            editingSubcategoryId = null;
+          } else {
+            state.subcategories.push({
+              id: 'sub-' + Date.now(),
+              categoryId: parentId,
+              name
+            });
+          }
+
+          adminSubParentCatId = parentId;
+          saveState();
+          render();
+          renderAdminModal();
+          showToast(t.savedToast);
+        });
+
+        body.querySelectorAll('[data-del-sub]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const subId = btn.dataset.delSub;
+            if (editingSubcategoryId === subId) editingSubcategoryId = null;
+            state.subcategories = state.subcategories.filter((s) => s.id !== subId);
+            state.products.forEach((p) => {
+              if (p.subcategoryId === subId) p.subcategoryId = '';
+            });
+            if (state.selectedSubcategoryId === subId) {
+              state.selectedSubcategoryId = 'all';
             }
             saveState();
             render();
