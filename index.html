@@ -195,9 +195,9 @@
     });
 
     const STORAGE_KEYS = {
-      state: 'adraschi_amaki_state_v8',
-      onboarded: 'adraschi_amaki_onboarded_v8',
-      analytics: 'adraschi_amaki_analytics_v8'
+      state: 'adraschi_amaki_state_v10',
+      onboarded: 'adraschi_amaki_onboarded_v10',
+      analytics: 'adraschi_amaki_analytics_v10'
     };
 
     const SUBCATEGORY_TRANSLATIONS = {};
@@ -630,11 +630,11 @@
         adminBtn: 'Admin',
         adminTitle: 'Admin Panel',
         adminLoginTitle: 'Admin Kirish (2 bosqichli)',
-        step1CodeLabel: '1-bosqich: Asosiy kod',
-        step1CodePlaceholder: 'Asosiy kodni kiriting',
+        step1CodeLabel: '1-bosqich: Harfli kod',
+        step1CodePlaceholder: 'Harfli kodni kiriting',
         nextStepBtn: 'Keyingi bosqich',
-        step2PinLabel: '2-bosqich: Raqamli PIN kod',
-        step2PinPlaceholder: 'Raqamli PIN kodni kiriting',
+        step2PinLabel: '2-bosqich: Oddiy raqamli kod',
+        step2PinPlaceholder: 'Raqamli kodni kiriting',
         backStepBtn: 'Orqaga',
         adminCodeError: "Kod noto'g'ri! Qayta kiriting.",
         loginBtn: 'Kirish',
@@ -645,10 +645,11 @@
         admTabProducts: 'Mahsulot',
         admTabCategories: "Bo'limlar",
         admTabNews: 'Yangilik',
+        admTabCodes: 'Kodlar',
         admTabCompany: "Ma'lumot",
         addProdTitle: "Yangi mahsulot qo'shish",
-        editProdTitle: 'Mahsulotni oʻzgartirish',
-        editBtn: 'Oʻzgartirish',
+        editProdTitle: 'Mahsulotni tahrirlash',
+        editBtn: 'Tahrirlash',
         cancelEditBtn: 'Bekor qilish',
         prodNamePlaceholder: 'Nomi (masalan: Bahor Adras)',
         prodPricePlaceholder: "Asosiy narx (so'm)",
@@ -661,14 +662,16 @@
         saveBtn: 'Saqlash',
         savedToast: 'Saqlandi',
         addNewsTitle: "Yangi e'lon qo'shish",
+        editNewsTitle: "E'lonni tahrirlash",
         newsTitlePlaceholder: 'Sarlavha',
         newsTextPlaceholder: 'Matn...',
         publishBtn: 'Joylashtirish',
         mainCategoriesTitle: "Asosiy bo'limlar",
+        editCategoryTitle: "Bo'limni tahrirlash",
         addCategoryPlaceholder: "Yangi bo'lim nomi",
-        authSettingsTitle: 'Admin kirish kodlarini oʻzgartirish',
-        newMasterCodeLabel: 'Yangi asosiy kod (1-bosqich)',
-        newNumericPinLabel: 'Yangi raqamli PIN kod (2-bosqich)',
+        authSettingsTitle: 'Kod oʻzgartirish boʻlimi (2 bosqichli)',
+        newMasterCodeLabel: '1-bosqich: Harfli kod',
+        newNumericPinLabel: '2-bosqich: Oddiy raqamli kod',
         newPinPlaceholder: 'Faqat raqamlar (masalan: 5678)'
       },
       kir: {
@@ -723,11 +726,11 @@
         adminBtn: 'Админ',
         adminTitle: 'Админ Панел',
         adminLoginTitle: 'Админ Кириш (2 босқичли)',
-        step1CodeLabel: '1-босқич: Асосий код',
-        step1CodePlaceholder: 'Асосий кодни киритинг',
+        step1CodeLabel: '1-босқич: Ҳарфли код',
+        step1CodePlaceholder: 'Ҳарфли кодни киритинг',
         nextStepBtn: 'Кейинги босқич',
-        step2PinLabel: '2-босқич: Рақамли PIN код',
-        step2PinPlaceholder: 'Рақамли PIN кодни киритинг',
+        step2PinLabel: '2-босқич: Оддий рақамли код',
+        step2PinPlaceholder: 'Рақамли кодни киритинг',
         backStepBtn: 'Орқага',
         adminCodeError: 'Код нотўғри! Қайта киритинг.',
         loginBtn: 'Кириш',
@@ -738,10 +741,11 @@
         admTabProducts: 'Маҳсулот',
         admTabCategories: 'Бўлимлар',
         admTabNews: 'Янгилик',
+        admTabCodes: 'Кодлар',
         admTabCompany: 'Маълумот',
         addProdTitle: 'Янги маҳсулот қўшиш',
-        editProdTitle: 'Маҳсулотни ўзгартириш',
-        editBtn: 'Ўзгартириш',
+        editProdTitle: 'Маҳсулотни таҳрирлаш',
+        editBtn: 'Таҳрирлаш',
         cancelEditBtn: 'Бекор қилиш',
         prodNamePlaceholder: 'Номи (масалан: Баҳор Адрас)',
         prodPricePlaceholder: 'Асосий нарх (сўм)',
@@ -754,14 +758,16 @@
         saveBtn: 'Сақлаш',
         savedToast: 'Сақланди',
         addNewsTitle: 'Янги эълон қўшиш',
+        editNewsTitle: 'Эълонни таҳрирлаш',
         newsTitlePlaceholder: 'Сарлавҳа',
         newsTextPlaceholder: 'Матн...',
         publishBtn: 'Жойлаштириш',
         mainCategoriesTitle: 'Асосий бўлимлар',
+        editCategoryTitle: 'Бўлимни таҳрирлаш',
         addCategoryPlaceholder: 'Янги бўлим номи',
-        authSettingsTitle: 'Админ кириш кодларини ўзгартириш',
-        newMasterCodeLabel: 'Янги асосий код (1-босқич)',
-        newNumericPinLabel: 'Янги рақамли PIN код (2-босқич)',
+        authSettingsTitle: 'Код ўзгартириш бўлими (2 босқичли)',
+        newMasterCodeLabel: '1-босқич: Ҳарфли код',
+        newNumericPinLabel: '2-босқич: Оддий рақамли код',
         newPinPlaceholder: 'Фақат рақамлар (масалан: 5678)'
       },
       ru: {
@@ -816,11 +822,11 @@
         adminBtn: 'Админ',
         adminTitle: 'Админ-панель',
         adminLoginTitle: 'Вход для админа (2 этапа)',
-        step1CodeLabel: '1-й этап: Основной код',
-        step1CodePlaceholder: 'Введите основной код',
+        step1CodeLabel: '1-й этап: Буквенный код',
+        step1CodePlaceholder: 'Введите буквенный код',
         nextStepBtn: 'Далее',
-        step2PinLabel: '2-й этап: Цифровой PIN-код',
-        step2PinPlaceholder: 'Введите цифровой PIN-код',
+        step2PinLabel: '2-й этап: Обычный цифровой код',
+        step2PinPlaceholder: 'Введите цифровой код',
         backStepBtn: 'Назад',
         adminCodeError: 'Неверный код! Попробуйте снова.',
         loginBtn: 'Войти',
@@ -831,10 +837,11 @@
         admTabProducts: 'Товары',
         admTabCategories: 'Разделы',
         admTabNews: 'Новости',
+        admTabCodes: 'Коды',
         admTabCompany: 'Данные',
         addProdTitle: 'Добавить новый товар',
-        editProdTitle: 'Изменить товар',
-        editBtn: 'Изменить',
+        editProdTitle: 'Редактировать товар',
+        editBtn: 'Редактировать',
         cancelEditBtn: 'Отмена',
         prodNamePlaceholder: 'Название (например: Весенний адрас)',
         prodPricePlaceholder: 'Основная цена (сум)',
@@ -847,14 +854,16 @@
         saveBtn: 'Сохранить',
         savedToast: 'Сохранено',
         addNewsTitle: 'Добавить объявление',
+        editNewsTitle: 'Редактировать объявление',
         newsTitlePlaceholder: 'Заголовок',
         newsTextPlaceholder: 'Текст...',
         publishBtn: 'Опубликовать',
         mainCategoriesTitle: 'Основные разделы',
+        editCategoryTitle: 'Редактировать раздел',
         addCategoryPlaceholder: 'Название нового раздела',
-        authSettingsTitle: 'Изменить коды входа в админку',
-        newMasterCodeLabel: 'Новый основной код (1-й этап)',
-        newNumericPinLabel: 'Новый цифровой PIN-код (2-й этап)',
+        authSettingsTitle: 'Изменение кодов входа (2 этапа)',
+        newMasterCodeLabel: '1-й этап: Буквенный код',
+        newNumericPinLabel: '2-й этап: Обычный цифровой код',
         newPinPlaceholder: 'Только цифры (например: 5678)'
       },
       en: {
@@ -909,11 +918,11 @@
         adminBtn: 'Admin',
         adminTitle: 'Admin Panel',
         adminLoginTitle: 'Admin Login (2-Step)',
-        step1CodeLabel: 'Step 1: Master Code',
-        step1CodePlaceholder: 'Enter master code',
+        step1CodeLabel: 'Step 1: Letter Code',
+        step1CodePlaceholder: 'Enter letter code',
         nextStepBtn: 'Next step',
-        step2PinLabel: 'Step 2: Numeric PIN',
-        step2PinPlaceholder: 'Enter numeric PIN',
+        step2PinLabel: 'Step 2: Numeric Code',
+        step2PinPlaceholder: 'Enter numeric code',
         backStepBtn: 'Back',
         adminCodeError: 'Invalid code! Please try again.',
         loginBtn: 'Login',
@@ -924,6 +933,7 @@
         admTabProducts: 'Products',
         admTabCategories: 'Sections',
         admTabNews: 'News',
+        admTabCodes: 'Codes',
         admTabCompany: 'Info',
         addProdTitle: 'Add new product',
         editProdTitle: 'Edit product',
@@ -940,14 +950,16 @@
         saveBtn: 'Save',
         savedToast: 'Saved',
         addNewsTitle: 'Add announcement',
+        editNewsTitle: 'Edit announcement',
         newsTitlePlaceholder: 'Title',
         newsTextPlaceholder: 'Text...',
         publishBtn: 'Publish',
         mainCategoriesTitle: 'Main sections',
+        editCategoryTitle: 'Edit section',
         addCategoryPlaceholder: 'New section name',
-        authSettingsTitle: 'Change admin login codes',
-        newMasterCodeLabel: 'New master code (Step 1)',
-        newNumericPinLabel: 'New numeric PIN (Step 2)',
+        authSettingsTitle: 'Change login codes (2-Step)',
+        newMasterCodeLabel: 'Step 1: Letter code',
+        newNumericPinLabel: 'Step 2: Numeric code',
         newPinPlaceholder: 'Digits only (e.g. 5678)'
       }
     };
@@ -1058,6 +1070,8 @@
     let itemQuantities = {};
     let draftProductImages = [];
     let editingProductId = null;
+    let editingCategoryId = null;
+    let editingNewsId = null;
 
     function saveState() {
       try {
@@ -1779,7 +1793,7 @@
       }
     }
 
-    // Admin Modal Logic (2-step login + editable codes)
+    // Admin Modal Logic (2-step login + editable codes + full editing)
     function openAdminModal() {
       const modal = document.getElementById('adminModal');
       modal.classList.remove('hidden');
@@ -1880,10 +1894,11 @@
         </div>
 
         <div class="flex gap-1.5 overflow-x-auto no-scrollbar">
-          <button type="button" data-adm-tab="products" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'products' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">${t.admTabProducts}</button>
-          <button type="button" data-adm-tab="categories" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'categories' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">${t.admTabCategories}</button>
-          <button type="button" data-adm-tab="news" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'news' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">${t.admTabNews}</button>
-          <button type="button" data-adm-tab="company" class="adm-tab px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'company' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">${t.admTabCompany}</button>
+          <button type="button" data-adm-tab="products" class="adm-tab shrink-0 px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'products' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">${t.admTabProducts}</button>
+          <button type="button" data-adm-tab="categories" class="adm-tab shrink-0 px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'categories' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">${t.admTabCategories}</button>
+          <button type="button" data-adm-tab="news" class="adm-tab shrink-0 px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'news' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">${t.admTabNews}</button>
+          <button type="button" data-adm-tab="codes" class="adm-tab shrink-0 px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'codes' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">${t.admTabCodes}</button>
+          <button type="button" data-adm-tab="company" class="adm-tab shrink-0 px-3 py-1.5 rounded-xl text-xs font-bold ${adminTab === 'company' ? 'bg-amber-700 text-white' : 'bg-[#F3ECE0] text-[#2A1F18]'}">${t.admTabCompany}</button>
         </div>
 
         <div id="adminBody" class="space-y-3 text-xs"></div>
@@ -1894,6 +1909,8 @@
         adminUnlocked = false;
         adminLoginStep = 1;
         editingProductId = null;
+        editingCategoryId = null;
+        editingNewsId = null;
         draftProductImages = [];
         renderAdminModal();
       });
@@ -2079,4 +2096,353 @@
               subcategoryId: '',
               name,
               price,
-              salePrice: !isNaN(sale
+              salePrice: !isNaN(saleVal) && saleVal > 0 ? saleVal : null,
+              unit,
+              step: unit === 'meter' ? 0.5 : 1,
+              colorName: colorName || 'Tabiiy',
+              colorHex: '#B45309',
+              description: '',
+              images: [...draftProductImages],
+              active: true
+            });
+          }
+
+          draftProductImages = [];
+          saveState();
+          render();
+          renderAdminModal();
+          showToast(t.savedToast);
+        });
+
+        body.querySelectorAll('[data-archive-prod]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const target = state.products.find((p) => p.id === btn.dataset.archiveProd);
+            if (target) {
+              target.active = false;
+              saveState();
+              render();
+              renderAdminModal();
+            }
+          });
+        });
+
+        body.querySelectorAll('[data-unarchive-prod]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const target = state.products.find((p) => p.id === btn.dataset.unarchiveProd);
+            if (target) {
+              target.active = true;
+              saveState();
+              render();
+              renderAdminModal();
+            }
+          });
+        });
+
+        body.querySelectorAll('[data-del-prod]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            if (editingProductId === btn.dataset.delProd) {
+              editingProductId = null;
+              draftProductImages = [];
+            }
+            state.products = state.products.filter((p) => p.id !== btn.dataset.delProd);
+            saveState();
+            render();
+            renderAdminModal();
+          });
+        });
+      } else if (adminTab === 'categories') {
+        const editingCat = editingCategoryId ? state.categories.find((c) => c.id === editingCategoryId) : null;
+        const initCatName = editingCat ? editingCat.name : '';
+        const initCatIcon = editingCat ? (editingCat.icon || '🏷️') : '🏷️';
+
+        body.innerHTML = `
+          <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-2">
+            <div class="flex items-center justify-between">
+              <div class="font-bold text-[#2A1F18]">${editingCat ? t.editCategoryTitle : t.mainCategoriesTitle}</div>
+              ${editingCat ? `<button id="cancelEditCatBtn" type="button" class="text-[11px] font-semibold text-[#6E5C4F]">${t.cancelEditBtn}</button>` : ''}
+            </div>
+            <div class="flex gap-2">
+              <input id="newCatIconInput" type="text" value="${String(initCatIcon).replace(/"/g, '&quot;')}" maxlength="4" class="w-12 text-center bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2 py-2" />
+              <input id="newCatNameInput" type="text" value="${String(initCatName).replace(/"/g, '&quot;')}" placeholder="${t.addCategoryPlaceholder}" class="flex-1 bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+              <button id="addCatBtn" type="button" class="px-3 py-2 rounded-lg bg-amber-700 text-white font-bold shrink-0">${editingCat ? t.saveBtn : t.addBtn}</button>
+            </div>
+          </div>
+
+          <div class="space-y-1.5 max-h-48 overflow-y-auto">
+            ${state.categories
+              .map(
+                (c) => `<div class="flex items-center justify-between p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] font-semibold text-[#2A1F18] gap-2">
+                  <span class="truncate">${c.icon || '🏷️'} ${getLocalizedCategoryName(c)}</span>
+                  <div class="flex items-center gap-2 shrink-0">
+                    <button type="button" data-edit-cat="${c.id}" class="text-blue-700 font-bold">${t.editBtn}</button>
+                    <button type="button" data-del-cat="${c.id}" class="text-[#DC2626] font-bold">${t.deleteBtn}</button>
+                  </div>
+                </div>`
+              )
+              .join('')}
+          </div>
+        `;
+
+        const cancelEditCatBtn = document.getElementById('cancelEditCatBtn');
+        if (cancelEditCatBtn) {
+          cancelEditCatBtn.addEventListener('click', () => {
+            editingCategoryId = null;
+            renderAdminModal();
+          });
+        }
+
+        body.querySelectorAll('[data-edit-cat]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const target = state.categories.find((c) => c.id === btn.dataset.editCat);
+            if (!target) return;
+            editingCategoryId = target.id;
+            renderAdminModal();
+          });
+        });
+
+        document.getElementById('addCatBtn').addEventListener('click', () => {
+          const inp = document.getElementById('newCatNameInput');
+          const iconInp = document.getElementById('newCatIconInput');
+          const name = (inp.value || '').trim();
+          const icon = (iconInp.value || '').trim() || '🏷️';
+          if (!name) return;
+
+          if (editingCategoryId) {
+            const target = state.categories.find((c) => c.id === editingCategoryId);
+            if (target) {
+              target.name = name;
+              target.icon = icon;
+              if (CATEGORY_TRANSLATIONS[target.id]) {
+                CATEGORY_TRANSLATIONS[target.id].uz = name;
+              }
+            }
+            editingCategoryId = null;
+          } else {
+            state.categories.push({
+              id: 'cat-' + Date.now(),
+              name,
+              icon
+            });
+          }
+
+          saveState();
+          render();
+          renderAdminModal();
+          showToast(t.savedToast);
+        });
+
+        body.querySelectorAll('[data-del-cat]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const catId = btn.dataset.delCat;
+            if (editingCategoryId === catId) editingCategoryId = null;
+            state.categories = state.categories.filter((c) => c.id !== catId);
+            if (state.selectedCategoryId === catId) {
+              state.selectedCategoryId = 'all';
+            }
+            saveState();
+            render();
+            renderAdminModal();
+          });
+        });
+      } else if (adminTab === 'news') {
+        const editingNews = editingNewsId ? state.news.find((n) => n.id === editingNewsId) : null;
+        const initNewsTitle = editingNews ? editingNews.title : '';
+        const initNewsText = editingNews ? editingNews.text : '';
+
+        body.innerHTML = `
+          <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-2">
+            <div class="flex items-center justify-between">
+              <div class="font-bold text-[#2A1F18]">${editingNews ? t.editNewsTitle : t.addNewsTitle}</div>
+              ${editingNews ? `<button id="cancelEditNewsBtn" type="button" class="text-[11px] font-semibold text-[#6E5C4F]">${t.cancelEditBtn}</button>` : ''}
+            </div>
+            <input id="newNewsTitle" type="text" value="${String(initNewsTitle).replace(/"/g, '&quot;')}" placeholder="${t.newsTitlePlaceholder}" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <textarea id="newNewsText" rows="2" placeholder="${t.newsTextPlaceholder}" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2">${initNewsText}</textarea>
+            <button id="addNewsBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">${editingNews ? t.saveBtn : t.publishBtn}</button>
+          </div>
+          <div class="space-y-1.5 max-h-40 overflow-y-auto">
+            ${state.news
+              .map(
+                (n) => `<div class="flex items-center justify-between p-2.5 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] gap-2">
+                  <span class="font-semibold truncate pr-2">${getLocalizedNewsField(n, 'title')}</span>
+                  <div class="flex items-center gap-2 shrink-0">
+                    <button type="button" data-edit-news="${n.id}" class="text-blue-700 font-bold">${t.editBtn}</button>
+                    <button type="button" data-del-news="${n.id}" class="text-[#DC2626] font-bold">${t.deleteBtn}</button>
+                  </div>
+                </div>`
+              )
+              .join('')}
+          </div>
+        `;
+
+        const cancelEditNewsBtn = document.getElementById('cancelEditNewsBtn');
+        if (cancelEditNewsBtn) {
+          cancelEditNewsBtn.addEventListener('click', () => {
+            editingNewsId = null;
+            renderAdminModal();
+          });
+        }
+
+        body.querySelectorAll('[data-edit-news]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const target = state.news.find((n) => n.id === btn.dataset.editNews);
+            if (!target) return;
+            editingNewsId = target.id;
+            renderAdminModal();
+          });
+        });
+
+        document.getElementById('addNewsBtn').addEventListener('click', () => {
+          const title = document.getElementById('newNewsTitle').value.trim();
+          const text = document.getElementById('newNewsText').value.trim();
+          if (!title || !text) return;
+
+          if (editingNewsId) {
+            const target = state.news.find((n) => n.id === editingNewsId);
+            if (target) {
+              target.title = title;
+              target.text = text;
+              if (NEWS_TRANSLATIONS[target.id]) {
+                NEWS_TRANSLATIONS[target.id].title.uz = title;
+                NEWS_TRANSLATIONS[target.id].text.uz = text;
+              }
+            }
+            editingNewsId = null;
+          } else {
+            state.news.unshift({
+              id: 'news-' + Date.now(),
+              type: 'new_material',
+              badge: t.news,
+              title,
+              text,
+              colorName: '',
+              colorHex: '#059669',
+              date: new Date().toISOString().slice(0, 10)
+            });
+          }
+
+          saveState();
+          render();
+          renderAdminModal();
+          showToast(t.savedToast);
+        });
+
+        body.querySelectorAll('[data-del-news]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            if (editingNewsId === btn.dataset.delNews) editingNewsId = null;
+            state.news = state.news.filter((n) => n.id !== btn.dataset.delNews);
+            saveState();
+            render();
+            renderAdminModal();
+          });
+        });
+      } else if (adminTab === 'codes') {
+        body.innerHTML = `
+          <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-3">
+            <div class="font-bold text-[#2A1F18]">${t.authSettingsTitle}</div>
+            <div>
+              <label class="block text-[11px] font-semibold text-[#6E5C4F] mb-1">${t.newMasterCodeLabel}</label>
+              <input id="tabMasterCode" type="text" value="${String(masterCode).replace(/"/g, '&quot;')}" placeholder="${t.step1CodePlaceholder}" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-[#6E5C4F] mb-1">${t.newNumericPinLabel}</label>
+              <input id="tabNumericPin" type="text" inputmode="numeric" pattern="[0-9]*" value="${String(numericPin).replace(/"/g, '&quot;')}" placeholder="${t.newPinPlaceholder}" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            </div>
+            <button id="saveCodesBtn" type="button" class="w-full py-2.5 rounded-lg bg-amber-700 text-white font-bold">${t.saveBtn}</button>
+          </div>
+        `;
+
+        document.getElementById('saveCodesBtn').addEventListener('click', () => {
+          const nextMaster = document.getElementById('tabMasterCode').value.trim();
+          const nextPinRaw = document.getElementById('tabNumericPin').value.trim();
+          const nextPin = nextPinRaw.replace(/\D+/g, '');
+
+          if (!state.auth) state.auth = {};
+          if (nextMaster) state.auth.masterCode = nextMaster;
+          if (nextPin) state.auth.numericPin = nextPin;
+
+          saveState();
+          renderAdminModal();
+          showToast(t.savedToast);
+        });
+      } else if (adminTab === 'company') {
+        const c = state.company;
+        body.innerHTML = `
+          <div class="space-y-2">
+            <input id="cmpName" type="text" value="${c.name}" placeholder="${getLocalizedCompanyField('name')}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <input id="cmpPhone" type="text" value="${c.phone}" placeholder="${t.phoneLabel}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <input id="cmpTg" type="text" value="${c.telegram}" placeholder="${t.telegramLabel}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <input id="cmpAddr" type="text" value="${c.address}" placeholder="${t.addressLabel}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+            <textarea id="cmpDeliv" rows="2" placeholder="${t.deliveryLabel}" class="w-full bg-[#FAF6F0] border border-[#E5D8C5] rounded-lg px-2.5 py-2">${c.deliveryInfo}</textarea>
+
+            <div class="p-3 rounded-xl bg-[#FAF6F0] border border-[#E5D8C5] space-y-2 mt-2">
+              <div class="font-bold text-[#2A1F18]">${t.authSettingsTitle}</div>
+              <div>
+                <label class="block text-[11px] font-semibold text-[#6E5C4F] mb-1">${t.newMasterCodeLabel}</label>
+                <input id="cfgMasterCode" type="text" value="${String(masterCode).replace(/"/g, '&quot;')}" placeholder="${t.step1CodePlaceholder}" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-[#6E5C4F] mb-1">${t.newNumericPinLabel}</label>
+                <input id="cfgNumericPin" type="text" inputmode="numeric" pattern="[0-9]*" value="${String(numericPin).replace(/"/g, '&quot;')}" placeholder="${t.newPinPlaceholder}" class="w-full bg-[#FFFDF9] border border-[#E5D8C5] rounded-lg px-2.5 py-2" />
+              </div>
+            </div>
+
+            <button id="saveCmpBtn" type="button" class="w-full py-2 rounded-lg bg-amber-700 text-white font-bold">${t.saveBtn}</button>
+          </div>
+        `;
+        document.getElementById('saveCmpBtn').addEventListener('click', () => {
+          state.company.name = document.getElementById('cmpName').value.trim() || 'Adraschi Amaki';
+          state.company.phone = document.getElementById('cmpPhone').value.trim();
+          state.company.telegram = document.getElementById('cmpTg').value.trim();
+          state.company.address = document.getElementById('cmpAddr').value.trim();
+          state.company.deliveryInfo = document.getElementById('cmpDeliv').value.trim();
+
+          const nextMaster = document.getElementById('cfgMasterCode').value.trim();
+          const nextPinRaw = document.getElementById('cfgNumericPin').value.trim();
+          const nextPin = nextPinRaw.replace(/\D+/g, '');
+
+          if (!state.auth) state.auth = {};
+          if (nextMaster) state.auth.masterCode = nextMaster;
+          if (nextPin) state.auth.numericPin = nextPin;
+
+          saveState();
+          render();
+          renderAdminModal();
+          showToast(t.savedToast);
+        });
+      }
+    }
+
+    // Global Listeners
+    document.getElementById('langSelect').value = state.lang;
+    document.getElementById('langSelect').addEventListener('change', (e) => {
+      state.lang = e.target.value;
+      saveState();
+      render();
+      if (!document.getElementById('adminModal').classList.contains('hidden')) {
+        renderAdminModal();
+      }
+    });
+
+    document.querySelectorAll('.nav-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.activeTab = btn.dataset.tab;
+        render();
+      });
+    });
+
+    document.getElementById('openAdminBtn').addEventListener('click', openAdminModal);
+
+    document.getElementById('closeOnboardingBtn').addEventListener('click', () => {
+      localStorage.setItem(STORAGE_KEYS.onboarded, '1');
+      document.getElementById('onboardingModal').classList.add('hidden');
+    });
+
+    updateOnboardingTexts();
+    if (!localStorage.getItem(STORAGE_KEYS.onboarded)) {
+      document.getElementById('onboardingModal').classList.remove('hidden');
+    }
+
+    render();
+  </script>
+</body>
+</html>
