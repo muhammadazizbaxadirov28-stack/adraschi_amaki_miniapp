@@ -195,9 +195,9 @@
     });
 
     const STORAGE_KEYS = {
-      state: 'adraschi_amaki_state_v10',
-      onboarded: 'adraschi_amaki_onboarded_v10',
-      analytics: 'adraschi_amaki_analytics_v10'
+      state: 'adraschi_amaki_state_v11',
+      onboarded: 'adraschi_amaki_onboarded_v11',
+      analytics: 'adraschi_amaki_analytics_v11'
     };
 
     const SUBCATEGORY_TRANSLATIONS = {};
@@ -645,7 +645,7 @@
         admTabProducts: 'Mahsulot',
         admTabCategories: "Bo'limlar",
         admTabNews: 'Yangilik',
-        admTabCodes: 'Kodlar',
+        admTabCodes: "Kod o'zgartirish",
         admTabCompany: "Ma'lumot",
         addProdTitle: "Yangi mahsulot qo'shish",
         editProdTitle: 'Mahsulotni tahrirlash',
@@ -667,9 +667,9 @@
         newsTextPlaceholder: 'Matn...',
         publishBtn: 'Joylashtirish',
         mainCategoriesTitle: "Asosiy bo'limlar",
-        editCategoryTitle: "Bo'limni tahrirlash",
+        editCategoryTitle: "Bo'limni o'zgartirish",
         addCategoryPlaceholder: "Yangi bo'lim nomi",
-        authSettingsTitle: 'Kod oʻzgartirish boʻlimi (2 bosqichli)',
+        authSettingsTitle: "Kod o'zgartirish bo'limi",
         newMasterCodeLabel: '1-bosqich: Harfli kod',
         newNumericPinLabel: '2-bosqich: Oddiy raqamli kod',
         newPinPlaceholder: 'Faqat raqamlar (masalan: 5678)'
@@ -741,7 +741,7 @@
         admTabProducts: 'Маҳсулот',
         admTabCategories: 'Бўлимлар',
         admTabNews: 'Янгилик',
-        admTabCodes: 'Кодлар',
+        admTabCodes: 'Код ўзгартириш',
         admTabCompany: 'Маълумот',
         addProdTitle: 'Янги маҳсулот қўшиш',
         editProdTitle: 'Маҳсулотни таҳрирлаш',
@@ -763,9 +763,9 @@
         newsTextPlaceholder: 'Матн...',
         publishBtn: 'Жойлаштириш',
         mainCategoriesTitle: 'Асосий бўлимлар',
-        editCategoryTitle: 'Бўлимни таҳрирлаш',
+        editCategoryTitle: 'Бўлимни ўзгартириш',
         addCategoryPlaceholder: 'Янги бўлим номи',
-        authSettingsTitle: 'Код ўзгартириш бўлими (2 босқичли)',
+        authSettingsTitle: 'Код ўзгартириш бўлими',
         newMasterCodeLabel: '1-босқич: Ҳарфли код',
         newNumericPinLabel: '2-босқич: Оддий рақамли код',
         newPinPlaceholder: 'Фақат рақамлар (масалан: 5678)'
@@ -837,7 +837,7 @@
         admTabProducts: 'Товары',
         admTabCategories: 'Разделы',
         admTabNews: 'Новости',
-        admTabCodes: 'Коды',
+        admTabCodes: 'Смена кодов',
         admTabCompany: 'Данные',
         addProdTitle: 'Добавить новый товар',
         editProdTitle: 'Редактировать товар',
@@ -859,9 +859,9 @@
         newsTextPlaceholder: 'Текст...',
         publishBtn: 'Опубликовать',
         mainCategoriesTitle: 'Основные разделы',
-        editCategoryTitle: 'Редактировать раздел',
+        editCategoryTitle: 'Изменить раздел',
         addCategoryPlaceholder: 'Название нового раздела',
-        authSettingsTitle: 'Изменение кодов входа (2 этапа)',
+        authSettingsTitle: 'Раздел смены кодов',
         newMasterCodeLabel: '1-й этап: Буквенный код',
         newNumericPinLabel: '2-й этап: Обычный цифровой код',
         newPinPlaceholder: 'Только цифры (например: 5678)'
@@ -933,7 +933,7 @@
         admTabProducts: 'Products',
         admTabCategories: 'Sections',
         admTabNews: 'News',
-        admTabCodes: 'Codes',
+        admTabCodes: 'Change Codes',
         admTabCompany: 'Info',
         addProdTitle: 'Add new product',
         editProdTitle: 'Edit product',
@@ -957,7 +957,7 @@
         mainCategoriesTitle: 'Main sections',
         editCategoryTitle: 'Edit section',
         addCategoryPlaceholder: 'New section name',
-        authSettingsTitle: 'Change login codes (2-Step)',
+        authSettingsTitle: 'Change codes section',
         newMasterCodeLabel: 'Step 1: Letter code',
         newNumericPinLabel: 'Step 2: Numeric code',
         newPinPlaceholder: 'Digits only (e.g. 5678)'
@@ -1793,7 +1793,7 @@
       }
     }
 
-    // Admin Modal Logic (2-step login + editable codes + full editing)
+    // Admin Modal Logic (2-step login + codes tab + category edit + archive)
     function openAdminModal() {
       const modal = document.getElementById('adminModal');
       modal.classList.remove('hidden');
